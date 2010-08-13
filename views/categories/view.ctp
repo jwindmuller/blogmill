@@ -16,9 +16,9 @@
 			<?php echo $category['Category']['slug']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Category'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Parent Category'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($category['Category']['title'], array('controller' => 'categories', 'action' => 'view', $category['Category']['id'])); ?>
+			<?php echo $this->Html->link($category['ParentCategory']['title'], array('controller' => 'categories', 'action' => 'view', $category['ParentCategory']['id'])); ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -31,14 +31,14 @@
 		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Categories', true)), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Category', true)), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Categories', true)), array('controller' => 'categories', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Category', true)), array('controller' => 'categories', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Parent Category', true)), array('controller' => 'categories', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Posts', true)), array('controller' => 'posts', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Post', true)), array('controller' => 'posts', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 <div class="related">
 	<h3><?php printf(__('Related %s', true), __('Categories', true));?></h3>
-	<?php if (!empty($category['Category'])):?>
+	<?php if (!empty($category['SubCategory'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php __('Id'); ?></th>
@@ -49,21 +49,21 @@
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($category['Category'] as $category):
+		foreach ($category['SubCategory'] as $subCategory):
 			$class = null;
 			if ($i++ % 2 == 0) {
 				$class = ' class="altrow"';
 			}
 		?>
 		<tr<?php echo $class;?>>
-			<td><?php echo $category['id'];?></td>
-			<td><?php echo $category['title'];?></td>
-			<td><?php echo $category['slug'];?></td>
-			<td><?php echo $category['category_id'];?></td>
+			<td><?php echo $subCategory['id'];?></td>
+			<td><?php echo $subCategory['title'];?></td>
+			<td><?php echo $subCategory['slug'];?></td>
+			<td><?php echo $subCategory['category_id'];?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('View', true), array('controller' => 'categories', 'action' => 'view', $category['id'])); ?>
-				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'categories', 'action' => 'edit', $category['id'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'categories', 'action' => 'delete', $category['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $category['id'])); ?>
+				<?php echo $this->Html->link(__('View', true), array('controller' => 'categories', 'action' => 'view', $subCategory['id'])); ?>
+				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'categories', 'action' => 'edit', $subCategory['id'])); ?>
+				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'categories', 'action' => 'delete', $subCategory['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $subCategory['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
@@ -72,7 +72,7 @@
 
 	<div class="actions">
 		<ul>
-			<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Category', true)), array('controller' => 'categories', 'action' => 'add'));?> </li>
+			<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Sub Category', true)), array('controller' => 'categories', 'action' => 'add'));?> </li>
 		</ul>
 	</div>
 </div>
@@ -82,7 +82,9 @@
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php __('Id'); ?></th>
-		<th><?php __('Post Type Id'); ?></th>
+		<th><?php __('Display'); ?></th>
+		<th><?php __('Slug'); ?></th>
+		<th><?php __('Type'); ?></th>
 		<th><?php __('User Id'); ?></th>
 		<th><?php __('Created'); ?></th>
 		<th><?php __('Modified'); ?></th>
@@ -99,7 +101,9 @@
 		?>
 		<tr<?php echo $class;?>>
 			<td><?php echo $post['id'];?></td>
-			<td><?php echo $post['post_type_id'];?></td>
+			<td><?php echo $post['display'];?></td>
+			<td><?php echo $post['slug'];?></td>
+			<td><?php echo $post['type'];?></td>
 			<td><?php echo $post['user_id'];?></td>
 			<td><?php echo $post['created'];?></td>
 			<td><?php echo $post['modified'];?></td>

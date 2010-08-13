@@ -3,7 +3,7 @@ class CommentsController extends AppController {
 
 	var $name = 'Comments';
 
-	function index() {
+	function dashboard_index() {
 		$this->Comment->recursive = 0;
 		$this->set('comments', $this->paginate());
 	}

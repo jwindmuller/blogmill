@@ -4,14 +4,10 @@
  		<legend><?php printf(__('Add %s', true), __('User', true)); ?></legend>
 	<?php
 		echo $this->Form->input('username');
-		echo $this->Form->input('alias');
-		echo $this->Form->input('password');
+		echo $this->Form->input('name');
+		echo $this->Form->input('password1', array('type' => 'password'));
+		echo $this->Form->input('password_confirm', array('type' => 'password'));
 		echo $this->Form->input('email');
-		echo $this->Form->input('blog_count');
-		echo $this->Form->input('admin');
-		echo $this->Form->input('profile');
-		echo $this->Form->input('url');
-		echo $this->Form->input('confirmation');
 		echo $this->Form->input('question');
 		echo $this->Form->input('answer');
 	?>

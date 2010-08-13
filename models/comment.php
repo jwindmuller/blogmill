@@ -5,45 +5,36 @@ class Comment extends AppModel {
 		'post_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				'allowEmpty' => false,
+				'required' => true
 			),
 		),
 		'name' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'email' => array(
-			'email' => array(
-				'rule' => array('email'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			'notempty' => array(
+				'rule' => array('notempty'),
+				'last' => true
+			),
+			'valid' => array(
+				'rule' => array('email')
 			),
 		),
 		'url' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+			'valid' => array(
+				'rule' => array('url'),
+				'allowEmpty' => true
+			)
 		),
+		'content' => array(
+			'notempty' => array(
+				'rule' => array('notempty')
+			)
+		)
 	);
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
 		'Post' => array(
@@ -54,5 +45,20 @@ class Comment extends AppModel {
 			'order' => ''
 		)
 	);
+	
+	/**
+	 * Initialize Validation
+	 *
+	 * @return void
+	 * @author Joaquin Windmuller
+	 */
+	protected function __initializeValidation() {
+		$this->defineErrorMessage('post_id.numeric', __('Post ID not found', true));
+		$this->defineErrorMessage('name.notempty', __('Who are you?', true));
+		$this->defineErrorMessage('email.notempty', __('Please tell us your email', true));
+		$this->defineErrorMessage('email.valid', __('This is not a valid email', true));
+		$this->defineErrorMessage('url.valid', __('This is not a valid web address', true));
+		$this->defineErrorMessage('content.notempty', __('Your comment?', true));
+	}
 }
 ?>

@@ -18,6 +18,11 @@ class UsersController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) {
+			$password = $this->data['User']['password1'];
+			$password_confirm = $this->data['User']['password_confirm'];
+			var_dump($this->User->find('count'));die;
+			$this->data['User']['password'] = $password;
+			$this->data = $this->Auth->hashPasswords($this->data);
 			$this->User->create();
 			if ($this->User->save($this->data)) {
 				$this->Session->setFlash(sprintf(__('The %s has been saved', true), 'user'));
@@ -25,6 +30,8 @@ class UsersController extends AppController {
 			} else {
 				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'user'));
 			}
+			$this->data['User']['password1'] = $password;
+			$this->data['User']['password_confirm'] = $password_confirm;
 		}
 	}
 
@@ -57,6 +64,17 @@ class UsersController extends AppController {
 		}
 		$this->Session->setFlash(sprintf(__('%s was not deleted', true), 'User'));
 		$this->redirect(array('action' => 'index'));
+	}
+
+	public function dashboard_login() {
+		if (!$this->Auth->user()) {
+			// var_dump($this->Auth->login(array('id' => -1)));
+			// die;
+			// $this->redirect('/');
+		}
+	}
+	public function dashboard_logout() {
+		$this->redirect($this->Auth->logout());
 	}
 }
 ?>
