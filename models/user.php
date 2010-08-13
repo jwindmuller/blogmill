@@ -3,95 +3,94 @@ class User extends AppModel {
 	var $name = 'User';
 	var $validate = array(
 		'username' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			'required' => array(
+				'rule' => 'notempty',
+				'last' => true
 			),
-		),
-		'alias' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			'unique' => array(
+				'rule' => 'validateUnique',
+				'required' => true,
+				'on'	=> 'create'
 			),
-		),
-		'password' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			'startsWith' => array(
+				'rule' => array('custom', '/^[a-zA-Z0-9].*$/'),
+				'last' => true
 			),
+			'minlength'	=> array(
+				'rule'	=> array('minlength', 3),
+				'last'	=> true
+			),
+			'valid' => array(
+				'rule' => array('validateUsername')
+			)
 		),
 		'email' => array(
-			'email' => array(
-				'rule' => array('email'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			'required' => array(
+				'rule' => 'notempty',
+				'last' => true
 			),
+			'valid' => array(
+				'rule' => 'email',
+				'last' => true
+			),
+			'unique' => array(
+				'rule' => array('validateUnique')
+			)
 		),
-		'blog_count' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+		'password' =>  array(
+			'required' => array(
+				'rule' => array('passwordNotEmpty'),
+				'last' => true,
+				'on' => 'create'	
 			),
+			'requiredOnUpdate' => array(
+				'rule' => array('passwordNotEmpty'),
+				'last' => true,
+				'required' => false,
+				'on' => 'update'
+			),
+			'confirmation' => array(
+				'rule' => array('confirmPassword'),
+				'on' => 'create'
+			),
+			'confirmationOnUpdate' => array(
+				'rule' => array('confirmPassword'),
+				'on' => 'update',
+				'required' => false
+			)
 		),
-		'admin' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+		'password_confirm' => array(
+			'required' => array(
+				'rule' => array('notEmpty'),
+				'last' => true,
+				'on' => 'create'
 			),
-		),
-		'confirmation' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			'minlength' => array(
+				'rule' => array('minLength', '6'),
+				'last' => true,
+				'on' => 'create',
 			),
+			'minlengthOnUpdate' => array(
+				'rule' => array('minLength', '6'),
+				'last' => true,
+				'on' => 'update',
+				'required' => false
+			)
 		),
 		'question' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			'required' => array(
+				'rule' => 'notempty',
+				'required' => false,
+				'last' => true
 			),
 		),
 		'answer' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			'required' => array(
+				'rule' => 'notempty',
+				'required' => false,
+				'last' => true
 			),
-		),
+		)
 	);
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -110,6 +109,124 @@ class User extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+	
+function __initializeValidation() {
+		$this->defineErrorMessage(
+			'username.required',
+			__('Write your username',true)
+		);
+		$this->defineErrorMessage(
+			'username.unique',
+			__('This username is taken',true)
+		);
+		$this->defineErrorMessage(
+			'username.startsWith',
+			__('Must start with a letter or a number',true)
+		);
+		$this->defineErrorMessage(
+			'username.minlength',
+			__('Must be at least 3 characters long',true)
+		);
+		$this->defineErrorMessage(
+			'username.valid',
+			__('Only numbers, letters, underscore (_) and dots (.) allowed',true)
+		);
+		$this->defineErrorMessage(
+			'email.valid',
+			__('Write a valid email address',true)
+		);
+		$this->defineErrorMessage(
+			'email.required',
+			__('Write your email address',true)
+		);
+		$this->defineErrorMessage(
+			'email.unique',
+			__('Email already registered',true)
+		);
+		$this->defineErrorMessage(
+			'password.required',
+			__('Write your password',true)
+		);
+		$this->defineErrorMessage(
+		    'password.requiredOnUpdate',
+		    __('The password and its confirmation do not match',true)
+		);
+		$this->defineErrorMessage(
+		    'password.confirmation',
+		    __('The password and its confirmation do not match',true)
+		);
+		$this->defineErrorMessage(
+			'password.confirmationOnUpdate',
+			__('The password and its confirmation do not match',true)
+		);
+		$this->defineErrorMessage(
+			'password_confirm.required',
+			__('Confirm the password',true)
+		);
+		$this->defineErrorMessage(
+			'password_confirm.minlength',
+			__('Passwords are required to have at least 6 characters',true)
+		);
+		$this->defineErrorMessage(
+			'password_confirm.minlengthOnUpdate',
+			__('Passwords are required to have at least 6 characters',true)
+		);
+		$this->defineErrorMessage(
+			'question.required',
+			__('The secret question is required',true)
+		);
+		$this->defineErrorMessage(
+			'answer.required',
+			__('Please set reply the secret question',true)
+		);
+		$this->_findMethods = $this->_findMethods + array('usernameOrEmail' => true);
+	}
+	
+	public function validateUsername($data) {
+		$username = $data['username'];
+		$match_chars = preg_match('/^[a-zA-Z0-9][a-zA-Z0-9._]{2,}$/', $username);
+		if (!$match_chars) return false;
+		$match_chars = preg_match('/^[._]+$/', $username);
+		if ($match_chars) return false;
+		return true;
+	}
+	
+	public function passwordNotEmpty($data) {
+		if (!isset($data['password'])) return true;
+		return $data['password'] != Security::hash(Configure::read('Security.salt') . '');
+	}
+	
+	/**
+	 * Validation function to check if the password and its confirmation are the same.
+	 *
+	 * @param array $data data sent
+	 * @return boolean true if the passwords are the same
+	 */
+	function confirmPassword($data) {
+		$valid = false;
+		if ($data['password'] == Security::hash(Configure::read('Security.salt') . $this->data['User']['password_confirm'])) {
+		   $valid = true;
+		}
+		return $valid;
+	}
+	
+	public function customMinLength($data, $length) {
+		return (strlen($this->data['User']['password_confirm']) >= $length);
+	}
+	
+	public function beforeValidate($model) {
+		if ($this->exists() && !$this->passwordNotEmpty($this->data['User'])) {
+			unset($this->data['User']['password']);
+			unset($this->data['User']['password_confirm']);
+		}
+		$currentQuestion = $this->field('question');
+		$currentAnswer = $this->field('answer');
+		if ($this->exists() && !empty($currentQuestion) && !empty($currentAnswer) && !empty($this->data['User']['question']) && empty($this->data['User']['answer'])) {
+			unset($this->data['User']['question']);
+			unset($this->data['User']['answer']);
+		}
+		return true;
+	}
 
 }
 ?>

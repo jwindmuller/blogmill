@@ -2,13 +2,23 @@
 class CategoriesController extends AppController {
 
 	var $name = 'Categories';
+	
+	function view($slug) {
+		$id = $this->Category->field('id', compact('slug'));
+		if (!$id) {
+			die('Error');
+		}
+		$this->paginate['contain'] = array('User(username,alias)', 'Comment(id)', 'Field', 'Category');
+		$this->set('posts', $this->paginate($this->Category->Post));
+		$this->render('/posts/index');
+	}
 
-	function index() {
+	function dashboard_index() {
 		$this->Category->recursive = 0;
 		$this->set('categories', $this->paginate());
 	}
 
-	function view($id = null) {
+	function dashboard_view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'category'));
 			$this->redirect(array('action' => 'index'));
@@ -16,7 +26,7 @@ class CategoriesController extends AppController {
 		$this->set('category', $this->Category->read(null, $id));
 	}
 
-	function add() {
+	function dashboard_add() {
 		if (!empty($this->data)) {
 			$this->Category->create();
 			if ($this->Category->save($this->data)) {
@@ -26,11 +36,11 @@ class CategoriesController extends AppController {
 				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'category'));
 			}
 		}
-		$categories = $this->Category->Category->find('list');
+		$categories = $this->Category->SubCategory->find('list');
 		$this->set(compact('categories'));
 	}
 
-	function edit($id = null) {
+	function dashboard_edit($id = null) {
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'category'));
 			$this->redirect(array('action' => 'index'));
@@ -46,8 +56,8 @@ class CategoriesController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->Category->read(null, $id);
 		}
-		$categories = $this->Category->Category->find('list');
-		$this->set(compact('categories'));
+		// $categories = $this->Category->Category->find('list');
+		// $this->set(compact('categories'));
 	}
 
 	function delete($id = null) {
@@ -63,4 +73,3 @@ class CategoriesController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 }
-?>

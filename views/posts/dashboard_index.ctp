@@ -2,7 +2,7 @@
 	<h2><?php __('Posts');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>
+			<th><?php echo $this->Paginator->sort('display');?></th>
 			<th><?php echo $this->Paginator->sort('type');?></th>
 			<th><?php echo $this->Paginator->sort('user_id');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
@@ -13,13 +13,15 @@
 	<?php
 	$i = 0;
 	foreach ($posts as $post):
+		list($plugin, $type) = explode('.', $post['Post']['type']);
+		$edit_url = array('controller' => 'posts', 'action' => 'edit', $plugin, $type, $post['Post']['id']);
 		$class = null;
 		if ($i++ % 2 == 0) {
 			$class = ' class="altrow"';
 		}
 	?>
 	<tr<?php echo $class;?>>
-		<td><?php echo $post['Post']['id']; ?>&nbsp;</td>
+		<td><?php echo $this->Html->link($post['Post']['display'], $edit_url); ?></td>
 		<td>
 			<?php echo $this->Html->link($post['Post']['type'], array('controller' => 'posts', 'action' => 'index', $post['Post']['type'])); ?>
 		</td>
@@ -32,8 +34,8 @@
 			<?php echo $this->Html->link($post['Category']['title'], array('controller' => 'categories', 'action' => 'view', $post['Category']['id'])); ?>
 		</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $post['Post']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $post['Post']['type'], $post['Post']['id'])); ?>
+			<?php echo $this->Html->link(__('View', true), array('dashboard' => false, 'action' => 'view', $post['Post']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit', true), $edit_url); ?>
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $post['Post']['id'])); ?>
 		</td>
 	</tr>
@@ -53,7 +55,7 @@
 		<?php echo $this->Paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
 </div>
-<div class="actions">
+<!-- <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Post', true)), array('action' => 'add')); ?></li>
@@ -68,4 +70,4 @@
 		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Fields', true)), array('controller' => 'fields', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Field', true)), array('controller' => 'fields', 'action' => 'add')); ?> </li>
 	</ul>
-</div>
+</div> -->

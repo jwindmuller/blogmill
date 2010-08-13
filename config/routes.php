@@ -1,36 +1,44 @@
 <?php
-/**
- * Short description for file.
- *
- * In this file, you set up routes to your controllers and their actions.
- * Routes are very important mechanism that allows you to freely connect
- * different urls to chosen controllers and their actions (functions).
- *
- * PHP versions 4 and 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.app.config
- * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
+	App::import('Lib', 'routes/BlogmillUnmatchedRoute');
 
-/**
- * Here, we are connecting '/' (base path) to controller called 'Pages',
- * its action called 'display', and we pass a param to select the view file
- * to use (in this case, /app/views/pages/home.ctp)...
- */
-	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-
-/**
- * ...and connect the rest of 'Pages' controller's urls.
- */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+	$plugins = Configure::listObjects('plugin');
+	foreach ($plugins as $i => $plugin) {
+		$file = "{$plugin}Routes";
+		App::import(
+			array(
+				'type' => 'File',
+				'name' => $file,
+				'file' => APP . 'plugins' . DS . Inflector::underscore($plugin) . DS . 'config' . DS . 'routes.php'
+			)
+		);
+	}
+	
+	/* Dashboard Routes */
+	Router::connect(
+		'/dashboard/posts/add/:plugin_name::post_type',
+		array('controller' => 'posts', 'action' => 'add', 'prefix' => 'dashboard', 'dashboard' => true),
+		array('pass' => array('plugin_name', 'post_type'))
+	);
+	Router::connect(
+		'/dashboard',
+		array('controller' => 'posts', 'action' => 'index', 'prefix' => 'dashboard', 'dashboard' => true)
+	);
+	/* Site Routes */
+	Router::connect(
+		'/:type',
+		array('controller' => 'posts', 'action' => 'index'),
+		array('pass' => array('type'))
+	);
+	Router::connect('/', array('controller' => 'posts', 'action' => 'home'));
+	Router::connect(
+		'/post/:id-:slug/*',
+		array('controller' => 'posts', 'action' => 'view', 'type' => null),
+		array(
+			'pass' => array('id', 'slug', 'type'),
+			'id' => '[0-9]+',
+			'slug' => '.+',
+			'type' => '.*',
+			'routeClass' => 'BlogmillUnmatchedRoute'
+		)
+	);
 ?>

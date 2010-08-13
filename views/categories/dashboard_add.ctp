@@ -4,7 +4,6 @@
  		<legend><?php printf(__('Add %s', true), __('Category', true)); ?></legend>
 	<?php
 		echo $this->Form->input('title');
-		echo $this->Form->input('slug');
 		echo $this->Form->input('category_id');
 	?>
 	</fieldset>

@@ -2,13 +2,12 @@
 	<h2><?php __('Comments');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('post_id');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
 			<th><?php echo $this->Paginator->sort('email');?></th>
 			<th><?php echo $this->Paginator->sort('url');?></th>
 			<th><?php echo $this->Paginator->sort('content');?></th>
-			<th><?php echo $this->Paginator->sort('created');?></th>
+			<th><?php echo $this->Paginator->sort(__('When', true), 'created');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -20,15 +19,16 @@
 		}
 	?>
 	<tr<?php echo $class;?>>
-		<td><?php echo $comment['Comment']['id']; ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($comment['Post']['id'], array('controller' => 'posts', 'action' => 'view', $comment['Post']['id'])); ?>
+			<?php
+				echo $this->Blogmill->postLink($comment['Post']);
+			?>
 		</td>
 		<td><?php echo $comment['Comment']['name']; ?>&nbsp;</td>
 		<td><?php echo $comment['Comment']['email']; ?>&nbsp;</td>
 		<td><?php echo $comment['Comment']['url']; ?>&nbsp;</td>
 		<td><?php echo $comment['Comment']['content']; ?>&nbsp;</td>
-		<td><?php echo $comment['Comment']['created']; ?>&nbsp;</td>
+		<td><?php echo $this->Time->niceShort($comment['Comment']['created']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $comment['Comment']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $comment['Comment']['id'])); ?>
