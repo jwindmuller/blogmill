@@ -7,24 +7,27 @@ class SetupController extends AppController {
 	}
 	
 	public function reset() {
-		var_dump($this->Acl->Aro->query('TRUNCATE TABLE ' . $this->Acl->Aro->table));
-		var_dump($this->Acl->Aco->query('TRUNCATE TABLE ' . $this->Acl->Aco->table));
-		var_dump($this->Acl->Aco->query('TRUNCATE TABLE ' . $this->Acl->Aco->hasAndBelongsToMany['Aro']['joinTable']));
-		die;
+		$User = ClassRegistry::init('User');
+		$User->query('TRUNCATE TABLE ' . $User->table);
+		$this->Acl->Aro->query('TRUNCATE TABLE ' . $this->Acl->Aro->table);
+		$this->Acl->Aco->query('TRUNCATE TABLE ' . $this->Acl->Aco->table);
+		$this->Acl->Aco->query('TRUNCATE TABLE ' . $this->Acl->Aco->hasAndBelongsToMany['Aro']['joinTable']);
 	}
 
 	public function acl() {
 		$this->acos();
 		$this->aros();
 		$this->permissions();
-		die;
+		// die;
 	}
 	public function acos() {
 		$aro =& $this->Acl->Aro;
 		$groups = array('visitor', 'user', 'admin');
+		$parent_id = null;
 		foreach ($groups as $alias) {
 			$aro->create();
-			$aro->save(compact('alias'));
+			$aro->save(compact('alias', 'parent_id'));
+			$parent_id = $aro->getLastInsertID();
 		}
 	}
 	
@@ -80,5 +83,22 @@ class SetupController extends AppController {
 				$this->Acl->allow($group, 'controllers/' . $controllerName . '/' . $action);
 			}
 		}
+	}
+
+	public function go() {
+		if (!empty($this->data)) {
+			$User = ClassRegistry::init('User');
+			$this->data['User']['group_id'] = '4';
+			$User->set($this->data);
+			if ($User->validates()) {
+				$this->acl();
+				$this->permissions();
+				$this->actions_acl();
+				if ($User->save($this->data)) {
+					$this->redirect('/');
+				} else die('hi');
+			}
+		}
+		$this->reset();
 	}
 }

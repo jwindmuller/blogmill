@@ -36,7 +36,8 @@ class PostsController extends AppController {
 	}
 
 	function dashboard_index() {
-		$this->Post->recursive = 0;
+		$this->Post->contain(array('Field', 'Category'));
+		// $this->Post->recursive = 0;
 		$this->set('posts', $this->paginate());
 	}
 
@@ -123,6 +124,10 @@ class PostsController extends AppController {
 			));
 		}
 	}
-	
+
+
+	public function dashboard_list() {
+		$this->set('posts', $this->Post->find('list'));
+	}
 }
 ?>

@@ -3,13 +3,14 @@ App::import(array('type' => 'File', 'name' => 'Settings', 'file' => APP . 'confi
 class AppController extends Controller {
 	
 	private $__userLevel;
+	protected $_activeThemePlugin;
 	/**
 	 * Default Helpers
 	 *
 	 * @var array helper names
 	 */
 	var $helpers = array('Text', 'Html', 'Form', 'Javascript', 'Session', 'Blogmill', 'BlogmillForm', 'Time');
-	var $components = array('Session', 'Acl',
+	var $components = array('Session', 'Acl', 'RequestHandler',
 		'Auth' => array(
 			'authorize' => 'controller',
 			'loginAction' => array('controller' => 'users', 'action' => 'login', 'dashboard' => true),
@@ -39,6 +40,7 @@ class AppController extends Controller {
 		}
 		$this->__setupTypes();
 		$this->__loadPageInfo();
+		$this->__setupCurrentTheme();
 	}
 	
 	public function isAuthorized() {
@@ -46,7 +48,6 @@ class AppController extends Controller {
 		if ($this->Auth->user('id')) {
 			$aro = array('model' => 'User', 'foreign_key' => $this->Auth->user('id'));
 		}
-		// $aro = $this->Acl->Aro->find(array('model' => 'User', 'foreign_key' => $this->Auth->user('id')));
 		$isAuthorized = $this->Acl->check($aro,'controllers/' . $this->name . '/' . $this->action);
 		return $isAuthorized;
 	}
@@ -57,8 +58,9 @@ class AppController extends Controller {
 	 * @author Joaquin Windmuller
 	 */
 	public function beforeRender() {
-		$this->layout = isset($this->params['prefix']) ? $this->params['prefix'] : 'default';
-		$this->__setupCurrentTheme();
+		if (isset($this->params['prefix'])) {
+			$this->layout = $this->params['prefix'];
+		}
 	}
 	
 	/**
@@ -102,7 +104,8 @@ class AppController extends Controller {
 	 * @author Joaquin Windmuller
 	 */
 	private function __setupCurrentTheme() {
-		$activeThemePlugin = $this->__getActiveThemePluginName();
+		$this->_activeThemePlugin = $activeThemePlugin = $this->__getActiveThemePluginName();
+		$this->set(compact('activeThemePlugin'));
 		$pluginSettingsClass = "{$activeThemePlugin}Settings";
 		App::import(
 			array(
@@ -119,7 +122,7 @@ class AppController extends Controller {
 			$pluginSettings = new $pluginSettingsClass;
 			ClassRegistry::addObject($pluginSettingsClass, $pluginSettings);
 			$themeInfo = $pluginSettings->theme;
-			$currentPage = $this->pageInfo['page'];
+			$currentPage = $this->pageInfo['page'][0];
 			if (isset($themeInfo['layouts'][$currentPage])) {
 				$layouts = $themeInfo['layouts'];
 				if (isset($layouts[$currentPage]['data'])) {
@@ -170,12 +173,18 @@ class AppController extends Controller {
 	 * @author Joaquin Windmuller
 	 */
 	private function __currentPage() {
+		$page = 'other';
 		switch (true) {
+			case $this->name == 'Posts' && $this->action == 'home':
+				$page = 'home';
+				break;
 			case $this->name == 'Posts':
-				return $this->action;
-			default:
-				return 'other';
+				$page = 'inner';
+				if ($this->action == 'index') $page .= ' listing';
+				if ($this->action == 'view') $page .= ' single';
+				break;
 		}
+		return explode(' ', $page);
 	}
 }
 ?>

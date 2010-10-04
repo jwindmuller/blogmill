@@ -50,10 +50,20 @@ class BlogmillHelper extends AppHelper {
 			$title, array(
 				'controller' => 'posts',
 				'action' => 'edit',
-				$plugin, $type,
 				$post['Post']['id'],
 				'dashboard' => true
 			), $options
+		);
+	}
+	public function postDeleteLink($post) {
+		$title = is_null($title) ? __('edit this post', true) : $title;
+		return $this->Html->link(__('Delete', true),
+			array(
+				'controller' => 'posts',
+				'action' => 'delete',
+				$post['Post']['id'],
+				'dashboard' => true
+			)
 		);
 	}
 	
@@ -97,5 +107,14 @@ class BlogmillHelper extends AppHelper {
 		$guide = $this->guide($post);
 		return $this->Html->image("/files/{$guide}/{$name}", $html_options);
 	}
+
+	public function menu($menu_name) {
+		$View = ClassRegistry::init('View');
+		$menu_setting_key = $View->viewVars['activeThemePlugin'] . '.menu.' . $menu_name;
+		$Settings = ClassRegistry::init('Setting');
+		$menu = $Settings->find('first', array('name' => $menu_setting_key));
+		return unserialize($menu['Setting']['value']);
+	}
+
 }
 ?>

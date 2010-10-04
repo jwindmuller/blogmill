@@ -1,4 +1,6 @@
 <?php
+	Router::parseExtensions('json');
+	
 	App::import('Lib', 'routes/BlogmillUnmatchedRoute');
 
 	$plugins = Configure::listObjects('plugin');
@@ -17,6 +19,11 @@
 	Router::connect(
 		'/dashboard/posts/add/:plugin_name::post_type',
 		array('controller' => 'posts', 'action' => 'add', 'prefix' => 'dashboard', 'dashboard' => true),
+		array('pass' => array('plugin_name', 'post_type'))
+	);
+	Router::connect(
+		'/dashboard/posts/edit/:id',
+		array('controller' => 'posts', 'action' => 'edit', 'prefix' => 'dashboard', 'dashboard' => true),
 		array('pass' => array('plugin_name', 'post_type'))
 	);
 	Router::connect(

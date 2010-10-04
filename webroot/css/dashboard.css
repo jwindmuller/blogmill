@@ -31,11 +31,8 @@ header#top {
 	font-size:1.2em;
 }
 header#top ul {
-	margin:0;
 	padding:0;
-	position:absolute;
-	bottom:0;
-	left:150px;
+	margin:-23px 0 0 155px;
 }
 header#top ul li {
 	float:left;
@@ -58,6 +55,12 @@ header#top ul li.current {
 header#top ul li.current a {
 	background:transparent url('../img/dashboard/tab.jpg') no-repeat 100% 0;
 	color:#000;
+}
+header#top ul li.logout {
+	position:absolute;
+	right:0;
+	top:0;
+	margin:0;
 }
 div#main {
 	display:table;
@@ -291,6 +294,13 @@ form div.form-wrapper div.cell {
 	width:auto;
 	padding-right:20px;
 }
+form div.form-wrapper div.cell .submit {
+	position:relative;
+}
+form div.form-wrapper div.cell .submit input {
+	position:absolute;
+	top:50%;
+}
 form div.input {
 	width:100%;
 	clear:both;
@@ -358,4 +368,16 @@ form fieldset {
 form fieldset legend {
 	font-size:1.7em;
 	padding:0 0 5px 0;
+}
+
+div#page-selector ul.types {
+	float:left;
+	width:100%;
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+div#page-selector ul.types li {
+	float:left;
+	padding-right:10px;
 }

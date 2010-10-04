@@ -1,6 +1,8 @@
 <?php
 class User extends AppModel {
 	var $name = 'User';
+	var $actsAs = array('Acl' => array('type' => 'requester'));
+	
 	var $validate = array(
 		'username' => array(
 			'required' => array(
@@ -49,34 +51,34 @@ class User extends AppModel {
 				'required' => false,
 				'on' => 'update'
 			),
-			'confirmation' => array(
-				'rule' => array('confirmPassword'),
-				'on' => 'create'
-			),
-			'confirmationOnUpdate' => array(
-				'rule' => array('confirmPassword'),
-				'on' => 'update',
-				'required' => false
-			)
+			// 'confirmation' => array(
+			// 	'rule' => array('confirmPassword'),
+			// 	'on' => 'create'
+			// ),
+			// 'confirmationOnUpdate' => array(
+			// 	'rule' => array('confirmPassword'),
+			// 	'on' => 'update',
+			// 	'required' => false
+			// )
 		),
-		'password_confirm' => array(
-			'required' => array(
-				'rule' => array('notEmpty'),
-				'last' => true,
-				'on' => 'create'
-			),
-			'minlength' => array(
-				'rule' => array('minLength', '6'),
-				'last' => true,
-				'on' => 'create',
-			),
-			'minlengthOnUpdate' => array(
-				'rule' => array('minLength', '6'),
-				'last' => true,
-				'on' => 'update',
-				'required' => false
-			)
-		),
+		// 'password_confirm' => array(
+		// 	'required' => array(
+		// 		'rule' => array('notEmpty'),
+		// 		'last' => true,
+		// 		'on' => 'create'
+		// 	),
+		// 	'minlength' => array(
+		// 		'rule' => array('minLength', '6'),
+		// 		'last' => true,
+		// 		'on' => 'create',
+		// 	),
+		// 	'minlengthOnUpdate' => array(
+		// 		'rule' => array('minLength', '6'),
+		// 		'last' => true,
+		// 		'on' => 'update',
+		// 		'required' => false
+		// 	)
+		// ),
 		'question' => array(
 			'required' => array(
 				'rule' => 'notempty',
@@ -149,28 +151,28 @@ function __initializeValidation() {
 		);
 		$this->defineErrorMessage(
 		    'password.requiredOnUpdate',
-		    __('The password and its confirmation do not match',true)
+		    __('Write your password',true)
 		);
-		$this->defineErrorMessage(
-		    'password.confirmation',
-		    __('The password and its confirmation do not match',true)
-		);
-		$this->defineErrorMessage(
-			'password.confirmationOnUpdate',
-			__('The password and its confirmation do not match',true)
-		);
-		$this->defineErrorMessage(
-			'password_confirm.required',
-			__('Confirm the password',true)
-		);
-		$this->defineErrorMessage(
-			'password_confirm.minlength',
-			__('Passwords are required to have at least 6 characters',true)
-		);
-		$this->defineErrorMessage(
-			'password_confirm.minlengthOnUpdate',
-			__('Passwords are required to have at least 6 characters',true)
-		);
+		// $this->defineErrorMessage(
+		//     'password.confirmation',
+		//     __('The password and its confirmation do not match',true)
+		// );
+		// $this->defineErrorMessage(
+		// 	'password.confirmationOnUpdate',
+		// 	__('The password and its confirmation do not match',true)
+		// );
+		// $this->defineErrorMessage(
+		// 	'password_confirm.required',
+		// 	__('Confirm the password',true)
+		// );
+		// $this->defineErrorMessage(
+		// 	'password_confirm.minlength',
+		// 	__('Passwords are required to have at least 6 characters',true)
+		// );
+		// $this->defineErrorMessage(
+		// 	'password_confirm.minlengthOnUpdate',
+		// 	__('Passwords are required to have at least 6 characters',true)
+		// );
 		$this->defineErrorMessage(
 			'question.required',
 			__('The secret question is required',true)
@@ -226,6 +228,18 @@ function __initializeValidation() {
 			unset($this->data['User']['answer']);
 		}
 		return true;
+	}
+
+	function parentNode() {
+		if (!$this->id && empty($this->data)) {
+			return null;
+		}
+		if (isset($this->data['User']['group_id'])) {
+			$groupId = $this->data['User']['group_id'];
+			return 'admin';
+			return null;//array('id' => $groupId);
+		}
+		return null;
 	}
 
 }

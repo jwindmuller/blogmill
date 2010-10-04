@@ -1,5 +1,5 @@
 <div class="comments index">
-	<h2><?php __('Comments');?></h2>
+	<h1><span><?php __('Comments');?></span></h1>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('post_id');?></th>

@@ -88,10 +88,12 @@
 		var $theme = array(
 			'name' => 'Mary Windmuller',
 			'version' => '1.0',
+			'menus' => array('top_menu' => 'Top Menu'),
 			'layouts' => array(
 				'prefix' => 'mw',
 				'home' => array(
 					'name' => 'default',
+					'load_menus' => array('top_menu'),
 					'data' => array(
 						'books' => array(
 							'type' => 'BookReviews.BookReview',
@@ -108,16 +110,9 @@
 						)
 					)
 				),
-				'view' => array(
-					'name' => 'inner'
-				),
-				'index' => array(
+				'inner' => array(
 					'name' => 'inner',
-					'data' => array(
-						'posts' => array(
-							'limit' => 10
-						)
-					)
+					'load_menus' => array('top_menu') 
 				)
 			),
 		);

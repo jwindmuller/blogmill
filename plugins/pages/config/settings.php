@@ -13,7 +13,8 @@
 						)
 					)
 				),
-				'display' => 'title'
+				'display' => 'title',
+				'comments' => false
 			)
 		);
 		

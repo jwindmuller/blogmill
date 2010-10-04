@@ -1,5 +1,5 @@
 <div class="book-review post-index-preview">
-	<?php echo $this->Blogmill->postEditLink($post, null); ?>
+	<?php echo $this->Blogmill->postEditLink($post); ?>
 	<h1>
 		<?php
 			$last_char = substr($post['Post']['author'], -1, 1);
