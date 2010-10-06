@@ -5,6 +5,6 @@ $map = array(
 	2 => array(
 		'postguidefield' => 'M4c05bffdaca045c19e1e4ebafb8c9e6b'),
 	3 => array(
-		'postexcerpts' => 'M4c0a9905ec184d698fa63a73fb8c9e6b'),
+		'postexcerpts' => 'M4cabf0ca673c4f1ba45627effb8c9e6b')
 );
 ?>

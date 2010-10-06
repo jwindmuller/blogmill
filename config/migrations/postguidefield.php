@@ -17,89 +17,17 @@ class M4c05bffdaca045c19e1e4ebafb8c9e6b extends CakeMigration {
  */
 	public $migration = array(
 		'up' => array(
-			'create_table' => array(
-				'categories' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
-					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
-					'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM'),
-				),
-				'comments' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'post_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 60),
-					'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 180),
-					'url' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 180),
-					'content' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM'),
-				),
-				'fields' => array(
-					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
-					'post_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 90),
-					'value' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM'),
-				),
-				'post_types' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'original' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 160),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 160),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM'),
-				),
+			'create_field' => array(
 				'posts' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'display' => array('type' => 'string', 'null' => false, 'default' => NULL),
 					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
-					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 80),
-					'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-					'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-					'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
 					'guide' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM'),
-				),
-				'users' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'username' => array('type' => 'string', 'null' => false, 'length' => 140),
-					'alias' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140),
-					'password' => array('type' => 'string', 'null' => false),
-					'email' => array('type' => 'string', 'null' => false, 'length' => 140),
-					'blog_count' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
-					'admin' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'profile' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'url' => array('type' => 'string', 'null' => true, 'default' => NULL),
-					'confirmation' => array('type' => 'string', 'null' => false),
-					'question' => array('type' => 'string', 'null' => false),
-					'answer' => array('type' => 'string', 'null' => false),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM'),
 				),
 			),
 		),
 		'down' => array(
-			'drop_table' => array(
-				'categories', 'comments', 'fields', 'post_types', 'posts', 'users'
+			'drop_field' => array(
+				'posts' => array('display', 'slug', 'guide')
 			),
 		),
 	);
