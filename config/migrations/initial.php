@@ -136,7 +136,7 @@ class M4bf043c73b0442be87a34428fb8c9e6b extends CakeMigration {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'categories', 'comments', 'fields', 'post_types', 'posts', 'users'
+				'aros', 'acos', 'aros_acos', 'categories', 'comments', 'fields', 'post_types', 'posts', 'users', 'settings'
 			),
 		),
 	);
