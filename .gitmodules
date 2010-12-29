@@ -1,3 +1,6 @@
 [submodule "plugins/migrations"]
 	path = plugins/migrations
 	url = http://github.com/CakeDC/migrations.git
+[submodule "plugins/blogroll"]
+	path = plugins/blogroll
+	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-pt-blogroll.git
