@@ -6,22 +6,18 @@ class SetupController extends AppController {
 		$this->Auth->allow('*');
 	}
 	
-	public function reset() {
+	private function reset() {
 		$User = ClassRegistry::init('User');
 		$User->query('TRUNCATE TABLE ' . $User->table);
 		$this->Acl->Aro->query('TRUNCATE TABLE ' . $this->Acl->Aro->table);
 		$this->Acl->Aco->query('TRUNCATE TABLE ' . $this->Acl->Aco->table);
 		$this->Acl->Aco->query('TRUNCATE TABLE ' . $this->Acl->Aco->hasAndBelongsToMany['Aro']['joinTable']);
 	}
-
-	public function acl() {
-		$this->acos();
-		$this->aros();
-		$this->permissions();
-		// die;
-	}
-	public function acos() {
+	
+	private function create_acos() {
 		$aro =& $this->Acl->Aro;
+		// If the visitor Aco is there then all of them *should*
+		if ($aro->find('first', array('conditions' => array('alias' => 'visitor', 'parent_id' => null)))) return;
 		$groups = array('visitor', 'user', 'admin');
 		$parent_id = null;
 		foreach ($groups as $alias) {
@@ -31,47 +27,51 @@ class SetupController extends AppController {
 		}
 	}
 	
-	public function aros() {
+	private function create_aros() {
 		$aco =& $this->Acl->Aco;
+		// Two groups of Acos, data and the controller's actions
 		$groups = array('data', 'controllers');
 		foreach ($groups as $alias) {
-			$aco->create();
-			$aco->save(compact('alias'));
+			$conditions = compact('alias');
+			$controllersID = $aco->field('id', $conditions);
+			if ($controllersID === false) {
+				$aco->create();
+				$aco->save($conditions);
+				$controllersID = $aco->getLastInsertID();
+			}
 		}
-		$controllersID = $aco->getLastInsertID();
-		$controllers = Configure::listObjects('controller');
+
+		// We will setup the access to the controller's actions
+		$controllers = Configure::listObjects('controller');		
 		foreach ($controllers as $controller) {
 			if ($controller == 'App') continue;
-			$aco->create();
-			$aco->save(array('alias' => $controller, 'parent_id' => $controllersID));
-			$controllerACO = $aco->getLastInsertID();
+			
+			// 1 Aco per controller
+			$conditions = array('alias' => $controller, 'parent_id' => $controllersID);
+			$controllerACO = $aco->field('id', $conditions);
+			if ($controllerACO === false) {
+				$aco->create();
+				$aco->save($conditions);
+				$controllerACO = $aco->getLastInsertID();
+			}
+			
+			// 1 Aco for each controller's action.
 			App::import('Controller', $controller);
 			$class = "${controller}Controller";
 			$reflection = new ReflectionClass ($class);
 			$methods = $reflection->getMethods();
 			foreach ($methods as $method) {
 				if ($method->class == $class && $method->name[0] != '_') {
+					$conditions = array('alias' => $method->name, 'parent_id' => $controllerACO);
+					if ($aco->find('first', compact('conditions'))) continue;
 					$aco->create();
-					$aco->save(array('alias' => $method->name, 'parent_id' => $controllerACO));
+					$aco->save($conditions);
 				}
 			}
 		}
 	}
-	
-	public function permissions() {
-		$this->Acl->allow('admin', 'controllers');
-		$this->actions_acl();
-		// $this->Acl->allow('visitor', 'controllers/Posts/index');
-		// $this->Acl->allow('visitor', 'controllers/Posts/home');
-		// $this->Acl->allow('admin', 'posts');
-		// $this->Acl->allow('user', 'posts');
-		// $this->Acl->allow('visitor', 'posts');
-		// $this->Acl->deny('visitor', 'posts', 'add');
-		// $this->Acl->deny('visitor', 'posts', 'edit');
-		// $this->Acl->deny('visitor', 'posts', 'delete');
-	}
-
-	public function actions_acl() {
+		
+	private function actions_acl() {
 		App::import(array(
 			'type' => 'File',
 			'name' => 'BlogmillPermissions',
@@ -84,21 +84,36 @@ class SetupController extends AppController {
 			}
 		}
 	}
+	
+	private function setup_acl_permissions() {
+		$this->create_acos();
+		$this->create_aros();
+		$this->Acl->allow('admin', 'controllers');
+		$this->actions_acl();
+	}
 
 	public function go() {
 		if (!empty($this->data)) {
+			// Even if the user is not created for validation issues, this is idempotent so it doesn't matter if we repeat it. 
+			// TODO: An admin lock should be setup to prevent DoS
+			$this->setup_acl_permissions();
+			
+			$success_url = array('controller' => 'users', 'action' => 'login', 'dashboard' => true);
+			
+			// If there's an user with that login/password don't create another
+			if ($this->Auth->login($this->data)) {
+				$this->redirect($success_url);
+			}
+			
 			$User = ClassRegistry::init('User');
-			$this->data['User']['group_id'] = '4';
 			$User->set($this->data);
 			if ($User->validates()) {
-				$this->acl();
-				$this->permissions();
-				$this->actions_acl();
 				if ($User->save($this->data)) {
-					$this->redirect('/');
-				} else die('hi');
+					$this->redirect($success_url);
+				} else {
+					die('Could not create user. Go back and try again please.');
+				}
 			}
 		}
-		$this->reset();
 	}
 }

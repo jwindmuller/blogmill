@@ -1,5 +1,5 @@
 <?php
-App::import(array('type' => 'File', 'name' => 'Settings', 'file' => APP . 'config/settings.php'));
+App::import(array('type' => 'File', 'name' => 'BlogmillSettings', 'file' => APP . 'config/blogmill_settings.php'));
 class AppController extends Controller {
 	
 	private $__userLevel;
@@ -19,6 +19,7 @@ class AppController extends Controller {
 		)
 	);
 	var $postTypes = array();
+	var $themes = array();
 	var $pageInfo = array();
 	
 	/**
@@ -38,7 +39,7 @@ class AppController extends Controller {
 				}
 			}
 		}
-		$this->__setupTypes();
+		$this->__loadTypesAndThemes();
 		$this->__loadPageInfo();
 		$this->__setupCurrentTheme();
 	}
@@ -51,6 +52,7 @@ class AppController extends Controller {
 		$isAuthorized = $this->Acl->check($aro,'controllers/' . $this->name . '/' . $this->action);
 		return $isAuthorized;
 	}
+	
 	/**
 	 * Setup layout and types
 	 *
@@ -64,26 +66,33 @@ class AppController extends Controller {
 	}
 	
 	/**
-	 * This function loads the different available post types defined in the plugins.
-	 * Use $postTypes in the view
+	 * This function loads the different post types and themes defined in the plugins.
+	 * For post types: Use $postTypes in the views and $this->postTypes in the controllers.
+	 * For themes: Use $themes in the views and $this->themes in the controllers.
 	 *
 	 * @return void
 	 * @author Joaquin Windmuller
 	 */
-	private function __setupTypes() {
+	private function __loadTypesAndThemes() {
 		$plugins = Configure::listObjects('plugin');
-		$postTypes = array();
+		$postTypes = $themes = array();
 		foreach ($plugins as $i => $plugin) {
 			$class = "{$plugin}Settings";
+			$plugin_path = APP . 'plugins' . DS . Inflector::underscore($plugin);
 			App::import(
 				array(
 					'type' => 'File',
 					'name' => $class,
-					'file' => APP . 'plugins' . DS . Inflector::underscore($plugin) . DS . 'config' . DS . 'settings.php'
+					'file' => $plugin_path . DS . 'config' . DS . 'settings.php'
 				)
 			);
 			if (class_exists($class)) {
 				$class = new $class;
+				if (isset($class->theme)) {
+					$class->theme['plugin'] = $plugin;
+					$class->theme['id'] = md5($plugin_path);
+					$themes[$class->theme['id']] = $class->theme;
+				}
 				if (isset($class->types) && is_array($class->types)) {
 					foreach ($class->types as $type => $definition) {
 						$postTypes[$plugin][$type] = $definition;
@@ -93,10 +102,11 @@ class AppController extends Controller {
 				unset($plugins[$i]);
 			}
 		}
+		$this->themes = $themes;
 		$this->postTypes = $postTypes;
-		$this->set(compact('postTypes'));
+		$this->set(compact('postTypes', 'themes'));
 	}
-
+	
 	/**
 	 * Sets up the theme for public pages
 	 *
@@ -118,6 +128,7 @@ class AppController extends Controller {
 			// Tell Cake Where to find the theme layout
 			$_app = App::getInstance();
 			array_unshift($_app->views, APP . 'plugins' . DS . Inflector::underscore($activeThemePlugin) . DS . 'views' . DS);
+
 			// Create the settigns class and register it
 			$pluginSettings = new $pluginSettingsClass;
 			ClassRegistry::addObject($pluginSettingsClass, $pluginSettings);
@@ -149,16 +160,26 @@ class AppController extends Controller {
 	}
 	
 	/**
-	 * Returns the plugin name that defines the active Theme.
+	 * Returns the name of the plugin that has the currently active Theme.
 	 *
 	 * @return void
 	 * @author Joaquin Windmuller
 	 */
-	private function __getActiveThemePluginName()
-	{
-		return 'BookReviews';
+	private function __getActiveThemePluginName() {
+		$Settings = ClassRegistry::init('Setting');
+		$theme_id = $Settings->get('active_theme');
+		if (!isset($this->themes[$theme_id]['plugin'])) {
+			return false;
+		}
+		return $this->themes[$theme_id]['plugin'];
 	}
 	
+	/**
+	 * Sets up information for the current status and type of page.
+	 *
+	 * @return void
+	 * @author Joaquin Windmuller
+	 */
 	private function __loadPageInfo() {
 		$this->pageInfo =  array(
 			'page' => $this->__currentPage()

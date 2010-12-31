@@ -1,5 +1,8 @@
-<h1><span><?php __('Settings'); ?></span></h1>
-<h2><?php __('Menus') ?></h2> <p><?php __('This are the menus defined in the active theme'); ?></p>
+<h1><span><?php echo __('Settings'); ?></span></h1>
+<h2><?php printf(__('Current Theme: %s &mdash; %s', true), $theme['name'], $this->Html->link(__('Change Theme', true), array('controller' => 'settings', 'action' => 'change_theme'))); ?></h2>
+
+<h3><?php __('Menus') ?></h3>
+<p><?php __('This are the menus defined in the active theme'); ?></p>
 <?php if (isset($theme['menus']) && count($theme['menus'])): ?>
 	
 	<ul>

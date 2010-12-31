@@ -2,9 +2,11 @@
 class SettingsController extends AppController {
 	public $name = 'Settings';
 	
-	public function dashboard_index() {
+	public function beforeRender() {
 		$this->set('theme', $this->__themeSettings());
+		parent::beforeRender();
 	}
+	public function dashboard_index() {}
 	
 	private function __themeSettings() {
 		$themePluginSettings = ClassRegistry::getObject("{$this->_activeThemePlugin}Settings");
@@ -93,6 +95,19 @@ class SettingsController extends AppController {
 		} else {
 			$this->Session->setFlash(sprintf(__('Could not updated the menu!', true)));
 			$this->redirect(array('controller' => 'posts', 'action' => 'index'));
+		}
+	}
+	
+	public function dashboard_change_theme() {
+		if(isset($this->params['named']['theme'])) {
+			$theme_id = $this->params['named']['theme'];
+			foreach ($this->themes as $theme) {
+				if ($theme['id'] == $theme_id) {
+					if ($this->Setting->store('active_theme', $theme_id)) {
+						$this->Session->setFlash(__('Could not change the theme, please try again.', true));
+					}
+				}
+			}
 		}
 	}
 }

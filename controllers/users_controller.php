@@ -67,10 +67,8 @@ class UsersController extends AppController {
 	}
 
 	public function dashboard_login() {
-		if (!$this->Auth->user()) {
-			// var_dump($this->Auth->login(array('id' => -1)));
-			// die;
-			// $this->redirect('/');
+		if ($this->Auth->user()) {
+			$this->redirect(array('controller' => 'posts', 'action' => 'index'));
 		}
 	}
 	public function dashboard_logout() {

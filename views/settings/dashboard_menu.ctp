@@ -1,5 +1,5 @@
-<h1><span><?php echo $menu_title; ?></span></h1>
-<h2><?php __('Items in this menu:') ?></h2>
+<h1><span><?php printf(__('%s Theme: Settings', true), $theme['name']); ?></span></h1>
+<h2><?php printf(__('Configuring menu: %s', true), $menu_title) ?></h2>
 <?php
 	echo $this->Form->create('Settings', array('url' => $this->passedArgs));
 ?>

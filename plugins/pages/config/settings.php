@@ -1,5 +1,5 @@
 <?php
-	class PagesSettings extends Settings {
+	class PagesSettings extends BlogmillSettings {
 		public $types = array(
 			'Page' => array(
 				'fields' => array(

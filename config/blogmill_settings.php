@@ -1,5 +1,5 @@
 <?php
-class Settings {	
+class BlogmillSettings {	
 	public function fieldLabel() {
 		
 	}
