@@ -4,3 +4,6 @@
 [submodule "plugins/blogroll"]
 	path = plugins/blogroll
 	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-pt-blogroll.git
+[submodule "plugins/book_reviews"]
+	path = plugins/book_reviews
+	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-pt-bookreviews.git
