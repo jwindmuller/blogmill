@@ -7,3 +7,6 @@
 [submodule "plugins/book_reviews"]
 	path = plugins/book_reviews
 	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-pt-bookreviews.git
+[submodule "plugins/pages"]
+	path = plugins/pages
+	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-pt-pages.git
