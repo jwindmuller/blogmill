@@ -264,7 +264,6 @@ class Post extends AppModel {
 		$this->__prepareData();
 		$save = parent::saveAll($this->data, array('validate' => true));
 		return $save;
-		//die;
 	}
 	
 	/**

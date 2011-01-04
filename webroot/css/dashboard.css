@@ -369,7 +369,23 @@ form fieldset legend {
 	font-size:1.7em;
 	padding:0 0 5px 0;
 }
-
+form .group {
+	border:#ccc 1px solid;
+	padding:10px;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+}
+form .group .title {
+	color:#4c0201;
+	text-transform:uppercase;
+	font-weight:normal;
+}
+form .group .label {
+	color:#666;
+	font-size:1em;
+	margin:3px 0 10px 0;
+}
 div#page-selector ul.types {
 	float:left;
 	width:100%;

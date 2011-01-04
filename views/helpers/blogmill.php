@@ -112,8 +112,9 @@ class BlogmillHelper extends AppHelper {
 		$View = ClassRegistry::init('View');
 		$menu_setting_key = $View->viewVars['activeThemePlugin'] . '.menu.' . $menu_name;
 		$Settings = ClassRegistry::init('Setting');
-		$menu = $Settings->find('first', array('name' => $menu_setting_key));
-		return unserialize($menu['Setting']['value']);
+		$menu = $Settings->find('first', array('conditions' => array('name' => $menu_setting_key)));
+		$menu = $menu ? unserialize($menu['Setting']['value']) : array();
+		return $menu;
 	}
 
 }

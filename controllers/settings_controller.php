@@ -21,7 +21,10 @@ class SettingsController extends AppController {
 			$menu = array();
 		} else {
 			$id = $menu['Setting']['id'];
-			$menu = unserialize($menu['Setting']['value']);
+			$menu = array();
+			if (isset($menu['Setting']['value'])) {
+				$menu = unserialize($menu['Setting']['value']);	
+			}
 		}
 		return array($menu_settings_key, $menu,$id);
 	}
@@ -57,7 +60,7 @@ class SettingsController extends AppController {
 	public function dashboard_add_to_menu($menu_name = null) {
 		if (!isset($this->params['named']['post'])) {
 			$this->Session->setFlash(__('Invalid access, no post selected', true));
-			$this->redirect(array('contoller' => 'posts', 'action' => 'index'));
+			$this->redirect(array('controller' => 'posts', 'action' => 'index'));
 		}
 		$PostModel = ClassRegistry::init('Post');
 		$post = $PostModel->read(null, $this->params['named']['post']);
@@ -104,6 +107,9 @@ class SettingsController extends AppController {
 			foreach ($this->themes as $theme) {
 				if ($theme['id'] == $theme_id) {
 					if ($this->Setting->store('active_theme', $theme_id)) {
+						$this->Session->setFlash(__('Theme Changed!', true));
+						$this->redirect(array('controller' => 'settings', 'action' => 'index'));
+					} else {
 						$this->Session->setFlash(__('Could not change the theme, please try again.', true));
 					}
 				}

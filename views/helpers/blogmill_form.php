@@ -33,13 +33,15 @@ class BlogmillFormHelper extends AppHelper {
 	
 	private function __image($field, $typeDefinition) {
 		$Post = ClassRegistry::init('Post');
-		$rules = $Post->validate[$field];
 		$width = $height = false;
-		foreach ($rules as $ruleName => $rule) {
-			if (is_array($rule['rule'])) {
-				$width = $rule['rule'][1];
-				$height = @$rule['rule'][2];
-				break;
+		if (isset($Post->validate[$field])) {
+			$rules = $Post->validate[$field];
+			foreach ($rules as $ruleName => $rule) {
+				if (is_array($rule['rule']) && count($rule['rule']) >= 2) {
+					$width = $rule['rule'][1];
+					$height = @$rule['rule'][2];
+					break;
+				}
 			}
 		}
 		$label = Inflector::humanize($field);
@@ -107,6 +109,11 @@ class BlogmillFormHelper extends AppHelper {
 					unset($cell['width']);
 				}
 				$cellHTML = "<div$width>:cell</div>";
+				if (isset($cell['title'])) {
+					$title = $cell['title'];
+					$label = isset($cell['label']) ? '<p class="label">' .  $cell['label'] . '</p>' : '';
+					$cellHTML = String::insert($cellHTML, array('cell' => sprintf('<div class="group"><strong class="title">%s</strong>%s:cell</div>', $title, $label)));
+				}
 				foreach ($cell['fields'] as $field) {
 					$field = $this->input($field);
 					$cellHTML = String::insert($cellHTML, array('cell' => $field . ':cell'));
@@ -120,4 +127,21 @@ class BlogmillFormHelper extends AppHelper {
 		return $formLayout;
 	}
 	
+	/**
+	 * Created the markup for a generic contact form.
+	 *
+	 * @return string markup
+	 * @see ContactsController::send
+	 * @see Modify Routes configuration for custom url
+	 * @author Joaquin Windmuller
+	 */
+	public function contactForm() {
+		$form = $this->Form->create('Message', array('url' => array('controller' => 'contacts', 'action' => 'send')));
+		$form.= $this->Form->input('Name', array('label' => __('Name', true)));
+		$form.= $this->Form->input('Email', array('label' => __('Email', true)));
+		$form.= $this->Form->input('Subject', array('label' => __('Subject', true)));
+		$form.= $this->Form->input('Message', array('label' => __('Message', true), 'type' => 'textarea'));
+		$form.= $this->Form->end(__('Submit', true));
+		return $form;
+	}
 }
