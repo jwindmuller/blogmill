@@ -17,14 +17,13 @@ class SettingsController extends AppController {
 		$menu_settings_key = $this->_activeThemePlugin . '.menu.' . $menu_name;
 		$menu = $this->Setting->find('first', array('name' => $menu_settings_key));
 		$id = null;
-		if (!$menu) {
-			$menu = array();
-		} else {
+		if ($menu) {
 			$id = $menu['Setting']['id'];
-			$menu = array();
 			if (isset($menu['Setting']['value'])) {
 				$menu = unserialize($menu['Setting']['value']);	
 			}
+		} else {
+			$menu = array();
 		}
 		return array($menu_settings_key, $menu,$id);
 	}
