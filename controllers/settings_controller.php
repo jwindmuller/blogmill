@@ -115,4 +115,8 @@ class SettingsController extends AppController {
 			}
 		}
 	}
+	
+	public function dashboard_plugins() {
+		
+	}
 }

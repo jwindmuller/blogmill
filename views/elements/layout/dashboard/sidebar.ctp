@@ -3,20 +3,22 @@
 	$title = $session->read('CurrentBlog.name');
 	$description = $session->read('CurrentBlog.name');
 	$selectTitle = __('New Post', true);
-	foreach ($postTypes as $plugin => $types) {
-		$pluginItems = array("<strong>$plugin</strong>");
-		foreach ($types as $type => $definition) {
-			$pluginItems[] = $html->link(
-				$type,
-				array(
-					'controller'	=> 'posts',
-					'action'		=> 'add',
-					$plugin, $type
-				)
-			);
+	if (isset($postTypes)) {
+		foreach ($postTypes as $plugin => $types) {
+			$pluginItems = array("<strong>$plugin</strong>");
+			foreach ($types as $type => $definition) {
+				$pluginItems[] = $html->link(
+					$type,
+					array(
+						'controller'	=> 'posts',
+						'action'		=> 'add',
+						$plugin, $type
+					)
+				);
+			}
+			$selectItems[] = sprintf('<ul><li>%s</li></ul>',join('</li><li>', $pluginItems));
+			$pluginLow = low($plugin);
 		}
-		$selectItems[] = sprintf('<ul><li>%s</li></ul>',join('</li><li>', $pluginItems));
-		$pluginLow = low($plugin);
 	}
 ?>
 <strong class="title"><?php echo $title; ?></strong>
