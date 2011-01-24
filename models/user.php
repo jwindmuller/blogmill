@@ -234,13 +234,10 @@ function __initializeValidation() {
 		if (!$this->id && empty($this->data)) {
 			return null;
 		}
-		if (isset($this->data['User']['group_id'])) {
-			$groupId = $this->data['User']['group_id'];
+		if ($this->data['User']['admin']) {
 			return 'admin';
-			return null;//array('id' => $groupId);
 		}
-		return null;
+		return 'user';
 	}
-
 }
 ?>

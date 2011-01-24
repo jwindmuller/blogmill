@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* App schema generated on: 2010-10-06 03:10:23 : 1286337323*/
+/* App schema generated on: 2011-01-24 00:01:54 : 1295828694*/
 class AppSchema extends CakeSchema {
 	var $name = 'App';
 
@@ -106,7 +106,6 @@ class AppSchema extends CakeSchema {
 		'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'blog_count' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
-		'admin' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'profile' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),

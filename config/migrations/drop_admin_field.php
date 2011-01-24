@@ -1,5 +1,5 @@
 <?php
-class M4cabf0ca673c4f1ba45627effb8c9e6b extends CakeMigration {
+class M4d3cc08d1a8c43e1a2694c58fb8c9e6b extends CakeMigration {
 
 /**
  * Migration description
@@ -17,16 +17,16 @@ class M4cabf0ca673c4f1ba45627effb8c9e6b extends CakeMigration {
  */
 	public $migration = array(
 		'up' => array(
-			'create_field' => array(
-				'posts' => array(
-					'excerpt' => array('type' => 'string', 'null' => false, 'default' => NULL)
-				)
+			'drop_field' => array(
+				'users' => array('admin',),
 			),
 		),
 		'down' => array(
-			'drop_field' => array(
-				'posts' => array('excerpt')
-			)
+			'create_field' => array(
+				'users' => array(
+					'admin' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+				),
+			),
 		),
 	);
 
