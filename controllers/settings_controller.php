@@ -9,12 +9,12 @@ class SettingsController extends AppController {
 	public function dashboard_index() {}
 	
 	private function __themeSettings() {
-		$themePluginSettings = ClassRegistry::getObject("{$this->_activeThemePlugin}Settings");
+		$themePluginSettings = ClassRegistry::getObject("{$this->activeThemePlugin}Settings");
 		return $themePluginSettings->theme;
 	}
 	
 	private function __themeMenu($menu_name) {
-		$menu_settings_key = $this->_activeThemePlugin . '.menu.' . $menu_name;
+		$menu_settings_key = $this->activeThemePlugin . '.menu.' . $menu_name;
 		$menu = $this->Setting->find('first', array('name' => $menu_settings_key));
 		$id = null;
 		if ($menu) {
@@ -50,7 +50,7 @@ class SettingsController extends AppController {
 				$this->redirect(array('action' => 'dashboard_menu', $menu_name));
 			}
 		}
-		$themePluginSettings = ClassRegistry::getObject("{$this->_activeThemePlugin}Settings");
+		$themePluginSettings = ClassRegistry::getObject("{$this->activeThemePlugin}Settings");
 		$theme = $themePluginSettings->theme;
 		$menu_title = $theme['menus'][$menu_name];
 		$this->set(compact('menu_name', 'menu_title', 'menu'));
