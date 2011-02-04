@@ -20,12 +20,14 @@
 					array('controller' => 'categories')
 				);
 			?></li>
-			<li><?php echo $this->Html->link(
+			<li<?php echo $this->name == 'Settings' && $this->action != 'dashboard_plugins' ? ' class="current"' : ''; ?>><?php
+			 	echo $this->Html->link(
 					__('Settings', true),
 					array('controller' => 'settings', 'action' => 'index')
 				);
 			?></li>
-			<li><?php echo $this->Html->link(
+			<li<?php echo $this->name == 'Settings' && $this->action == 'dashboard_plugins' ? ' class="current"' : ''; ?>><?php
+				echo $this->Html->link(
 					__('Plugins', true),
 					array('controller' => 'settings', 'action' => 'plugins')
 				);

@@ -3,8 +3,11 @@ class BlogmillComponent extends Object {
 	
 	private $Controller;
 	private $Settings;
-	public $themes;
-	public $postTypes;
+	private $themes;
+	private $postTypes;
+	private $pluginSettings;
+	private $__plugins;
+	private $__configurablePlugins;
 	
 	public function initialize(&$controller) {
 		$this->Controller = $controller;
@@ -12,10 +15,9 @@ class BlogmillComponent extends Object {
 		// Setup current page's information
 		$this->__loadPageInfo();
 		// Loads all available post types and themes
-		$this->__loadTypesAndThemes();
-		// Sets up the current theme
+		$this->__readPlugins();
+		// Sets up the current theme (data, helpers)
 		$this->__setupCurrentTheme();
-		$this->__loadHelpers();
 	}
 	
 	/**
@@ -53,48 +55,6 @@ class BlogmillComponent extends Object {
 	}
 	
 	/**
-	 * This function loads the different post types and themes defined in the plugins.
-	 * For post types: Use $postTypes in the views and $this->postTypes in the controllers.
-	 * For themes: Use $themes in the views and $this->themes in the controllers.
-	 *
-	 * @return void
-	 * @author Joaquin Windmuller
-	 */
-	private function __loadTypesAndThemes() {
-		$plugins = Configure::listObjects('plugin');
-		$postTypes = $themes = array();
-		foreach ($plugins as $i => $plugin) {
-			$class = "{$plugin}Settings";
-			$plugin_path = APP . 'plugins' . DS . Inflector::underscore($plugin);
-			App::import(
-				array(
-					'type' => 'File',
-					'name' => $class,
-					'file' => $plugin_path . DS . 'config' . DS . 'settings.php'
-				)
-			);
-			if (class_exists($class)) {
-				$class = new $class;
-				if (isset($class->theme)) {
-					$class->theme['plugin'] = $plugin;
-					$class->theme['id'] = md5($plugin_path);
-					$themes[$class->theme['id']] = $class->theme;
-				}
-				if (isset($class->types) && is_array($class->types)) {
-					foreach ($class->types as $type => $definition) {
-						$postTypes[$plugin][$type] = $definition;
-					}
-				}
-			} else {
-				unset($plugins[$i]);
-			}
-		}
-		$this->themes = $this->Controller->themes = $themes;
-		$this->postTypes = $this->Controller->postTypes = $postTypes;
-		$this->Controller->set(compact('themes', 'postTypes'));
-	}
-	
-	/**
 	 * Return the plugin name of the active theme.
 	 *
 	 * @return string
@@ -108,11 +68,16 @@ class BlogmillComponent extends Object {
 		return $this->themes[$theme_id]['plugin'];
 	}
 	
-	
-	private function __activeThemeSettings() {
+	/**
+	 * Marks the current theme settings object as active and
+	 * returns the plugin name and settings object for the active theme plugin.
+	 *
+	 * @return array (plugin_name, settings object)
+	 * @author Joaquin Windmuller
+	 */
+	private function __activateTheme() {
 		$plugin = $this->__activeThemePlugin();
 		$pluginSettingsClass = "{$plugin}Settings";
-		// var_dump($pluginSettingsClass);
 		
 		$pluginSettings = ClassRegistry::init($pluginSettingsClass);
 		if (!$pluginSettings->activated) {
@@ -125,73 +90,180 @@ class BlogmillComponent extends Object {
 		$pluginSettings->activated = true;
 		return array($plugin, $pluginSettings);
 	}
+	
 	/**
-	 * Sets up the theme for public pages
+	 * Sets up the theme for public pages.
+	 * Loads the required helpers, data and the layout file as defined by the theme.
 	 *
 	 * @return void
 	 * @author Joaquin Windmuller
 	 */
 	private function __setupCurrentTheme() {
-		list($activeThemePlugin, $pluginSettings) = $this->__activeThemeSettings();
-
+		list($activeThemePlugin, $pluginSettings) = $this->__activateTheme();
+		$this->Controller->activeThemePlugin = $activeThemePlugin;
+		
 		if (!$activeThemePlugin) return;
 		
 		$themeInfo = $pluginSettings->theme;
 		$currentPage = $this->Controller->pageInfo['page'][0];
 		if (isset($themeInfo['layouts'][$currentPage])) {
 			$layouts = $themeInfo['layouts'];
+			
+			if (isset($layouts[$currentPage]['helpers'])) {
+				$this->__loadThemeHelpers($layouts);
+			}
 			if (isset($layouts[$currentPage]['data'])) {
-				$requiredData = $layouts[$currentPage]['data'];
-				$postModel = ClassRegistry::init('Post');
-				$themeData = array();
-				foreach ($requiredData as $index => $definition) {
-					$options = array(
-						'conditions' => array('type' => @$definition['type']),
-						'limit' => $definition['limit']
-					);
-					if (isset($definition['order'])) {
-						$options['order'] = $definition['order'];
-					}
-					$themeData[$index] = $postModel->find('all', $options);
-				}
-				$this->Controller->set(compact('themeData'));
+				$this->__loadThemeData($layouts);
 			}
 			if (isset($layouts[$currentPage]['name'])) {
 				$this->Controller->layout = $layouts[$currentPage]['name'];
 			}
 		}
 	}
+	
+	/**
+	 * Loads the theme's helpers for the current layout
+	 *
+	 * @param string $layouts the layouts array defined by the theme.
+	 * @return void
+	 * @author Joaquin Windmuller
+	 */
+	private function __loadThemeHelpers($layouts) {
+		$currentPage = $this->Controller->pageInfo['page'][0];
+		$helpers = $layouts[$currentPage]['helpers'];
+		foreach ($helpers as $helper) {
+			list($pluginName, $helper) = explode('.', $helper);
+			App::import(
+				array(
+					'type' => 'Helper',
+					'name' => $helper . 'Helper',
+					'file' => APP . 'plugins' . DS . Inflector::underscore($pluginName) . DS . 'views' . DS . 'helpers' . DS . strtolower($helper) . '.php'
+				)
+			);
+			$this->Controller->helpers[] = strtolower($helper);
+		}
+	}
+	
+	/**
+	 * Loads the theme's data for the current layout
+	 *
+	 * @param string $layouts the layouts array defined by the theme.
+	 * @return void
+	 * @author Joaquin Windmuller
+	 */
+	private function __loadThemeData($layouts) {
+		$currentPage = $this->Controller->pageInfo['page'][0];
+		$requiredData = $layouts[$currentPage]['data'];
+		$postModel = ClassRegistry::init('Post');
+		$themeData = array();
+		foreach ($requiredData as $index => $definition) {
+			$options = array(
+				'conditions' => array('type' => @$definition['type']),
+				'limit' => $definition['limit']
+			);
+			if (isset($definition['order'])) {
+				$options['order'] = $definition['order'];
+			}
+			$themeData[$index] = $postModel->find('all', $options);
+		}
+		$this->Controller->set(compact('themeData'));
+	}
 
 	/**
-	 * Loads the helper files from the plugins as indicated by the current theme's plugin settings.
-	 * BlogmillSettings->theme[layouts][xyz][helpers]
+	 * Loads the plugin's theme into the list of available themes.
+	 *
+	 * @param string $theme theme data
+	 * @param string $plugin plugin name
+	 * @param string $plugin_path 
+	 * @return void
+	 * @author Joaquin Windmuller
+	 */
+	private function __loadTheme($theme, $plugin, $plugin_path) {
+		$theme['plugin'] = $plugin;
+		$theme['id'] = md5($plugin_path);
+		$this->themes[$theme['id']] = $theme;
+	}
+	
+	/**
+	 * Loads the plugin's post types
+	 *
+	 * @param string $types types defined in the plugin
+	 * @param string $plugin plugin name
+	 * @return void
+	 * @author Joaquin Windmuller
+	 */
+	private function __loadPostTypes($types, $plugin) {
+		foreach ($types as $type => $definition) {
+			$this->popostTypes[$plugin][$type] = $definition;
+		}
+	}
+	
+	/**
+	 * Loads the plugin's that have a settings pages.
+	 *
+	 * @param string $plugin plugin name
+	 * @return void
+	 * @author Joaquin Windmuller
+	 */
+	private function __loadPluginSettings($plugin) {
+		$this->pluginSettings[] = $plugin;
+	}
+	
+	/**
+	 * Reads plugins settings and loads themes, postTypes
 	 *
 	 * @return void
 	 * @author Joaquin Windmuller
 	 */
-	private function __loadHelpers() {      
-		list($plugin, $pluginSettings) = $this->__activeThemeSettings();
-
-		if (!$pluginSettings) return;
-
-		$themeInfo = $pluginSettings->theme;
-		$currentPage = $this->Controller->pageInfo['page'][0];
-		if (isset($themeInfo['layouts'][$currentPage])) {
-			$layouts = $themeInfo['layouts'];
-			if (isset($layouts[$currentPage]['helpers'])) {
-				$helpers = $layouts[$currentPage]['helpers'];
-				foreach ($helpers as $helper) {
-					list($pluginName, $helper) = explode('.', $helper);
-					App::import(
-						array(
-							'type' => 'Helper',
-							'name' => $helper . 'Helper',
-							'file' => APP . 'plugins' . DS . Inflector::underscore($pluginName) . DS . 'views' . DS . 'helpers' . DS . strtolower($helper) . '.php'
-						)
-					);
-					$this->Controller->helpers[] = strtolower($helper);
+	private function __readPlugins() {
+		$plugins = Configure::listObjects('plugin');
+		foreach ($plugins as $i => $plugin) {
+			$class = "{$plugin}Settings";
+			$plugin_path = APP . 'plugins' . DS . Inflector::underscore($plugin);
+			App::import(
+				array(
+					'type' => 'File',
+					'name' => $class,
+					'file' => $plugin_path . DS . 'config' . DS . 'settings.php'
+				)
+			);
+			if (class_exists($class)) {
+				$class = new $class;
+				$class->name = $plugin;
+				$this->__plugins[$plugin] = $class;
+				if (isset($class->theme)) {
+					$this->__loadTheme($class->theme, $plugin, $plugin_path);
+				}
+				if (isset($class->types) && is_array($class->types)) {
+					$this->__loadPostTypes($class->types, $plugin);
+				}
+				$isConfigurable = isset($class->configurable) && is_array($class->configurable);
+				if ($isConfigurable) {
+					$this->__configurablePlugins[] = $plugin;
 				}
 			}
 		}
+		$themes = $this->Controller->themes = $this->themes;
+		$postTypes = $this->Controller->postTypes = $this->postTypes;
+		$this->Controller->set(compact('themes', 'postTypes'));
+	}
+	
+	public function plugins() {
+	}
+	
+	public function getConfigurablePlugins() {
+		return $this->__configurablePlugins;
+	}
+	
+	public function getConfigurableKeys($plugin) {
+		$keys = array();
+		if (in_array($plugin, $this->__configurablePlugins)) {
+			$keys = $this->pluginSettings($plugin)->configurable;
+		}
+		return $keys;
+	}
+	
+	public function pluginSettings($plugin) {
+		return $this->__plugins[$plugin];
 	}
 }

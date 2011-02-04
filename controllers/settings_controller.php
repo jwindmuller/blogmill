@@ -116,7 +116,29 @@ class SettingsController extends AppController {
 		}
 	}
 	
-	public function dashboard_plugins() {
-		
+	public function dashboard_plugins($plugin = false) {
+		$this->set('configurable_plugins', $this->Blogmill->getConfigurablePlugins());
+		if ($plugin) {
+			$configurable_keys = $this->Blogmill->getConfigurableKeys($plugin);
+			$this->set(compact('plugin', 'configurable_keys'));
+			if (!empty($this->data)) {
+				$errors = array();
+				foreach ($this->data['Setting'] as $key => $value) {
+					if (!$this->Setting->store("{$plugin}.{$key}", $value)) {
+						$key = str_replace($plugin . '.', '', $key);
+						$errors[$key] = $this->Setting->validationErrors['value'];
+					}
+				}
+				if (empty($errors)) {
+					$this->Session->setFlash(sprintf(__('Correctly save the settings for plugin %s', true), $plugin));
+					$this->redirect(array('controller' => 'settings', 'action' => 'plugins'));
+				}
+				$this->Setting->validationErrors = $errors;
+			} else {
+				foreach ($configurable_keys as $key => $value) {
+					$this->data['Setting'][$key] = $this->Setting->get("{$plugin}.{$key}");
+				}
+			}
+		}
 	}
 }

@@ -6,11 +6,23 @@ body {
 	font-family:Helvetica,Arial,sans-serif;
 	padding:0;
 	margin:0;
+	background: #E2E2E2;
 }
 header, footer, nav, section, article {
  display:block;
 }
 
+header#top {
+	background:#91181D url('../img/dashboard/header_bg.jpg') repeat-x 0 100%;
+	position:relative;
+	height:50px;
+	font-size:1.2em;
+}
+header nav {
+	position:absolute;
+	bottom:0;
+	width:100%;
+}
 header nav a.home {
 	position:absolute;
 	left:20px;
@@ -24,15 +36,9 @@ header nav a.home:hover,
 header nav a.home:focus {
 	color:#fff;
 }
-header#top {
-	background:#91181D url('../img/dashboard/header_bg.jpg') repeat-x 0 100%;
-	position:relative;
-	padding-top:50px;
-	font-size:1.2em;
-}
 header#top ul {
 	padding:0;
-	margin:-23px 0 0 155px;
+	margin:0 0 0 155px;
 }
 header#top ul li {
 	float:left;
@@ -63,6 +69,7 @@ header#top ul li.logout {
 	margin:0;
 }
 div#main {
+	clear:both;
 	display:table;
 	width:100%;
 	background:#E2E2E2;
