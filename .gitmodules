@@ -13,3 +13,6 @@
 [submodule "plugins/vemosa"]
 	path = plugins/vemosa
 	url = ssh://git@windmill.repositoryhosting.com/windmill/vemosa.git
+[submodule "plugins/flickr_functions"]
+	path = plugins/flickr_functions
+	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-flickrfunctions.git
