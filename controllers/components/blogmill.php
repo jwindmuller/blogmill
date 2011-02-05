@@ -194,7 +194,7 @@ class BlogmillComponent extends Object {
 	 */
 	private function __loadPostTypes($types, $plugin) {
 		foreach ($types as $type => $definition) {
-			$this->popostTypes[$plugin][$type] = $definition;
+			$this->postTypes[$plugin][$type] = $definition;
 		}
 	}
 	
