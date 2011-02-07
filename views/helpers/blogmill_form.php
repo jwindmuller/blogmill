@@ -10,10 +10,10 @@ class BlogmillFormHelper extends AppHelper {
 	
 	public function input($field) {
 		$Post = ClassRegistry::init('Post');
-		if (!isset($Post->fieldTypes[$field])) {
+		if (!isset($Post->fields[$field])) {
 			return $this->Form->input($field);
 		}
-		$type = $typeDefinition = $Post->fieldTypes[$field];
+		$type = $typeDefinition = $Post->fields[$field];
 		$class = 'input ' . $type;
 		if (is_array($type)) {
 			$type = $type['type'];
@@ -94,37 +94,30 @@ class BlogmillFormHelper extends AppHelper {
 		return $this->Form->input($field, array('type' => 'textarea', 'div' => array('class' => 'input longtext ' . $class)));
 	}
 	
-	public function inputs() {
+	public function inputs($for) {
 		$View = ClassRegistry::init('View');
-		$rows = $View->viewVars['formLayout']['rows'];
-		$formLayout = '<div class="form-wrapper">:form</div>';
-		$rowHTML = '';
-		foreach ($rows as $i => $cells) {
-			$rowHTML .= "<div class='row'>:row</div>";
-			foreach ($cells as $cell) {
-				$width = '';
-				if (isset($cell['width'])) {
-					$width = $cell['width'];
-					$width = " class='cell' style='width:{$width}'";
-					unset($cell['width']);
-				}
-				$cellHTML = "<div$width>:cell</div>";
-				if (isset($cell['title'])) {
-					$title = $cell['title'];
-					$label = isset($cell['label']) ? '<p class="label">' .  $cell['label'] . '</p>' : '';
-					$cellHTML = String::insert($cellHTML, array('cell' => sprintf('<div class="group"><strong class="title">%s</strong>%s:cell</div>', $title, $label)));
-				}
-				foreach ($cell['fields'] as $field) {
-					$field = $this->input($field);
-					$cellHTML = String::insert($cellHTML, array('cell' => $field . ':cell'));
-				}
-				$cellHTML = String::insert($cellHTML, array('cell' => ''));
-				$rowHTML = String::insert($rowHTML, array('row' => $cellHTML . ':row'));
+		$fields = $View->viewVars['formLayout'][$for];
+		$out = "";
+		foreach ($fields as $field) {
+			$title = '';
+			$class = '';
+			if (is_array($field)) {
+				$title = sprintf('<strong class="title">%s</strong>', $field['title']); 
+				$field = $field['fields'];
+				$class = ' class="group"';
+			} else {
+				$field = array($field);
 			}
+			$inputs = array();
+			foreach ($field as $f) {
+				$inputs[] = $this->input($f);
+			}
+			$out .= String::insert(
+				'<div:class>:title :group-content</div>',
+				array('group-content' => join("", $inputs), 'title' => $title, 'class' => $class)
+			);
 		}
-		$rowHTML = String::insert($rowHTML, array('row' => ''));
-		$formLayout = String::insert($formLayout, array('form' => $rowHTML));
-		return $formLayout;
+		return $out;
 	}
 	
 	/**

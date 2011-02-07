@@ -5,7 +5,7 @@
 			<li<?php echo $this->name == 'Posts' ? ' class="current"' : ''; ?>><?php
 				echo $html->link(
 					__('Posts', true),
-					array('controller' => 'posts')
+					array('controller' => 'posts', 'action' => 'index')
 				);
 			?></li>
 			<li<?php echo $this->name == 'Comments' ? ' class="current"' : ''; ?>><?php

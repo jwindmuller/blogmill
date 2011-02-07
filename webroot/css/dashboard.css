@@ -301,6 +301,9 @@ form div.form-wrapper div.cell {
 	width:auto;
 	padding-right:20px;
 }
+form div.form-wrapper div.cell.form-sidebar {
+	width:250px!important;
+}
 form div.form-wrapper div.cell .submit {
 	position:relative;
 }
@@ -382,6 +385,8 @@ form .group {
 	border-radius:10px;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
+	clear:both;
+	width:100%;
 }
 form .group .title {
 	color:#4c0201;

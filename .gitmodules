@@ -16,3 +16,6 @@
 [submodule "plugins/flickr_functions"]
 	path = plugins/flickr_functions
 	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-flickrfunctions.git
+[submodule "plugins/journal"]
+	path = plugins/journal
+	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-pt-journal.git

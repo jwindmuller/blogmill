@@ -13,15 +13,13 @@
 	<?php
 	$i = 0;
 	foreach ($posts as $post):
-		list($plugin, $type) = explode('.', $post['Post']['type']);
-		$edit_url = array('controller' => 'posts', 'action' => 'edit', $plugin, $type, $post['Post']['id']);
 		$class = null;
 		if ($i++ % 2 == 0) {
 			$class = ' class="altrow"';
 		}
 	?>
 	<tr<?php echo $class;?>>
-		<td><?php echo $this->Html->link($post['Post']['display'], $edit_url); ?></td>
+		<td><strong><?php echo $post['Post']['display']; ?></strong></td>
 		<td>
 			<?php echo $this->Html->link($post['Post']['type'], array('controller' => 'posts', 'action' => 'index', $post['Post']['type'])); ?>
 		</td>
@@ -36,8 +34,7 @@
 		<td class="actions">
 			<?php echo $this->Blogmill->postLink($post, array('display' => __('View', true))); ?>
 			<?php echo $this->Blogmill->postEditLink($post, __('Edit', true)); ?>
-			<?php echo $this->Blogmill->postLink($post, array('action' => 'delete', 'display' => __('Delete', true))); ?>
-			<?php echo $this->Blogmill->postLink($post, array('action' => 'delete', 'display' => __('Delete', true))); ?>
+			<?php echo $this->Blogmill->postDeleteLink($post); ?>
 			<?php echo $this->Html->link(__('Add to Menu', true), array('controller' => 'settings', 'action' => 'add_to_menu', 'post' => $post['Post']['id'])); ?>
 		</td>
 	</tr>

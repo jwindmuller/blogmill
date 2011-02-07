@@ -50,14 +50,14 @@ class BlogmillHelper extends AppHelper {
 			$title, array(
 				'controller' => 'posts',
 				'action' => 'edit',
-				$post['Post']['id'],
-				'dashboard' => true
+				$plugin, $type,
+				$post['Post']['id']
 			), $options
 		);
 	}
-	public function postDeleteLink($post) {
-		$title = is_null($title) ? __('edit this post', true) : $title;
-		return $this->Html->link(__('Delete', true),
+	public function postDeleteLink($post, $title=null) {
+		$title = is_null($title) ? __('Delete', true) : $title;
+		return $this->Html->link($title,
 			array(
 				'controller' => 'posts',
 				'action' => 'delete',

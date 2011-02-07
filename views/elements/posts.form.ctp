@@ -13,11 +13,15 @@
 			}
 			printf($title, Inflector::humanize(Inflector::underscore($type)));
 		?></legend>
-	<?php
-		echo $this->BlogmillForm->inputs();
-		echo $this->Form->input('guide', array('type' => 'hidden'));
-	?>
+		<div class="form-wrapper">
+			<div class="cell form-main">
+				<?php echo $this->BlogmillForm->inputs('form-main'); ?>
+			</div>
+			<div class="cell form-sidebar">
+				<?php echo $this->BlogmillForm->inputs('form-sidebar'); ?>			
+			</div>
+		</div>
+	<?php echo $this->Form->input('guide', array('type' => 'hidden')); ?>
 	</fieldset>
-	
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
