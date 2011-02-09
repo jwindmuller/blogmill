@@ -131,6 +131,9 @@ aside#sidebar div.select {
 	position:relative;
 	width:140px;
 }
+aside#sidebar div.select a {
+	text-decoration:none;
+}
 aside#sidebar div.select strong {
 	text-transform:uppercase;
 	font-weight:normal;
@@ -298,6 +301,7 @@ form div.form-wrapper div.row {
 }
 form div.form-wrapper div.cell {
 	display:table-cell;
+	vertical-align:top;
 	width:auto;
 	padding-right:20px;
 }
@@ -347,7 +351,16 @@ form div.htmleditor span.mceEditor {
 	display:block;
 	margin-bottom:10px;
 	width:100%;
-	border:#ccc 1px solid;
+	border:#ddd 1px solid;
+	font-size:1.3em;
+}
+form div.input input:focus,
+form div.input textarea:focus {
+	box-shadow: 0px 0px 2px rgba(255,0,0,0.8);
+	-moz-box-shadow: 0px 0px 2px rgba(255,0,0,0.8);
+	-webkit-box-shadow: 0px 0px 2px rgba(255,0,0,0.8);
+	border:red 1px solid;
+	outline:none;
 }
 form div.htmleditor span.mceEditor {
 	border:none;
@@ -377,7 +390,11 @@ form fieldset {
 }
 form fieldset legend {
 	font-size:1.7em;
-	padding:0 0 5px 0;
+	padding:0 0 5px 10px;
+}
+form label {
+	color:#333;
+	font-size:1.2em;
 }
 form .group {
 	border:#ccc 1px solid;
@@ -387,11 +404,28 @@ form .group {
 	-webkit-border-radius:10px;
 	clear:both;
 	width:100%;
+	margin-bottom:10px;
+}
+form .form-main .group-wrap {
+	width:50%;
+	margin:0 0 10px 0;
+	padding:0;
+	float:left;
+	clear:none;
+}
+form .form-main .group-wrap .group {
+	display:block;
+	float:none;
+	width:auto;
+	margin:0 5px;
 }
 form .group .title {
 	color:#4c0201;
 	text-transform:uppercase;
 	font-weight:normal;
+	margin-bottom:10px;
+	display:block;
+	text-shadow:rgba(255,0,0,.2) 1px 1px 1px;
 }
 form .group .label {
 	color:#666;

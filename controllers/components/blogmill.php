@@ -77,8 +77,8 @@ class BlogmillComponent extends Object {
 	 */
 	private function __activateTheme() {
 		$plugin = $this->__activeThemePlugin();
+		if (!$plugin) return;
 		$pluginSettingsClass = "{$plugin}Settings";
-		
 		$pluginSettings = ClassRegistry::init($pluginSettingsClass);
 		if (!$pluginSettings->activated) {
 			// Tell Cake Where to find the theme layout
@@ -86,6 +86,7 @@ class BlogmillComponent extends Object {
 			array_unshift($_app->views, APP . 'plugins' . DS . Inflector::underscore($plugin) . DS . 'views' . DS);
 			$pluginSettings = new $pluginSettingsClass;
 			ClassRegistry::addObject($pluginSettingsClass, $pluginSettings);
+			$this->Controller->set('activeThemePlugin', $plugin);
 		}
 		$pluginSettings->activated = true;
 		return array($plugin, $pluginSettings);
@@ -261,6 +262,12 @@ class BlogmillComponent extends Object {
 			$keys = $this->pluginSettings($plugin)->configurable;
 		}
 		return $keys;
+	}
+	
+	public function activeThemeDecorators() {
+		list($activeThemePlugin, $pluginSettings) = $this->__activateTheme();
+		if (!isset($pluginSettings->theme['post_type_decorators'])) return array();
+		return $pluginSettings->theme['post_type_decorators'];
 	}
 	
 	public function pluginSettings($plugin) {

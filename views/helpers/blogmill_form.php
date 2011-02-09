@@ -14,8 +14,12 @@ class BlogmillFormHelper extends AppHelper {
 			return $this->Form->input($field);
 		}
 		$type = $typeDefinition = $Post->fields[$field];
+		$label = false;
 		$class = 'input ' . $type;
 		if (is_array($type)) {
+			if(isset($type['label'])) {
+				$label = $type['label'];
+			}
 			$type = $type['type'];
 			$class = 'input ' . $type;
 		}
@@ -24,11 +28,16 @@ class BlogmillFormHelper extends AppHelper {
 			$type = $type['type'];
 		}
 		if (array_key_exists($type, $this->__typeMap)) {
+			$typeDefinition['label'] = $label;
 			if ($this->__typeMap[$type] === false)
 				return $this->{"__$type"}($field, $typeDefinition);
 			$type = $this->__typeMap[$type];
 		}
-		return $this->Form->input($field, compact('type') + array('div' => compact('class')));
+		$options = compact('type') + array('div' => compact('class'));
+		if ($label) {
+			$options['label'] = $label;
+		}
+		return $this->Form->input($field, $options);
 	}
 	
 	private function __image($field, $typeDefinition) {
@@ -44,7 +53,9 @@ class BlogmillFormHelper extends AppHelper {
 				}
 			}
 		}
-		$label = Inflector::humanize($field);
+		$label = $typeDefinition['label'];
+		if (!$label)
+			$label = Inflector::humanize($field);
 		if ($width || $height) {
 			if ($width && $height) $label .= " (${width}x${height})";
 			elseif ($width) $label .= " (${width}px width)";
@@ -100,11 +111,14 @@ class BlogmillFormHelper extends AppHelper {
 		$out = "";
 		foreach ($fields as $field) {
 			$title = '';
-			$class = '';
+			$class = $class_wrap = '';
 			if (is_array($field)) {
 				$title = sprintf('<strong class="title">%s</strong>', $field['title']); 
-				$field = $field['fields'];
 				$class = ' class="group"';
+				$class_wrap = ' class="group-wrap"';
+				if (isset($field['width'])) 
+					$class_wrap .= ' style="width:' . $field['width'] . ';"';
+				$field = $field['fields'];
 			} else {
 				$field = array($field);
 			}
@@ -113,8 +127,8 @@ class BlogmillFormHelper extends AppHelper {
 				$inputs[] = $this->input($f);
 			}
 			$out .= String::insert(
-				'<div:class>:title :group-content</div>',
-				array('group-content' => join("", $inputs), 'title' => $title, 'class' => $class)
+				'<div:wrap-class><div:class>:title :group-content</div></div>',
+				array('group-content' => join("", $inputs), 'title' => $title, 'class' => $class, 'wrap-class' => $class_wrap)
 			);
 		}
 		return $out;

@@ -68,8 +68,22 @@ class PostsController extends AppController {
 		$fields = array_keys($model->validate);
 		$settings = ClassRegistry::init($plugin . 'Settings');
 		$formLayout = $settings->types[$modelName]['form_layout'];
-		$this->Post->fieldTypes = $fieldTypes = $this->postTypes[$plugin][$type]['fields'];
-		$this->set(compact('type', 'fields', 'fieldTypes', 'formLayout'));
+		$this->Post->fields = $this->postTypes[$plugin][$type]['fields'];
+		$post_type_decorators = $this->Blogmill->activeThemeDecorators();
+		foreach ($post_type_decorators as $group => $decorator) {
+			if (!in_array("$plugin.$modelName", $decorator['types'])) continue;
+			$decorators_group = array('title' => __($decorator['label'], true), 'fields' => array());
+			foreach ($decorator['fields'] as $name => $field_definition) {
+				$validation = $field_definition['validation'];
+				unset($field_definition['validation']);
+				$this->Post->fields[$name] = $field_definition;
+				$this->Post->validate[$name] = $validation;
+				$decorators_group['fields'][] = $name;
+			}
+			if (count($decorators_group['fields'])>0)
+				$formLayout['form-sidebar'][] = $decorators_group;
+		}
+		$this->set(compact('type', 'formLayout'));
 	}
 	
 	private function __setCategories() {
@@ -90,8 +104,8 @@ class PostsController extends AppController {
 	}
 	
 	private function __prepareData() {
-		$fieldTypes = $this->viewVars['fieldTypes'];
-		foreach ($fieldTypes as $field => $type) {
+		$fields = $this->Post->fields;
+		foreach ($fields as $field => $type) {
 			if ($type == 'html' && isset($this->data['Post'][$field])) {
 				$this->data['Post'][$field] = $this->HtmlPurifier->purify($this->data['Post'][$field]);
 			}

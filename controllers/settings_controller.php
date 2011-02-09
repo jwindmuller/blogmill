@@ -41,7 +41,7 @@ class SettingsController extends AppController {
 			if (empty($last['title']) || empty($last['url'])) {
 				array_pop($menu);
 			}
-			$success = $this->Setting->save(array('id' => $id, 'name' => $menu_settings_key, 'value' => serialize($menu)));
+			$success = $this->Setting->store($menu_settings_key, serialize($menu));
 			if ($this->RequestHandler->isAjax()) {
 				die($success ? 'OK' : 'ERROR');
 			} else {

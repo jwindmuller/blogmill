@@ -8,7 +8,7 @@
 	<fieldset>
  		<legend><?php
 			$title = __('New <em>%s</em>', true);
-			if (isset($post_id)) {
+			if ($post_id) {
 				$title = __('Edit <em>%s</em>', true);
 			}
 			printf($title, Inflector::humanize(Inflector::underscore($type)));
