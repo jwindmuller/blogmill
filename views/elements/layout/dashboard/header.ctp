@@ -1,6 +1,7 @@
 <header id="top">
 	<nav>
 		<?php echo $this->Html->link(__('Go to Site', true), '/', array('class' => 'home')); ?>
+		<?php if ($this->Session->check('Auth.User')): ?>
 		<ul>
 			<li<?php echo $this->name == 'Posts' ? ' class="current"' : ''; ?>><?php
 				echo $html->link(
@@ -20,18 +21,27 @@
 					array('controller' => 'categories')
 				);
 			?></li>
-			<li<?php echo $this->name == 'Settings' && $this->action != 'dashboard_plugins' ? ' class="current"' : ''; ?>><?php
+			<li<?php echo $this->name == 'Settings' ? ' class="current"' : ''; ?>><?php
 			 	echo $this->Html->link(
 					__('Settings', true),
 					array('controller' => 'settings', 'action' => 'index')
 				);
-			?></li>
-			<li<?php echo $this->name == 'Settings' && $this->action == 'dashboard_plugins' ? ' class="current"' : ''; ?>><?php
-				echo $this->Html->link(
-					__('Plugins', true),
-					array('controller' => 'settings', 'action' => 'plugins')
-				);
-			?></li>
+				?>
+				<ul>
+					<li><?php
+						echo $this->Html->link(
+							__('Current Theme', true),
+							array('controller' => 'settings', 'action' => 'themes')
+						);
+					?></li>
+					<li><?php
+						echo $this->Html->link(
+							__('Plugins', true),
+							array('controller' => 'settings', 'action' => 'plugins')
+						);
+					?></li>
+				</ul>
+			</li>
 			<?php if ($this->Session->read('Auth.User.username')): ?>
 			<li class="logout"><?php
 				echo $this->Html->link(
@@ -39,7 +49,8 @@
 					array('controller' => 'users', 'action' => 'logout')
 				);
 			?></li>
-			<?php endif; ?>
 		</ul>
-	</nav>
+		<?php endif; ?>
+	</nav>	
+<?php endif ?>
 </header>

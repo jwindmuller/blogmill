@@ -15,6 +15,7 @@ class AppController extends Controller {
 			'authorize' => 'controller',
 			'loginAction' => array('controller' => 'users', 'action' => 'login', 'dashboard' => true),
 			'logoutAction' => array('controller' => 'users', 'action' => 'logout', 'dashboard' => true),
+			'loginRedirect' => array('controller' => 'posts', 'action' => 'index', 'dashboard' => true),
 			'logoutRedirect' => '/'
 		)
 	);

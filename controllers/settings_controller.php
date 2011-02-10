@@ -6,7 +6,11 @@ class SettingsController extends AppController {
 		$this->set('theme', $this->__themeSettings());
 		parent::beforeRender();
 	}
-	public function dashboard_index() {}
+	public function dashboard_index() {
+		$settings = $this->Blogmill->pluginSettings($this->activeThemePlugin);
+		$activeTheme = $settings->theme['name'];
+		$this->set(compact('activeTheme'));
+	}
 	
 	private function __themeSettings() {
 		$themePluginSettings = ClassRegistry::getObject("{$this->activeThemePlugin}Settings");
@@ -34,7 +38,7 @@ class SettingsController extends AppController {
 	}
 	
 	public function dashboard_menu($menu_name) {
-		list($menu_settings_key, $menu , $id) = $this->__themeMenu($menu_name);
+		list($menu_settings_key, $menu, $id) = $this->__themeMenu($menu_name);
 		if (!empty($this->data)) {
 			$menu = array_values($this->data);
 			$last = end($menu);
@@ -53,7 +57,12 @@ class SettingsController extends AppController {
 		$themePluginSettings = ClassRegistry::getObject("{$this->activeThemePlugin}Settings");
 		$theme = $themePluginSettings->theme;
 		$menu_title = $theme['menus'][$menu_name];
-		$this->set(compact('menu_name', 'menu_title', 'menu'));
+		$menu_description = '';
+		if (is_array($menu_title)) {
+			$menu_description = $menu_title['description'];
+			$menu_title = $menu_title['name'];
+		}
+		$this->set(compact('menu_name', 'menu_title', 'menu_description', 'menu'));
 	}
 	
 	public function dashboard_add_to_menu($menu_name = null) {
@@ -100,6 +109,8 @@ class SettingsController extends AppController {
 		}
 	}
 	
+	public function dashboard_themes() {
+	}
 	public function dashboard_change_theme() {
 		if(isset($this->params['named']['theme'])) {
 			$theme_id = $this->params['named']['theme'];

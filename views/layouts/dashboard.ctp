@@ -23,6 +23,8 @@
 	<?php echo $this->Javascript->link('jquery.ui/jquery.ui.sortable'); ?>
 	<?php echo $this->Javascript->link('jquery.ui/jquery.ui.position'); ?>
 	<?php echo $this->Javascript->link('jquery.ui/jquery.ui.dialog'); ?>
+	<?php echo $this->Javascript->link('jquery.ui/jquery.effects.core'); ?>
+	<?php echo $this->Javascript->link('jquery.ui/jquery.effects.blind'); ?>
 	<?php echo $scripts_for_layout; ?>
 <body>
 	<?php echo $this->element('layout/dashboard/header'); ?>

@@ -1,11 +1,18 @@
-<h1><span><?php printf(__('%s Theme: Settings', true), $theme['name']); ?></span></h1>
-<h2><?php printf(__('Configuring menu: %s', true), $menu_title) ?></h2>
+<h1><span><?php __('Current Theme Settings'); ?></span></h1>
+<h2><?php __('Theme'); ?>: <?php echo $theme['name']; ?></h2>
+<h2 class="theme">
+	<?php printf(__('Configuring "%s"', true), $menu_title) ?>
+	<?php if ($menu_description): ?>
+		<em class="description">(<?php echo $menu_description; ?>)</em>
+	<?php endif ?>
+</h2>
 <?php
 	echo $this->Form->create('Settings', array('url' => $this->passedArgs));
 ?>
 <?php $i=0; if (!$menu): ?>
-	<p><?php __('No items in this menu'); ?></p>
+	<p><?php __('No items in this menu'); ?></p><br />
 <?php else: ?>
+	<p><?php __('Items on this menu'); ?>:</p>
 	<ul id="menu-items">
 	<?php foreach ($menu as $item): ?>
 		<li>
@@ -22,7 +29,7 @@
 	<?php $i++; endforeach; ?>
 	</ul>
 <?php endif ?>
-<h2><?php __('Add an item'); ?></h2>
+<h2 class="theme"><?php __('Add an item'); ?></h2>
 <div class="form-wrapper" style="width:600px">
 	<div class="cell">
 		<?php echo $this->Form->input(".$i.title", array('type' => 'text', 'label' => __('Title', true))); ?>

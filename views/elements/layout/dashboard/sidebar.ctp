@@ -1,3 +1,4 @@
+<?php if ($this->Session->check('Auth.User')): ?>
 <?php
 	$selectItems = array();
 	$title = $session->read('CurrentBlog.name');
@@ -27,3 +28,4 @@
 	<strong><?php echo $selectTitle; ?></strong>
 	<ul><?php printf('<li>%s</li>', join('</li><li>', $selectItems)); ?></ul>
 </div>
+<?php endif ?>
