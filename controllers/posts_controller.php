@@ -37,7 +37,6 @@ class PostsController extends AppController {
 
 	function dashboard_index() {
 		$this->Post->contain(array('Field', 'Category'));
-		// $this->Post->recursive = 0;
 		$this->set('posts', $this->paginate());
 	}
 
@@ -82,6 +81,7 @@ class PostsController extends AppController {
 			}
 			if (count($decorators_group['fields'])>0)
 				$formLayout['form-sidebar'][] = $decorators_group;
+            $formLayout['form-sidebar'][] = array('title' => __('Category', true), 'fields' => array(array('category_id' => array('empty' => true))));
 		}
 		$this->set(compact('type', 'formLayout'));
 	}

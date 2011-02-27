@@ -10,8 +10,13 @@ class BlogmillFormHelper extends AppHelper {
 	
 	public function input($field) {
 		$Post = ClassRegistry::init('Post');
+        $options = array();
+        if (is_array($field)) {
+            $options = current($field);
+            $field = key($field);
+        }
 		if (!isset($Post->fields[$field])) {
-			return $this->Form->input($field);
+			return $this->Form->input($field, $options);
 		}
 		$type = $typeDefinition = $Post->fields[$field];
 		$label = false;
@@ -33,7 +38,7 @@ class BlogmillFormHelper extends AppHelper {
 				return $this->{"__$type"}($field, $typeDefinition);
 			$type = $this->__typeMap[$type];
 		}
-		$options = compact('type') + array('div' => compact('class'));
+		$options = $options + compact('type') + array('div' => compact('class'));
 		if ($label) {
 			$options['label'] = $label;
 		}
@@ -127,7 +132,7 @@ class BlogmillFormHelper extends AppHelper {
 				$inputs[] = $this->input($f);
 			}
 			$out .= String::insert(
-				'<div:wrap-class><div:class>:title :group-content</div></div>',
+				'<div:wrap-class><div:class>:title :group-content<span class="clear">&nbsp;</span></div></div>',
 				array('group-content' => join("", $inputs), 'title' => $title, 'class' => $class, 'wrap-class' => $class_wrap)
 			);
 		}

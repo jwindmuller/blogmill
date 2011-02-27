@@ -375,7 +375,7 @@ form div.input {
 }
 form div.input.values,
 form div.input.select {
-	padding:1px 10px;
+	padding:1px 0;
 	background:#fff;
 	border:#ccc 1px solid;
 	width:auto;
@@ -394,6 +394,7 @@ form div.input.select label {
 	border-right:#ccc 1px solid;
 	margin-right:10px;
 	padding:5px 0;
+    text-indent:10px;
 }
 form div.input.values a,
 form div.input.select select {
@@ -459,6 +460,11 @@ form .group {
 	clear:both;
 	width:100%;
 	margin-bottom:10px;
+}
+form .group span.clear {
+    display:block;
+    height:1px;
+    margin-top:-5px;
 }
 form .form-main .group-wrap {
 	width:50%;
@@ -712,4 +718,7 @@ ul#menu-items {
 	    rgb(230,230,230) 45%,
 	    rgb(240,240,240) 73%
 	);
+}
+.clear {
+    clear:both;
 }
