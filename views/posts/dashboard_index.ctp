@@ -2,8 +2,8 @@
 	<h1><span><?php __('Posts');?></span></h1>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('display');?></th>
 			<th><?php echo $this->Paginator->sort('type');?></th>
+			<th><?php echo $this->Paginator->sort('display');?></th>
 			<th><?php echo $this->Paginator->sort('user_id');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
@@ -19,10 +19,16 @@
 		}
 	?>
 	<tr<?php echo $class;?>>
-		<td><strong><?php echo $post['Post']['display']; ?></strong></td>
 		<td>
-			<?php echo $this->Html->link($post['Post']['type'], array('controller' => 'posts', 'action' => 'index', $post['Post']['type'])); ?>
+			<?php
+                $type = Set::extract($postTypes, $post['Post']['type'].'.name');
+                if(!$type) {
+                    $type = $post['Post']['type'];
+                }
+                echo $this->Html->link($type, array('controller' => 'posts', 'action' => 'index', $post['Post']['type']));
+            ?>
 		</td>
+		<td><strong><?php echo $post['Post']['display']; ?></strong></td>
 		<td>
 			<?php echo $this->Html->link($post['User']['id'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>

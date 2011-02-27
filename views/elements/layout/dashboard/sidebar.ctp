@@ -9,7 +9,7 @@
 			$pluginItems = array("<strong>$plugin</strong>");
 			foreach ($types as $type => $definition) {
 				$pluginItems[] = $html->link(
-					$type,
+					isset($definition['name']) ? $definition['name'] : $type,
 					array(
 						'controller'	=> 'posts',
 						'action'		=> 'add',
