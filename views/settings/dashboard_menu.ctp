@@ -6,45 +6,83 @@
 		<em class="description">(<?php echo $menu_description; ?>)</em>
 	<?php endif ?>
 </h2>
-<?php
-	echo $this->Form->create('Settings', array('url' => $this->passedArgs));
-?>
+
 <?php $i=0; if (!$menu): ?>
 	<p><?php __('No items in this menu'); ?></p><br />
 <?php else: ?>
 	<p><?php __('Items on this menu'); ?>:</p>
 	<ul id="menu-items">
-	<?php foreach ($menu as $item): ?>
-		<li>
-			<?php echo $this->Html->link($item['title'], $item['url']); ?>
+	<?php foreach ($menu as $i => $item): ?>
+		<li class="menu-item">
+			<?php if ($edit !== false && $edit == $i): ?>
+                <?php echo $this->element('settings.menu_item.form', compact('i', 'menu_name', 'item')); ?>
+			<?php else: ?>
+				<strong class="title"><?php echo $item['title']; ?></strong>
+			<?php endif ?>
+			<div class="actions">
+				<span class="move">
+					<?php
+						if ($i > 0)
+						echo $this->Html->link(
+							$this->Html->image('dashboard/move_up.png'),
+							array('action' => 'menu_move_item', $menu_name, 'up', $i),
+							array('escape' => false, 'title' => __('Move Up', true), 'alt' => __('Move Up', true))
+						);
+					?>
+					<?php
+						if ($i < count($menu) -1)
+						echo $this->Html->link(
+							$this->Html->image('dashboard/move_down.png'),
+							array('action' => 'menu_move_item', $menu_name, 'down', $i),
+							array('escape' => false, 'title' => __('Move Down', true), 'alt' => __('Move Down', true))
+						);
+					?>
+				</span>
 			<?php
 				echo $this->Html->link(
-					__(' (remove)', true),
-					array('controller' => 'settings', 'action' =>  'remove_from_menu', $menu_name, $i)
+					$this->Html->image('dashboard/view.png'), $item['url'],
+					array('escape' => false, 'title' => __('View', true), 'alt' => __('View', true))
 				);
 			?>
-			<?php echo $this->Form->input(".$i.title", array('value' => $item['title'], 'type' => 'hidden')); ?>
-			<?php echo $this->Form->input(".$i.url", array('value' => $item['url'], 'type' => 'hidden')); ?>
+			<?php
+				echo $this->Html->link(
+					$this->Html->image('dashboard/edit.png'),
+					array($menu_name, 'edit' => $i),
+					array('escape' => false, 'title' => __('Edit', true), 'alt' => __('Edit', true))
+				);
+			?>
+			<?php
+				echo $this->Html->link(
+					$this->Html->image('dashboard/delete.png'),
+					array('controller' => 'settings', 'action' =>  'remove_from_menu', $menu_name, $i),
+					array('escape' => false, 'title' => __('Delete', true), 'alt' => __('Delete', true)),
+                    __('Delete this item from the menu?', true)
+				);
+			?>
+			</div>
 		</li>
 	<?php $i++; endforeach; ?>
 	</ul>
-<?php endif ?>
-<h2 class="theme"><?php __('Add an item'); ?></h2>
-<div class="form-wrapper" style="width:600px">
-	<div class="cell">
-		<?php echo $this->Form->input(".$i.title", array('type' => 'text', 'label' => __('Title', true))); ?>
-	</div>
-	<div class="cell">
-		<?php echo $this->Form->input(".$i.url", array('type' => 'text', 'label' => __('Url', true))); ?>
-	</div>
-	<div class="cell">
-		<?php echo $this->Form->end(__('Submit', true)); ?>
-	</div>
+<div class="menu-item">
+	<strong>Add item:</strong>
+    <?php echo $this->element('settings.menu_item.form'); ?>
+	<?php
+
+//		echo $this->Form->create('Settings', array('url' => $this->passedArgs));
+	?>
+	<?php //echo $this->Form->input('title', array('type' => 'text', 'label' => __('Title', true))); ?>
+	<?php //echo $this->Form->input('url', array('type' => 'text', 'label' => __('Url', true), 'class' => 'settings-url')); ?>
+	<?php //echo $this->Form->submit(__('Add Item', true), array('div' => false)); ?>
+	<?php //echo $this->Form->end(); ?>
 </div>
+<?php endif; ?>
 <?php
-	echo $this->Javascript->link('dashboard/settings_menu', false);
+	echo $this->Javascript->link('dashboard/menu_setup', false);
 	echo $this->Javascript->link('dashboard/page_selector', false);
+	$menuChangeURL = $this->Html->url(array('controller' => 'settings', 'action' => 'edit_menu', 'ext' => 'json'));
 	$postListURL = $this->Html->url(array('controller' => 'posts', 'action' => 'list', 'ext' => 'json'));
+	$sortingURL = $this->Html->url(array('controller' => 'settings', 'action' => 'menu_reorder', $menu_name, 'ext' => 'json'));
+
 	$selectorPostTypes = array();
 	foreach ($postTypes as $plugin => $types) {
 		$selectorPostTypes[$plugin] = array();
@@ -53,14 +91,30 @@
 		}
 	}
 	$selectorPostTypes = $this->Javascript->object($selectorPostTypes);
+	$handle = $this->Html->image('dashboard/move.png', array('class' => 'handle'));
 	$js = <<<eojs
 		$(function() {
 			var menuList = $("#menu-items");
 			var pageSelectorOptions = {
 				'postListURL' :  '$postListURL',
-				'postTypes' : $selectorPostTypes
+                'sortingURL' : '$sortingURL',
+				'postTypes' : $selectorPostTypes,
+				'handle' : '$handle',
+				'UrlInputClass' : '.settings-url'
 			};
 			menuList.menuSetup(pageSelectorOptions);
+            $('.menu-item label').show().addClass('displayed').siblings('input').each(function(){
+               if ($(this).val() !== '') {
+                    $(this).siblings('label').hide();
+               }
+               $(this).focus(function() {
+                    $(this).siblings('label').hide();
+               }).blur(function() {
+                   if ($(this).val() === '') {
+                        $(this).siblings('label').show();
+                   }
+               });
+            });
 		});
 eojs;
 	echo $this->Javascript->codeBlock($js);

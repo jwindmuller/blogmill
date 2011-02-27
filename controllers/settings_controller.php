@@ -40,11 +40,7 @@ class SettingsController extends AppController {
 	public function dashboard_menu($menu_name) {
 		list($menu_settings_key, $menu, $id) = $this->__themeMenu($menu_name);
 		if (!empty($this->data)) {
-			$menu = array_values($this->data);
-			$last = end($menu);
-			if (empty($last['title']) || empty($last['url'])) {
-				array_pop($menu);
-			}
+			$menu[] = $this->data['Settings'];
 			$success = $this->Setting->store($menu_settings_key, serialize($menu));
 			if ($this->RequestHandler->isAjax()) {
 				die($success ? 'OK' : 'ERROR');
@@ -62,9 +58,52 @@ class SettingsController extends AppController {
 			$menu_description = $menu_title['description'];
 			$menu_title = $menu_title['name'];
 		}
-		$this->set(compact('menu_name', 'menu_title', 'menu_description', 'menu'));
+		$edit = false;
+		if (isset($this->params['named']['edit'])) {
+			$edit = $this->params['named']['edit'];
+		}
+		$this->set(compact('menu_name', 'menu_title', 'menu_description', 'menu', 'edit'));
 	}
 	
+	public function dashboard_menu_change_item() {
+		$i = $this->data['Settings']['i'];
+		$menu_name = $this->data['Settings']['menu_name'];
+		$title = $this->data['Settings']['title'];
+        $url = $this->data['Settings']['url'];
+
+		list($menu_settings_key, $menu, $id) = $this->__themeMenu($menu_name);
+		
+		$menu[$i]['title'] = $title;
+		$menu[$i]['url'] = $url;
+		$success = $this->Setting->store($menu_settings_key, serialize($menu));
+		if ($success) {
+			$this->Session->setFlash(__('The menu was updated', true));
+		} else {
+			$this->Session->setFlash(__('Could not update the menu', true));
+		}
+		$this->redirect(array('controller' => 'settings', 'action' => 'menu', $menu_name, 'dashboard' => true));
+	}
+	
+	public function dashboard_menu_move_item($menu_name,$direction,$i) {
+		list($menu_settings_key, $menu, $id) = $this->__themeMenu($menu_name);
+		if ($direction == 'up') {
+			$swap = $i-1;
+		} elseif($direction == 'down') {
+			$swap = $i+1;
+		}
+		if(isset($menu[$i]) && isset($swap) && isset($menu[$swap])) {
+			$item = $menu[$i];
+			$menu[$i] = $menu[$swap];
+			$menu[$swap] = $item;
+		}
+		$success = $this->Setting->store($menu_settings_key, serialize($menu));
+		if ($success) {
+			$this->Session->setFlash(__('The menu was updated', true));
+		} else {
+			$this->Session->setFlash(__('Could not update the menu', true));
+		}
+		$this->redirect(array('controller' => 'settings', 'action' => 'menu', $menu_name, 'dashboard' => true));
+	}
 	public function dashboard_add_to_menu($menu_name = null) {
 		if (!isset($this->params['named']['post'])) {
 			$this->Session->setFlash(__('Invalid access, no post selected', true));
@@ -93,8 +132,20 @@ class SettingsController extends AppController {
 			}
 		}
 		$menus = $this->__themeMenus();
-		$this->set(compact('menus', 'post'));
+	
+    $this->set(compact('menus', 'post'));
 	}
+    
+    public function dashboard_menu_reorder($menu_name) {
+        $i = $this->data['Setting']['i'];
+        $new_pos = $this->data['Setting']['new_pos'];
+       	
+        list($menu_settings_key, $menu, $id) = $this->__themeMenu($menu_name);
+        $item = array($menu[$i]);
+        unset($menu[$i]);
+        array_splice($menu,$new_pos,0,$item);
+        $this->set('saved', $this->Setting->store($menu_settings_key, serialize($menu)));
+    }
 	
 	public function dashboard_remove_from_menu($menu_name, $index) {
 		list($menu_settings_key, $menu, $id) = $this->__themeMenu($menu_name);

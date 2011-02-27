@@ -1,3 +1,4 @@
 config/database.php
 .DS_Store
 webroot/files/*
+*.swp

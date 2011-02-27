@@ -275,7 +275,7 @@ class Post extends AppModel {
 	 * @author Joaquin Windmuller
 	 */
 	private function __prepareData() {
-		$this->__loadDisplayField();
+		$this->__loadDisplayFields();
 		$defaultFields = array(
 			'id' => true,
 			'created' => true,
@@ -316,7 +316,7 @@ class Post extends AppModel {
 	 * @return void
 	 * @author Joaquin Windmuller
 	 */
-	public function __loadDisplayField() {
+	public function __loadDisplayFields() {
 		$type = $this->data['Post']['type'];
 		list($plugin, $type) = explode('.', $type);
 		$class = "${plugin}Settings";
@@ -331,6 +331,11 @@ class Post extends AppModel {
 		$class = new $class;
 		$display = $class->types[$type]['display'];
 		$this->data['Post']['display'] = $this->data['Post'][$display];
+		if (!isset($this->data['Post']['excerpt']) || $this->data['Post']['excerpt']!=='') {
+			$excerpt = $class->types[$type]['excerpt'];
+			$this->data['Post']['excerpt'] = $this->data['Post'][$excerpt];
+		}
+	
 	}
 	
 	/**

@@ -141,7 +141,9 @@ class PostsController extends AppController {
 
 
 	public function dashboard_list() {
-		$this->set('posts', $this->Post->find('list'));
+		$plugin = $this->params['url']['plugin'];
+		$type = $this->params['url']['type'];
+		$this->index($plugin, $type);
 	}
 }
 ?>
