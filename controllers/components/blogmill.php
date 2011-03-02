@@ -30,6 +30,7 @@ class BlogmillComponent extends Object {
 		$this->Controller->pageInfo =  array(
 			'page' => $this->__currentPage()
 		);
+        $this->Controller->set('pageInfo', $this->Controller->pageInfo);
 	}
 	
 	/**

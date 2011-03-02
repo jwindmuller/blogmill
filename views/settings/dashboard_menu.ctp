@@ -63,19 +63,11 @@
 		</li>
 	<?php $i++; endforeach; ?>
 	</ul>
+<?php endif; ?>
 <div class="menu-item">
 	<strong>Add item:</strong>
     <?php echo $this->element('settings.menu_item.form'); ?>
-	<?php
-
-//		echo $this->Form->create('Settings', array('url' => $this->passedArgs));
-	?>
-	<?php //echo $this->Form->input('title', array('type' => 'text', 'label' => __('Title', true))); ?>
-	<?php //echo $this->Form->input('url', array('type' => 'text', 'label' => __('Url', true), 'class' => 'settings-url')); ?>
-	<?php //echo $this->Form->submit(__('Add Item', true), array('div' => false)); ?>
-	<?php //echo $this->Form->end(); ?>
 </div>
-<?php endif; ?>
 <?php
 	echo $this->Javascript->link('dashboard/menu_setup', false);
 	echo $this->Javascript->link('dashboard/page_selector', false);
