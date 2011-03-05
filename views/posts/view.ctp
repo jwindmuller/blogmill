@@ -2,6 +2,8 @@
 	list($plugin, $type) = explode('.', $post['Post']['type']);
 	$plugin = Inflector::underscore($plugin);
 	$type = Inflector::underscore($type);
+    $theme_view = APP . 'plugins' . DS . strtolower($activeThemePlugin) . DS . 'views' . DS . 'elements' . DS . $type . DS . 'view.ctp';
+    if (is_file($theme_view)) $plugin =  $activeThemePlugin;
 ?> 
 <div class="posts view">
 	<?php echo $this->element($type . '/view', compact('plugin')); ?> 
