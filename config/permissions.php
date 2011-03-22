@@ -31,6 +31,9 @@ class BlogmillPermissions {
 			'dashboard_edit' => 'user',
 			'delete' => 'user'
 		),
+        'Contacts' => array(
+            'send' => 'visitor'
+        ),
 		'Settings' => array(
 			'dashboard_index' => 'user',
 			'dashboard_menu' => 'user',

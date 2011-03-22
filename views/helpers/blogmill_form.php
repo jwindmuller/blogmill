@@ -148,11 +148,11 @@ class BlogmillFormHelper extends AppHelper {
 	 * @author Joaquin Windmuller
 	 */
 	public function contactForm() {
-		$form = $this->Form->create('Message', array('url' => array('controller' => 'contacts', 'action' => 'send')));
-		$form.= $this->Form->input('Name', array('label' => __('Name', true)));
-		$form.= $this->Form->input('Email', array('label' => __('Email', true)));
-		$form.= $this->Form->input('Subject', array('label' => __('Subject', true)));
-		$form.= $this->Form->input('Message', array('label' => __('Message', true), 'type' => 'textarea'));
+		$form = $this->Form->create('Contact', array('url' => array('controller' => 'contacts', 'action' => 'send')));
+		$form.= $this->Form->input('name', array('label' => __('Name', true)));
+		$form.= $this->Form->input('email', array('label' => __('Email', true)));
+		$form.= $this->Form->input('subject', array('label' => __('Subject', true)));
+		$form.= $this->Form->input('message', array('label' => __('Message', true), 'type' => 'textarea'));
 		$form.= $this->Form->end(__('Submit', true));
 		return $form;
 	}

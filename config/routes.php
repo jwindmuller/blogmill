@@ -30,6 +30,7 @@
 		'/dashboard',
 		array('controller' => 'posts', 'action' => 'index', 'prefix' => 'dashboard', 'dashboard' => true)
 	);
+    Router::connect('/contact', array('controller' => 'contacts', 'action' => 'send'));
 	/* Site Routes */
 	Router::connect(
 		'/:type',
@@ -37,7 +38,6 @@
 		array('pass' => array('type'))
 	);
 	Router::connect('/', array('controller' => 'posts', 'action' => 'home'));
-	Router::connect('/contact', array('controller' => 'contacts', 'action' => 'send'));
 	Router::connect(
 		'/post/:id-:slug/*',
 		array('controller' => 'posts', 'action' => 'view', 'type' => null),

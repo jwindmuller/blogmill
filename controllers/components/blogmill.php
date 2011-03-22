@@ -51,6 +51,9 @@ class BlogmillComponent extends Object {
 				if ($this->Controller->action == 'index') $page .= ' listing';
 				if ($this->Controller->action == 'view') $page .= ' single';
 				break;
+            case $this->Controller->name == 'Contacts':
+                $page = 'contact';
+                break;
 		}
 		return explode(' ', $page);
 	}
