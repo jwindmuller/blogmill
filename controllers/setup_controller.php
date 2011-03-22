@@ -1,7 +1,7 @@
 <?php
 class SetupController extends AppController {
 	public $uses = array();
-	
+
 	public function beforeFilter() {
 		$this->Auth->allow('*');
 	}
@@ -92,7 +92,7 @@ class SetupController extends AppController {
 		$this->actions_acl();
 	}
 
-	public function go() {
+	public function dashboard_go() {
 		if (!empty($this->data)) {
 			// Even if the user is not created for validation issues, this is idempotent so it doesn't matter if we repeat it. 
 			// TODO: An admin lock should be setup to prevent DoS
