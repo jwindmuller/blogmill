@@ -4,7 +4,7 @@ class Post extends AppModel {
 	var $actsAs = array('Containable', 'Sluggable' => array('overwrite' => true, 'translation' => 'utf-8', 'label' => 'display'));
 	
 	var $validate = array(
-		'post_type' => array(
+		'type' => array(
 			'required' => array(
 				'rule' => array('notEmpty'),
 				'required' => true
@@ -18,6 +18,8 @@ class Post extends AppModel {
 		'category_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
+                'required' => true,
+                'allowEmpty' => false
 			)
 		),
 	);
@@ -75,7 +77,8 @@ class Post extends AppModel {
 	 * @author Joaquin Windmuller
 	 */
 	protected function __initializeValidation() {
-		$this->defineErrorMessage('post_type.required', __('Post Type not available', true));
+		$this->defineErrorMessage('type.required', __('Post Type not available', true));
+		$this->defineErrorMessage('category_id.numeric', __('Please select a category', true));        
 	}
 
 	/**
@@ -262,13 +265,14 @@ class Post extends AppModel {
 	public function savePost($data = null) {
 		$this->data = $data;
 		$this->__prepareData();
+        // validate => true because we're validating Fields in the main Post model. 
 		$save = parent::saveAll($this->data, array('validate' => true));
 		return $save;
 	}
 	
 	/**
 	 * This method modifies $this->data, generating Field entries for SaveAll.
-	 * All fields except created, modified, type and id are converted to Field.
+	 * All fields except the ones listed in $defaultFields are converted to Field.
 	 * If there is a post id found it sets the data to update the Fields instead of creating new ones. 
 	 *
 	 * @return void
@@ -331,7 +335,7 @@ class Post extends AppModel {
 		$class = new $class;
 		$display = $class->types[$type]['display'];
 		$this->data['Post']['display'] = $this->data['Post'][$display];
-		if (!isset($this->data['Post']['excerpt']) || $this->data['Post']['excerpt']!=='') {
+		if (isset($class->types[$type]['excerpt']) && (!isset($this->data['Post']['excerpt']) || $this->data['Post']['excerpt']!=='')) {
 			$excerpt = $class->types[$type]['excerpt'];
 			$this->data['Post']['excerpt'] = $this->data['Post'][$excerpt];
 		}

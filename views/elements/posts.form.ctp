@@ -1,4 +1,6 @@
 <div class="posts form">
+ 		<h1><span><?php echo Inflector::humanize(Inflector::underscore($type)); ?></span></h1>
+
 <?php
 	$post_id = isset($this->params['pass'][2]) ? $this->params['pass'][2] : '';
 	$url = str_replace($this->base, '', $this->here) . '/' . $post_id;
@@ -6,13 +8,6 @@
 <?php echo $this->Form->create('Post', compact('url') + array('type' => 'file'));?>
 <?php echo $this->Form->input('id'); ?>
 	<fieldset>
- 		<legend><?php
-			$title = __('New <em>%s</em>', true);
-			if ($post_id) {
-				$title = __('Edit <em>%s</em>', true);
-			}
-			printf($title, Inflector::humanize(Inflector::underscore($type)));
-		?></legend>
 		<div class="form-wrapper">
 			<div class="cell form-main">
 				<?php echo $this->BlogmillForm->inputs('form-main'); ?>
@@ -23,5 +18,5 @@
 		</div>
 	<?php echo $this->Form->input('guide', array('type' => 'hidden')); ?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
+<?php echo $this->Form->end(sprintf(__('Create %s', true), Inflector::humanize(Inflector::underscore($type))));?>
 </div>
