@@ -41,21 +41,21 @@
 			<?php
 				echo $this->Html->link(
 					$this->Html->image('dashboard/view.png'), $item['url'],
-					array('escape' => false, 'title' => __('View', true), 'alt' => __('View', true))
+					array('escape' => false, 'title' => __('View', true), 'alt' => __('View', true), 'class' => 'view')
 				);
 			?>
 			<?php
 				echo $this->Html->link(
 					$this->Html->image('dashboard/edit.png'),
 					array($menu_name, 'edit' => $i),
-					array('escape' => false, 'title' => __('Edit', true), 'alt' => __('Edit', true))
+					array('escape' => false, 'title' => __('Edit', true), 'alt' => __('Edit', true), 'class' => 'edit')
 				);
 			?>
 			<?php
 				echo $this->Html->link(
 					$this->Html->image('dashboard/delete.png'),
 					array('controller' => 'settings', 'action' =>  'remove_from_menu', $menu_name, $i),
-					array('escape' => false, 'title' => __('Delete', true), 'alt' => __('Delete', true)),
+					array('escape' => false, 'title' => __('Delete', true), 'alt' => __('Delete', true), 'class' => 'delete'),
                     __('Delete this item from the menu?', true)
 				);
 			?>
@@ -79,9 +79,15 @@
 	foreach ($postTypes as $plugin => $types) {
 		$selectorPostTypes[$plugin] = array();
 		foreach ($types as $type => $def) {
-			$selectorPostTypes[$plugin][] = $type;
+            $name = $type;
+            if (isset($def['name'])) {
+                $name = $def['name'];
+            }
+			$selectorPostTypes[$plugin][] = compact("type","name");
 		}
 	}
+    $selectorPostTypes['_FixedPages'][] = array('type' => '_FixedPages', 'name' => 'Other Pages');
+
 	$selectorPostTypes = $this->Javascript->object($selectorPostTypes);
 	$handle = $this->Html->image('dashboard/move.png', array('class' => 'handle'));
 	$js = <<<eojs

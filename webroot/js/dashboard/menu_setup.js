@@ -10,6 +10,17 @@ $(function(){
 			list.append(order[count-1-i]);
 		};
 	}
+    function fixIndexes() {
+        var i = 0;
+        list.children().each(function(index, elem) {
+            var _edit = $(elem).find('.actions .edit');
+            var edit_link = _edit.attr('href');
+            _edit.attr('href', edit_link.replace(/:(\d+)/, ':' + i));
+            var _delete = $(elem).find('.actions .delete');
+            var delete_link = _delete.attr('href');
+            _delete.attr('href', delete_link.replace(/\d+$/, i));
+        });
+    }
 	function fillPostList (plugin, type) {
 		$.getJSON(postListURL, {"plugin" : plugin, "type" : type}, function(data, textStatus, jqXHR) {
 			var posts = dialog.children('.posts').empty().removeClass('empty');
@@ -55,14 +66,17 @@ $(function(){
 			});
 		var postTypes = pageSelectorOptions.postTypes;
 		$.each(postTypes, function(plugin, val) {
-			var li = dialog.children('.types').append('<li><span class="plugin">' + plugin + '</span><ul /></li>');
+            //<span class="plugin">' + plugin + '</span>
+			var li = dialog.children('.types').append('<li><ul /></li>');
 			var ul = dialog.children('.types').children('li:last-child').children('ul');
 			for (var i=0; i < val.length; i++) {
-				var type = $('<li><a href="#">' + val[i] + '</a></li>');
-				type.data('plugin', plugin);
-				type.data('type', val[i]);
-				ul.append(type);
-				type.click(function() {
+                var name = val[i].name;
+                var type = val[i].type;
+				var $type = $('<li><a href="#">' + name + '</a></li>');
+				$type.data('plugin', plugin);
+				$type.data('type', type);
+				ul.append($type);
+				$type.click(function() {
 					fillPostList($(this).data('plugin'), $(this).data('type'));
                 });
 			};
@@ -100,13 +114,15 @@ $(function(){
 						if (json.status == 'ERROR') {
 							reloadOriginalList();
 						}
+                        fixIndexes();
 					},
 					error : function(data, textStatus, request) {
 						reloadOriginalList();
 					}
 				});
 			}
-		}).disableSelection();
+		}).disableSelection().find('.move').hide();
+        
 
 		$(document).click(function(e) {
 			var elem = $(e.target);

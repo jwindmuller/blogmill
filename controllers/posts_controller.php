@@ -146,7 +146,11 @@ class PostsController extends AppController {
 	public function dashboard_list() {
 		$plugin = $this->params['url']['plugin'];
 		$type = $this->params['url']['type'];
-		$this->index($plugin, $type);
+        if ($plugin == '_FixedPages') {
+            $this->render('menu_fixed_pages');
+        } else {
+    		$this->index($plugin, $type);
+        }
 	}
 }
 ?>

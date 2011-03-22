@@ -8,8 +8,8 @@ class SettingsController extends AppController {
 	}
 	public function dashboard_index() {
 		$settings = $this->Blogmill->pluginSettings($this->activeThemePlugin);
-		$activeTheme = $settings->theme['name'];
-		$this->set(compact('activeTheme'));
+        $activeTheme = $settings->theme['name'];
+        $this->set(compact('activeTheme'));
 	}
 	
 	private function __themeSettings() {
@@ -22,7 +22,7 @@ class SettingsController extends AppController {
 	
 	private function __themeMenu($menu_name) {
 		$menu_settings_key = $this->activeThemePlugin . '.menu.' . $menu_name;
-		$menu = $this->Setting->find('first', array('name' => $menu_settings_key));
+        $menu = $this->Setting->findByName($menu_settings_key);
 		$id = null;
 		if ($menu) {
 			$id = $menu['Setting']['id'];
