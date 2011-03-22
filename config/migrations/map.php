@@ -8,5 +8,7 @@ $map = array(
 		'postexcerpts' => 'M4cabf0ca673c4f1ba45627effb8c9e6b'),
 	4 => array(
 		'drop_admin_field' => 'M4d3cc08d1a8c43e1a2694c58fb8c9e6b'),
+	5 => array(
+		'optional_parent_category' => 'M4d8550e3844c466eb994992bfb8c9e6b'),
 );
 ?>

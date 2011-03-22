@@ -18,7 +18,7 @@
 			<li<?php echo $this->name == 'Categories' ? ' class="current"' : ''; ?>><?php
 				echo $html->link(
 					__('Categories', true),
-					array('controller' => 'categories')
+					array('controller' => 'categories', 'action' => 'index')
 				);
 			?></li>
 			<li<?php echo $this->name == 'Settings' ? ' class="current"' : ''; ?>><?php

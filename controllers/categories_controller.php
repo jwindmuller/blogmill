@@ -36,7 +36,7 @@ class CategoriesController extends AppController {
 				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'category'));
 			}
 		}
-		$categories = $this->Category->SubCategory->find('list');
+		$categories = $this->Category->find('list');
 		$this->set(compact('categories'));
 	}
 
@@ -45,22 +45,13 @@ class CategoriesController extends AppController {
 			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'category'));
 			$this->redirect(array('action' => 'index'));
 		}
-		if (!empty($this->data)) {
-			if ($this->Category->save($this->data)) {
-				$this->Session->setFlash(sprintf(__('The %s has been saved', true), 'category'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'category'));
-			}
-		}
+        $this->dashboard_add();
 		if (empty($this->data)) {
 			$this->data = $this->Category->read(null, $id);
 		}
-		// $categories = $this->Category->Category->find('list');
-		// $this->set(compact('categories'));
 	}
 
-	function delete($id = null) {
+	function dashboard_delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(sprintf(__('Invalid id for %s', true), 'category'));
 			$this->redirect(array('action'=>'index'));

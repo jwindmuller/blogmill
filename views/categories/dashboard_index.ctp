@@ -1,5 +1,8 @@
 <div class="categories index">
 	<h1><span><?php __('Categories');?></span></h1>
+   	<ul class="actions">
+    	<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Category', true)), array('action' => 'add')); ?></li>
+   	</ul>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
@@ -26,7 +29,7 @@
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $category['Category']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $category['Category']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $category['Category']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $category['Category']['id'])); ?>
+			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $category['Category']['id']), null, sprintf(__('Are you sure you want to delete the category "%s"? (and all of its subcategories)', true), $category['Category']['title'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -45,13 +48,4 @@
 		<?php echo $this->Paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
 </div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Category', true)), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Categories', true)), array('controller' => 'categories', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Parent Category', true)), array('controller' => 'categories', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Posts', true)), array('controller' => 'posts', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Post', true)), array('controller' => 'posts', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+

@@ -14,13 +14,6 @@ class Category extends AppModel {
 				'rule' => array('notempty'),
 			)
 		),
-		'category_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				'allowEmpty' => true,
-				'required' => false,
-			)
-		),
 	);
 
 	var $belongsTo = array(
@@ -37,7 +30,7 @@ class Category extends AppModel {
 		'SubCategory' => array(
 			'className' => 'Category',
 			'foreignKey' => 'category_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
