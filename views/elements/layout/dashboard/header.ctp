@@ -9,12 +9,14 @@
 					array('controller' => 'posts', 'action' => 'index')
 				);
 			?></li>
+            <?php if($commentsEnabled) : ?>
 			<li<?php echo $this->name == 'Comments' ? ' class="current"' : ''; ?>><?php
 				echo $html->link(
 					__('Comments', true),
 					array('controller' => 'comments')
 				);
 			?></li>
+            <?php endif; ?>
 			<li<?php echo $this->name == 'Categories' ? ' class="current"' : ''; ?>><?php
 				echo $html->link(
 					__('Categories', true),

@@ -121,6 +121,13 @@ class BlogmillComponent extends Object {
 				$this->Controller->layout = $layouts[$currentPage]['name'];
 			}
 		}
+        $commentsEnabled = true;
+        if (isset($themeInfo['commentsEnabled'])) {
+            $commentsEnabled = $themeInfo['commentsEnabled'];
+        }
+        $this->Controller->commentsEnabled = $commentsEnabled;
+        $this->Controller->set(compact('commentsEnabled'));
+
 	}
 	
 	/**
