@@ -33,9 +33,9 @@
 			<?php echo $this->element('layout/dashboard/sidebar'); ?>
 		</aside>
 		<section id="content">
-			<?php echo $session->flash(); ?>
-			<?php echo $session->flash('auth'); ?>
 			<div class="wrap">
+                <?php echo $session->flash(); ?>
+    			<?php echo $session->flash('auth'); ?>
 				<?php echo $content_for_layout; ?>
 			</div>
 		</section>
