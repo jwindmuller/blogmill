@@ -66,7 +66,7 @@ class PostsController extends AppController {
 	private function __prepareModel($plugin, $type) {
 		$modelName = Inflector::Camelize($type);
 		$model = ClassRegistry::init("$plugin.$modelName");
-		$this->Post->validate = $model->validate;
+		$this->Post->validate += $model->validate;
 		$fields = array_keys($model->validate);
 		$settings = ClassRegistry::init($plugin . 'Settings');
 		$formLayout = $settings->types[$modelName]['form_layout'];

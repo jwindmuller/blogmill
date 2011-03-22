@@ -169,10 +169,18 @@ class BlogmillComponent extends Object {
 		$postModel = ClassRegistry::init('Post');
 		$themeData = array();
 		foreach ($requiredData as $index => $definition) {
-			$options = array(
-				'conditions' => array('type' => @$definition['type']),
-				'limit' => $definition['limit']
-			);
+            $type = null;
+            if (isset($definition['type'])) {
+                $type = $definition['type'];
+            }
+            $conditions = array();
+            if ($type !== null) {
+                $conditions = compact('type');
+            }
+            if ($type == "*") {
+                $conditions = array('type <>' => '');   
+            }
+			$options = compact('conditions') + array('limit' => $definition['limit']);
 			if (isset($definition['order'])) {
 				$options['order'] = $definition['order'];
 			}
