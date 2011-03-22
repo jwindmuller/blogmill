@@ -13,10 +13,18 @@
 	?>
 </head>
 <body>
-	<h1><?php echo $this->Html->link(__('hi!', true), '/'); ?></h1>
+	<h1><?php echo $this->Html->link(__('Blogmill', true), '/'); ?></h1>
 	<div id="content">
 		<?php echo $this->Session->flash(); ?>
-		<?php echo $content_for_layout; ?>
+        <?php
+        if (isset($themeData['posts'])):
+            foreach( $themeData['posts'] as $post) {
+                echo $this->element('post.view', compact('post'));
+            }
+        else :
+            echo $content_for_layout;
+        endif; 
+        ?>
 	</div>
 	<div id="footer">
 		<?php echo $this->Html->link(
@@ -26,5 +34,6 @@
 			);
 		?>
 	</div>
+    <?php echo $this->element('sql_dump'); ?>
 </body>
 </html>

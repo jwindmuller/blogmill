@@ -14,7 +14,10 @@ class SettingsController extends AppController {
 	
 	private function __themeSettings() {
 		$themePluginSettings = ClassRegistry::getObject("{$this->activeThemePlugin}Settings");
-		return $themePluginSettings->theme;
+        if ($themePluginSettings) {
+    		return $themePluginSettings->theme;
+        }
+        return null;
 	}
 	
 	private function __themeMenu($menu_name) {

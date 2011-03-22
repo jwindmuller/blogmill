@@ -9,7 +9,7 @@ class BlogmillComponent extends Object {
 	private $__plugins;
 	private $__configurablePlugins;
 	
-	public function initialize(&$controller) {
+	public function startup(&$controller) {
 		$this->Controller = $controller;
 		$this->Settings = ClassRegistry::init('Setting');
 		// Setup current page's information
@@ -67,7 +67,7 @@ class BlogmillComponent extends Object {
 	private function __activeThemePlugin() {
 		$theme_id = $this->Settings->get('active_theme');
 		if (!isset($this->themes[$theme_id]['plugin'])) {
-			return false;
+			return 'BlogmillDefault';
 		}
 		return $this->themes[$theme_id]['plugin'];
 	}
@@ -81,7 +81,6 @@ class BlogmillComponent extends Object {
 	 */
 	private function __activateTheme() {
 		$plugin = $this->__activeThemePlugin();
-		if (!$plugin) return;
 		$pluginSettingsClass = "{$plugin}Settings";
 		$pluginSettings = ClassRegistry::init($pluginSettingsClass);
 		if (!$pluginSettings->activated) {
@@ -106,9 +105,6 @@ class BlogmillComponent extends Object {
 	private function __setupCurrentTheme() {
 		list($activeThemePlugin, $pluginSettings) = $this->__activateTheme();
 		$this->Controller->activeThemePlugin = $activeThemePlugin;
-		
-		if (!$activeThemePlugin) return;
-		
 		$themeInfo = $pluginSettings->theme;
 		$currentPage = $this->Controller->pageInfo['page'][0];
 		if (isset($themeInfo['layouts'][$currentPage])) {
@@ -290,6 +286,8 @@ class BlogmillComponent extends Object {
 	}
 	
 	public function pluginSettings($plugin) {
-		return $this->__plugins[$plugin];
+        if (isset($this->__plugins[$plugin]))
+    		return $this->__plugins[$plugin];
+        return null;
 	}
 }
