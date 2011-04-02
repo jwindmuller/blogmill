@@ -15,8 +15,14 @@ class BlogmillPermissions {
 			'dashboard_list'  => 'user'
 		),
 		'Users' => array(
+            'dashboard_index' => 'user',
+            'dashboard_view' => 'user',
+            'dashboard_edit' => 'user',
+            'dashboard_add' => 'user',
 			'dashboard_login' => 'visitor',
-			'dashboard_logout' => 'user'
+            'dashboard_activate' => 'visitor',
+			'dashboard_logout' => 'user',
+            'dashboard_notify' => 'user'
 		),
 		'Comments' => array(
 			'add' => 'visitor',

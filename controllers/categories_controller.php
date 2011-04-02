@@ -8,7 +8,7 @@ class CategoriesController extends AppController {
 		if (!$id) {
 			die('Error');
 		}
-		$this->paginate['contain'] = array('User(username,alias)', 'Comment(id)', 'Field', 'Category');
+		$this->paginate['contain'] = array('User(username,name)', 'Comment(id)', 'Field', 'Category');
 		$this->set('posts', $this->paginate($this->Category->Post));
 		$this->render('/posts/index');
 	}

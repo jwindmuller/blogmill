@@ -10,5 +10,11 @@ $map = array(
 		'drop_admin_field' => 'M4d3cc08d1a8c43e1a2694c58fb8c9e6b'),
 	5 => array(
 		'optional_parent_category' => 'M4d8550e3844c466eb994992bfb8c9e6b'),
+	6 => array(
+		'users_post_count' => 'M4d894b2202f44b878ef915d4fb8c9e6b'),
+	7 => array(
+		'users_name' => 'M4d894ed8089c487ea1b51cb7fb8c9e6b'),
+	8 => array(
+		'make_post_category_optional' => 'M4d915855b8904bf490956d86fb8c9e6b'),
 );
 ?>

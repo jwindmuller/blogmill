@@ -1,8 +1,12 @@
 <?php
 class Post extends AppModel {
 	var $name = 'Post';
-	var $actsAs = array('Containable', 'Sluggable' => array('overwrite' => true, 'translation' => 'utf-8', 'label' => 'display'));
-	
+	var $actsAs = array(
+        'Containable',
+        'Sluggable' => array('overwrite' => true, 'translation' => 'utf-8', 'label' => 'display'),
+	    'Acl' => array('type' => 'controlled')
+    );
+
 	var $validate = array(
 		'type' => array(
 			'required' => array(
@@ -19,7 +23,7 @@ class Post extends AppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
                 'required' => true,
-                'allowEmpty' => false
+                'allowEmpty' => true
 			)
 		),
 	);
@@ -28,6 +32,7 @@ class Post extends AppModel {
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
+            'counterCache' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -381,5 +386,9 @@ class Post extends AppModel {
 		}
 		return $fieldsByName;
 	}
+
+    public function parentNode() {
+        return 'data';
+    }
 }
 ?>

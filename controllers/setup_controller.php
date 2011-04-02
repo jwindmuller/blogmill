@@ -98,22 +98,27 @@ class SetupController extends AppController {
 			// TODO: An admin lock should be setup to prevent DoS
 			$this->setup_acl_permissions();
 			
+
 			$success_url = array('controller' => 'posts', 'action' => 'index', 'dashboard' => true);
-			// If there's an user with that login/password don't create another
-			if ($this->Auth->login($this->data)) {
+
+            $User = ClassRegistry::init('User');
+			$this->data['User']['admin'] = true;
+            $this->data = $this->Auth->hashPasswords($this->data);
+			$User->set($this->data);
+            $username = $this->data['User']['username'];
+            $password = $this->data['User']['password'];
+
+            // If there's an user with that login/password don't create another
+			$exists = $User->find('count', array('conditions' => compact('username', 'password')));
+            
+            // If there's an user with that login/password don't create another
+			if ($exists) {
+                $this->Auth->login($this->data);
 				$this->redirect($success_url);
 			}
-			
-			$User = ClassRegistry::init('User');
-			$this->data['User']['admin'] = true;
-			$User->set($this->data);
-			if ($User->validates()) {
-				if ($User->save($this->data)) {
-					$this->Auth->login($this->data);
-					$this->redirect($success_url);
-				} else {
-					die('Could not create user. Go back and try again please.');
-				}
+			if ($User->save($this->data)) {
+				$this->Auth->login($this->data);
+				$this->redirect($success_url);
 			}
 		}
 	}

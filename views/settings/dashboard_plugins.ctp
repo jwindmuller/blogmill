@@ -11,7 +11,7 @@
 	<?php echo $this->Form->create('Setting', array('url' => array('controller' => 'settings', 'action' => 'plugins', $plugin))); ?>
 	<?php foreach ($configurable_keys as $key => $settings): ?>
         <div class="group">
-		<?php echo $this->Form->input($key, array('label' => sprintf('%s<p>%s</p>', $settings['label'], $settings['longdesc']))) ?>
+		<?php echo $this->Form->input($key, array('label' => sprintf('%s<p>%s</p>', $settings['label'], @$settings['longdesc']))) ?>
         </div>
 	<?php endforeach ?>
 	<?php echo $this->Form->end(__('Save', true)); ?>

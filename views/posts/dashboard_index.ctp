@@ -4,7 +4,7 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('type');?></th>
 			<th><?php echo $this->Paginator->sort('display');?></th>
-			<th><?php echo $this->Paginator->sort('user_id');?></th>
+			<th><?php __('User');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th><?php echo $this->Paginator->sort('category_id');?></th>
@@ -30,7 +30,7 @@
 		</td>
 		<td><strong><?php echo $post['Post']['display']; ?></strong></td>
 		<td>
-			<?php echo $this->Html->link($post['User']['id'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
+			<?php echo $this->Html->link($post['User']['username'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>
 		<td><?php echo $post['Post']['created']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['modified']; ?>&nbsp;</td>

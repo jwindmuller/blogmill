@@ -23,6 +23,12 @@
 					array('controller' => 'categories', 'action' => 'index')
 				);
 			?></li>
+            <li<?php echo $this->name == 'Users' ? ' class="current"' : ''; ?>><?php
+                echo $this->Html->link(
+					__('Users', true),
+					array('controller' => 'users', 'action' => 'index')
+				);
+            ?></li>
 			<li<?php echo $this->name == 'Settings' ? ' class="current"' : ''; ?>><?php
 			 	echo $this->Html->link(
 					__('Settings', true),

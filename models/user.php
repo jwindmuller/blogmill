@@ -40,45 +40,26 @@ class User extends AppModel {
 			)
 		),
 		'password' =>  array(
-			'required' => array(
-				'rule' => array('passwordNotEmpty'),
-				'last' => true,
-				'on' => 'create'	
-			),
 			'requiredOnUpdate' => array(
 				'rule' => array('passwordNotEmpty'),
 				'last' => true,
 				'required' => false,
 				'on' => 'update'
 			),
-			// 'confirmation' => array(
-			// 	'rule' => array('confirmPassword'),
-			// 	'on' => 'create'
-			// ),
-			// 'confirmationOnUpdate' => array(
-			// 	'rule' => array('confirmPassword'),
-			// 	'on' => 'update',
-			// 	'required' => false
-			// )
+			'confirmationOnUpdate' => array(
+			 	'rule' => array('confirmPassword'),
+			 	'on' => 'update',
+			 	'required' => false
+			)
 		),
-		// 'password_confirm' => array(
-		// 	'required' => array(
-		// 		'rule' => array('notEmpty'),
-		// 		'last' => true,
-		// 		'on' => 'create'
-		// 	),
-		// 	'minlength' => array(
-		// 		'rule' => array('minLength', '6'),
-		// 		'last' => true,
-		// 		'on' => 'create',
-		// 	),
-		// 	'minlengthOnUpdate' => array(
-		// 		'rule' => array('minLength', '6'),
-		// 		'last' => true,
-		// 		'on' => 'update',
-		// 		'required' => false
-		// 	)
-		// ),
+		'password_confirm' => array(
+			'minlengthOnUpdate' => array(
+				'rule' => array('minLength', '6'),
+				'last' => true,
+				'on' => 'update',
+				'required' => false
+			)
+		),
 		'question' => array(
 			'required' => array(
 				'rule' => 'notempty',
@@ -146,33 +127,17 @@ function __initializeValidation() {
 			__('Email already registered',true)
 		);
 		$this->defineErrorMessage(
-			'password.required',
-			__('Write your password',true)
-		);
-		$this->defineErrorMessage(
 		    'password.requiredOnUpdate',
 		    __('Write your password',true)
 		);
-		// $this->defineErrorMessage(
-		//     'password.confirmation',
-		//     __('The password and its confirmation do not match',true)
-		// );
-		// $this->defineErrorMessage(
-		// 	'password.confirmationOnUpdate',
-		// 	__('The password and its confirmation do not match',true)
-		// );
-		// $this->defineErrorMessage(
-		// 	'password_confirm.required',
-		// 	__('Confirm the password',true)
-		// );
-		// $this->defineErrorMessage(
-		// 	'password_confirm.minlength',
-		// 	__('Passwords are required to have at least 6 characters',true)
-		// );
-		// $this->defineErrorMessage(
-		// 	'password_confirm.minlengthOnUpdate',
-		// 	__('Passwords are required to have at least 6 characters',true)
-		// );
+		$this->defineErrorMessage(
+			'password.confirmationOnUpdate',
+			__('The password and its confirmation do not match',true)
+		);
+		$this->defineErrorMessage(
+			'password_confirm.minlengthOnUpdate',
+			__('Passwords are required to have at least 6 characters',true)
+		);
 		$this->defineErrorMessage(
 			'question.required',
 			__('The secret question is required',true)
@@ -206,6 +171,7 @@ function __initializeValidation() {
 	 */
 	function confirmPassword($data) {
 		$valid = false;
+        debug($this->data);
 		if ($data['password'] == Security::hash(Configure::read('Security.salt') . $this->data['User']['password_confirm'])) {
 		   $valid = true;
 		}
@@ -234,7 +200,7 @@ function __initializeValidation() {
 		if (!$this->id && empty($this->data)) {
 			return null;
 		}
-		if ($this->data['User']['admin']) {
+		if (isset($this->data['User']['admin'])) {
 			return 'admin';
 		}
 		return 'user';

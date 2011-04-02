@@ -2,6 +2,9 @@
 class BlogmillDefaultSettings extends BlogmillSettings {
     var $types = array();
     var $configurable = array(
+        'blogmill_site_name' => array(
+            'label' => 'Website name'
+        ),
 		'blogmill_contact_email' => array(
 			'label' => 'Contact email',
 			'longdesc' => 'Write the contact email where you want to receive emails.'

@@ -346,7 +346,7 @@ div.table-bottom ul.buttons li a:focus {
 	background:#5E0A0B;
 	border-color:#fff;
 }
-form div.form-wrapper,
+div.form-wrapper,
 div.table {
 	width:100%;
 	display:table;
@@ -360,7 +360,7 @@ div.cell {
 	width:auto;
 	padding-right:20px;
 }
-form div.form-wrapper div.cell.form-sidebar,
+div.form-wrapper div.cell.form-sidebar,
 div.table div.cell.sidebar {
 	width:250px!important;
 }
@@ -402,6 +402,9 @@ form div.htmleditor span.mceEditor {
 	display:block;
 	margin-bottom:10px;
 	width:100%;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
 	border:#ccc 1px solid;
 	font-size:1.1em;
     color:#333;
@@ -432,12 +435,14 @@ form div.longtext .status {
 }
 form .error-message {
 	color:#fff;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
     width:100%;
     background:#8a1619;
     border:#8a1619 1px solid;
-    padding:3px 2px 3px 0;
+    padding:3px 2px 3px 10px;
     margin-bottom:10px;
-    text-indent:10px;
 	border-radius:10px;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;

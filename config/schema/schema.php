@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* App schema generated on: 2011-03-20 00:03:40 : 1300582660*/
+/* App schema generated on: 2011-04-02 17:04:17 : 1301766437*/
 class AppSchema extends CakeSchema {
 	var $name = 'App';
 
@@ -84,7 +84,7 @@ class AppSchema extends CakeSchema {
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
+		'category_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
 		'display' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'guide' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
@@ -102,10 +102,8 @@ class AppSchema extends CakeSchema {
 	var $users = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'alias' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'blog_count' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'profile' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
@@ -113,6 +111,8 @@ class AppSchema extends CakeSchema {
 		'confirmation' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'question' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'answer' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+		'post_count' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);

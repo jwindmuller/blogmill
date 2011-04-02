@@ -40,6 +40,8 @@
 			</div>
 		</section>
 	</div>
-<footer></footer>
+    <footer>
+        <?php echo $this->element('sql_dump'); ?>
+    </footer>
 </body>
 </html>

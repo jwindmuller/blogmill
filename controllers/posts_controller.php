@@ -98,6 +98,7 @@ class PostsController extends AppController {
 		if (empty($this->data)) return;
 		$this->__prepareData();
 		$this->data['Post']['type'] = $type;
+        $this->data['Post']['user_id'] = $this->Auth->user('id');
 		if ($this->Post->savePost($this->data)) {
 			$this->Session->setFlash(sprintf(__('The %s has been saved', true), 'post'));
 			$this->redirect(array('action' => 'index'));

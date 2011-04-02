@@ -8,6 +8,7 @@
             <?php
                 echo $this->Form->input('username');
                 echo $this->Form->input('password');
+                echo $this->Form->input('password_confirm', array('label' => __('Confirm Password', true), 'type' => 'password'));
             ?>
             </div>
         </div>
