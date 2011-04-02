@@ -46,7 +46,7 @@ class AppModel extends Model {
 	function validateUnique($data) {
 		$name = array_pop(array_keys($data));
 		if (!empty($this->id)) {
-			$conditions = array('NOT' => array($this->primaryKey => $this->id, $name => $data[$name]));
+			$conditions = array('NOT' => array($this->primaryKey => $this->id), 'AND' => array($name => $data[$name]));
 		} else {
 			$conditions = array($name => $data[$name]);
 		}
