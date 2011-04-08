@@ -2,7 +2,7 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
-    var $components = array('Email');
+    var $components = array('BlogmillEmail');
 
 	function dashboard_index() {
 		$this->User->recursive = 0;
@@ -23,7 +23,7 @@ class UsersController extends AppController {
 			$this->User->create();
 			if ($this->User->save($this->data)) {
                 
-                if ($this->__sendNotification($this->data, $confirmation)) {
+                if ($this->__sendConfirmationEmail($this->data, $confirmation)) {
                     $this->Session->setFlash(__('The user was created and an email was sent to the user', true));
     				$this->redirect(array('action' => 'index'));
                 } else {
@@ -39,28 +39,29 @@ class UsersController extends AppController {
 		}
 	}
 
-    public function __sendNotification($user, $confirmation) {
-        $name  = $user['User']['name'];
-        $email = $user['User']['email'];
-        $this->Email->from = sprintf('%s <%s>', $name, $email);
-        $this->Email->subject = __('Activate your account', true);
-        
+    public function __sendConfirmationEmail($user, $confirmation) {
         $Setting = ClassRegistry::init('Setting');
-        $this->Email->replyTo = $this->Email->from = $Setting->get('BlogmillDefault.blogmill_contact_email'); 
-        
-        $this->Email->template = 'user_added_activation'; 
-        $this->Email->sendAs = 'both';
-
         $blogmill_site_name = $Setting->get('BlogmillDefault.blogmill_site_name');
-        $this->set(compact('confirmation', 'blogmill_site_name'));
-        return $this->Email->send();
-
+        $options = array(
+            'from' => array(
+                'name' => $user['User']['name'],
+                'email' => $user['User']['email']
+            ),
+            'to' => array(
+                'name' => '',
+                'email' => $Setting->get('BlogmillDefault.blogmill_contact_email')
+            ),
+            'subject' =>  __('Activate your account', true),
+            'template' => 'user_added_activation',
+            'data' => compact('confirmation', 'blogmill_site_name')
+        );
+        return $this->BlogmillEmail->sendNotification($options);
     }
 
     public function dashboard_notify($confirmation, $send=false) {
         $user = $this->User->findByConfirmation($confirmation);
         if ($send === 'send') {
-            if ($this->__sendNotification($user, $confirmation)) {
+            if ($this->__sendConfirmationEmail($user, $confirmation)) {
                 $this->Session->setFlash(__('The notification email was sent!', true));
     			$this->redirect(array('action' => 'index'));
             } else {
@@ -151,5 +152,66 @@ class UsersController extends AppController {
 	public function dashboard_logout() {
 		$this->redirect($this->Auth->logout());
 	}
+
+    public function dashboard_recover($confirmation=null) {
+        if ($confirmation) {
+            $user = $this->User->findByConfirmation($confirmation);
+            if (!$user) {
+                $this->Session->setFlash(__('Invalid access', true));
+                $this->redirect(array('action' => 'login'));
+            }
+            if (!empty($this->data)) {
+                if ($user['User']['answer'] == $this->data['User']['answer']) {
+                    $this->User->set($user);
+                    $this->User->saveField('confirmation', '');
+                    $this->Auth->login($user);
+                    $this->Session->setFlash(__('Update your password', true));
+                    $this->redirect(array('action' => 'edit', $user['User']['id']));
+                }
+            }
+            $this->set('question', $user['User']['question']);
+            $this->set(compact('confirmation'));
+            $this->render('dashboard_recover_step2');
+            return;
+        }
+        if (!empty($this->data)) {
+            $user = $this->User->findByUsername($this->data['User']['username']);
+            if ($user) {
+                unset($user['User']['password']);
+                $this->User->set($user);
+                $confirmation =  md5(time());
+                $this->User->saveField('confirmation', $confirmation);
+
+                if ($this->__sendRecoveryEmail($user, $confirmation)) {
+                    $this->Session->setFlash(__('Check your email for instructions on how to reset your password', true));
+                    $this->redirect(array('controller' => 'users', 'action' => 'login', 'dashboard' => true));
+                } else {
+                    $this->Session->setFlash(__('There was an error sending you an email with instructions on how to reset your password, please try again.', true));
+                }
+            }
+        }
+    }
+
+    private function __sendRecoveryEmail($user, $confirmation) {
+        $Setting = ClassRegistry::init('Setting');
+        $blogmill_site_name = $Setting->get('BlogmillDefault.blogmill_site_name');
+        $options = array(
+            'to' => array(
+                'name' => $user['User']['name'],
+                'email' => $user['User']['email']
+            ),
+            'from' => array(
+                'name' => '',
+                'email' => $Setting->get('BlogmillDefault.blogmill_contact_email')
+            ),
+            'subject' =>  __('Password Recovery', true),
+            'template' => 'user_password_recovery',
+            'data' => compact('confirmation', 'blogmill_site_name', 'user'),
+            'debug' => true
+        );
+        return $this->BlogmillEmail->sendNotification($options);
+
+    }
+
 }
 ?>

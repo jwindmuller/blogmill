@@ -21,6 +21,7 @@ class BlogmillPermissions {
             'dashboard_add' => 'user',
 			'dashboard_login' => 'visitor',
             'dashboard_activate' => 'visitor',
+            'dashboard_recover' => 'visitor',
 			'dashboard_logout' => 'user',
             'dashboard_notify' => 'user'
 		),

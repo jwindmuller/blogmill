@@ -41,6 +41,7 @@
 		</section>
 	</div>
     <footer>
+        <?php echo $this->element('email_dump'); ?>
         <?php echo $this->element('sql_dump'); ?>
     </footer>
 </body>
