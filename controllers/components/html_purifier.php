@@ -15,7 +15,7 @@ class HtmlPurifierComponent extends Object {
 		//check the top of your html file for the next two
 		$config->set('HTML.Doctype', 'XHTML 1.0 Transitional');
 		$config->set('HTML.AllowedAttributes', array('a.href', 'a.title','img.src', '*.class'));
-		$config->set('HTML.AllowedElements', array('a','img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'blockquote', 'ul', 'ol', 'li'));
+		$config->set('HTML.AllowedElements', array('a','img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'blockquote', 'ul', 'ol', 'li', 'b', 'strong', 'sub', 'sup', 'br'));
 		$this->purifier = & new HTMLPurifier($config);
 	}
 

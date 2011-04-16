@@ -90,7 +90,10 @@ class BlogmillFormHelper extends AppHelper {
 	
 	private function __longtext($field, $typeDefinition) {
 		$Post = ClassRegistry::init('Post');
-		$rules = $Post->validate[$field];
+        $rules = array();
+        if (isset($Post->validate[$field])) {
+    		$rules = $Post->validate[$field];
+        }
 		$maxLength = false;
 		foreach ($rules as $rule => $ruleDef) {
 			if (isset($ruleDef['rule']) && is_array($ruleDef['rule']) && $ruleDef['rule'][0] == 'maxLength') {
