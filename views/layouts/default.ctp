@@ -35,5 +35,6 @@
 		?>
 	</div>
     <?php echo $this->element('sql_dump'); ?>
+<?php echo $this->element('blogmill_footer_actions'); ?>
 </body>
 </html>

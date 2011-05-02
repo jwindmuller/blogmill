@@ -10,7 +10,7 @@ class AppController extends Controller {
 	 * @var array helper names
 	 */
 	var $helpers = array('Text', 'Html', 'Form', 'Javascript', 'Session', 'Blogmill', 'BlogmillForm', 'Time');
-	var $components = array('Session', 'Acl', 'RequestHandler', 'Blogmill',
+	var $components = array('Session', 'Acl', 'RequestHandler', 'Blogmill', 'Cookie',
 		'Auth' => array(
 			'authorize' => 'controller',
 			'loginAction' => array('controller' => 'users', 'action' => 'login', 'dashboard' => true),
@@ -37,7 +37,7 @@ class AppController extends Controller {
 			}
 		}
 	}
-	
+
 	/**
 	 * Checks wether the current user is authorized to view the current page
 	 *
@@ -63,6 +63,11 @@ class AppController extends Controller {
 		if (isset($this->params['prefix'])) {
 			$this->layout = $this->params['prefix'];
 		}
+        $this->__requestRecieved();
 	}
+
+    public function __requestRecieved() {
+        $plugins = $this->Blogmill->pluginsAttached('request_received');
+    }
 }
 ?>

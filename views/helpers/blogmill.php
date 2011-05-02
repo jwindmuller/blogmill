@@ -2,8 +2,18 @@
 App::import('Sanitize');
 class BlogmillHelper extends AppHelper {
 	
-	var $helpers = array('Html', 'Text');
+	var $helpers = array('Html', 'Text', 'Javascript');
 	
+    public function beforeRender() {
+        $view =& ClassRegistry::getObject('view');
+        $scripts_for_bottom = $view->viewVars['scripts_for_bottom'];
+        $scripts = array();
+        foreach( $scripts_for_bottom as $url ) {
+            $scripts[] = $this->Javascript->link($url);
+        }
+        $view->viewVars['scripts_for_bottom'] = implode("\n\t", $scripts);
+    }
+
 	public function postURL($post, $options=array()) {
 		if (isset($post['Post'])) {
 			$post = $post['Post'];

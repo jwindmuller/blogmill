@@ -8,8 +8,15 @@ class BlogmillComponent extends Object {
 	private $pluginSettings;
 	private $__plugins;
 	private $__configurablePlugins;
+    private $__adminMenus;
+
+    private $__scriptsForBottom;
 	
 	public function startup(&$controller) {
+        $this->__scriptsForBottom = 
+        $this->__adminMenus = 
+        array();
+
 		$this->Controller = $controller;
 		$this->Settings = ClassRegistry::init('Setting');
 		// Setup current page's information
@@ -19,6 +26,10 @@ class BlogmillComponent extends Object {
 		// Sets up the current theme (data, helpers)
 		$this->__setupCurrentTheme();
 	}
+    
+    public function beforeRender($controller) {
+        $controller->set('scripts_for_bottom', $this->__scriptsForBottom);
+    }
 	
 	/**
 	 * Sets up information for the current status and type of page.
@@ -253,6 +264,9 @@ class BlogmillComponent extends Object {
 				if (isset($class->types) && is_array($class->types)) {
 					$this->__loadPostTypes($class->types, $plugin);
 				}
+                if (isset($class->adminMenu) && is_array($class->adminMenu)) {
+                    $this->__adminMenus = array_merge($this->__adminMenus, array($plugin => $class->adminMenu));
+                }
 				$isConfigurable = isset($class->configurable) && is_array($class->configurable);
 				if ($isConfigurable) {
 					$this->__configurablePlugins[] = $plugin;
@@ -261,7 +275,8 @@ class BlogmillComponent extends Object {
 		}
 		$themes = $this->Controller->themes = $this->themes;
 		$postTypes = $this->Controller->postTypes = $this->postTypes;
-		$this->Controller->set(compact('themes', 'postTypes'));
+        $adminMenus = $this->__adminMenus;
+		$this->Controller->set(compact('themes', 'postTypes', 'adminMenus'));
 	}
 	
 	public function plugins() {
@@ -290,4 +305,34 @@ class BlogmillComponent extends Object {
     		return $this->__plugins[$plugin];
         return null;
 	}
+    
+    public function pluginsAttached($to, $env = array()) {
+        foreach( $this->__plugins as $name => $plugin) {
+            if (isset($plugin->attachTo)) {
+                $componentName = $plugin->name . 'Hooks';
+                $component = ClassRegistry::getObject($componentName);
+                if (!$component) {
+                    $component = App::import(array(
+                        'type' => 'Component',
+                        'name' => $componentName,
+                        'search' =>  APP . 'plugins' . DS . Inflector::underscore($plugin->name) . DS . 'controllers' . DS . 'components'
+                    ));
+                    $componentNameClass = $componentName . 'Component';
+                    $component = new $componentNameClass();
+                    if (!$component) {
+                        continue;
+                    }
+                    $component->startup($this->Controller);
+                    ClassRegistry::addObject($componentName, $component);
+                }
+
+                if (!in_array($to, $plugin->attachTo)) continue;
+                call_user_func_array(array($component, $to), $env);
+            }
+        }
+    }
+
+    public function scriptForBottom($url) {
+        $this->__scriptsForBottom[] = $url;
+    }
 }
