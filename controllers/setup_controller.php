@@ -93,17 +93,24 @@ class SetupController extends AppController {
 	}
 
 	public function dashboard_go() {
+        $User = ClassRegistry::init('User');
+        $user = $this->Auth->user();
+        if (!$user) {
+            $aros = $this->Acl->Aro->query('select * from ' . $this->Acl->Aro->useTable);
+            if (!empty($aros)) {
+                die('Site is already setup, login to update');
+            }
+        } else {
+            $this->data = $User->findById($user['User']['id']);
+        }
 		if (!empty($this->data)) {
-			// Even if the user is not created for validation issues, this is idempotent so it doesn't matter if we repeat it. 
-			// TODO: An admin lock should be setup to prevent DoS
+			// Even if the user is not created because of validation issues, setup_acl_permissions is idempotent so it doesn't matter if we repeat it. 
 			$this->setup_acl_permissions();
 			
 
 			$success_url = array('controller' => 'posts', 'action' => 'index', 'dashboard' => true);
 
-            $User = ClassRegistry::init('User');
-			$this->data['User']['admin'] = true;
-            $this->data = $this->Auth->hashPasswords($this->data);
+            $this->data['User']['admin'] = true;
 			$User->set($this->data);
             $username = $this->data['User']['username'];
             $password = $this->data['User']['password'];
