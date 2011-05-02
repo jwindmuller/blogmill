@@ -29,6 +29,22 @@
 					array('controller' => 'users', 'action' => 'index')
 				);
             ?></li>
+            <?php foreach( $adminMenus as $plugin => $menu): ?>
+                <?php foreach($menu as $item) : ?>
+                <?php
+                    $active = $this->name == 'Plugins' && $this->action == 'dashboard_page' &&
+                                $this->params['pass'][0] == $plugin && $this->params['pass'][1] == $item;
+                ?>
+                <li<?php echo $active ? ' class="current"' : ''; ?>><?php
+                        echo $this->Html->link(
+    		    			$item,
+				    	    array('controller' => 'plugins', 'action' => 'page', 'dashboard' => true, $plugin, $item)
+				        );
+                    ?>
+    
+                </li>
+                <?php endforeach; ?>
+            <?php endforeach; ?>           
 			<li<?php echo $this->name == 'Settings' ? ' class="current"' : ''; ?>><?php
 			 	echo $this->Html->link(
 					__('Settings', true),
