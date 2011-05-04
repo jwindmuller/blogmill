@@ -171,7 +171,6 @@ function __initializeValidation() {
 	 */
 	function confirmPassword($data) {
 		$valid = false;
-        debug($this->data);
 		if ($data['password'] == Security::hash(Configure::read('Security.salt') . $this->data['User']['password_confirm'])) {
 		   $valid = true;
 		}
@@ -200,7 +199,13 @@ function __initializeValidation() {
 		if (!$this->id && empty($this->data)) {
 			return null;
 		}
-		if (isset($this->data['User']['admin'])) {
+        $parent_id= $this->Aro->field('parent_id',  array('model' => 'User', 'foreign_key' => $this->data['User']['id']));
+        $parent = false;
+        if ($parent_id) {
+            $parent = $this->Aro->field('alias', array('id' => $parent_id));
+             
+        }
+		if ($parent=='admin' || isset($this->data['User']['admin'])) {
 			return 'admin';
 		}
 		return 'user';
