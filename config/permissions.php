@@ -44,6 +44,7 @@ class BlogmillPermissions {
 		'Settings' => array(
 			'dashboard_index' => 'user',
 			'dashboard_menu' => 'user',
+			'dashboard_menu_change_item' => 'user',
 			'dashboard_add_to_menu' => 'user',
 			'dashboard_remove_from_menu' => 'user',
 			'dashboard_change_theme' => 'user'
