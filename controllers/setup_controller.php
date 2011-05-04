@@ -101,7 +101,12 @@ class SetupController extends AppController {
                 die('Site is already setup, login to update');
             }
         } else {
-            $this->data = $User->findById($user['User']['id']);
+            $data = $User->findById($user['User']['id']);
+            if (!empty($data)) {
+                $this->data = $data;
+            } else {
+                $this->Auth->logout();
+            }
         }
 		if (!empty($this->data)) {
 			// Even if the user is not created because of validation issues, setup_acl_permissions is idempotent so it doesn't matter if we repeat it. 
