@@ -1,21 +1,4 @@
 [submodule "plugins/migrations"]
 	path = plugins/migrations
 	url = http://github.com/CakeDC/migrations.git
-[submodule "plugins/blogroll"]
-	path = plugins/blogroll
-	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-pt-blogroll.git
-[submodule "plugins/book_reviews"]
-	path = plugins/book_reviews
-	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-pt-bookreviews.git
-[submodule "plugins/pages"]
-	path = plugins/pages
-	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-pt-pages.git
-[submodule "plugins/vemosa"]
-	path = plugins/vemosa
-	url = ssh://git@windmill.repositoryhosting.com/windmill/vemosa.git
-[submodule "plugins/flickr_functions"]
-	path = plugins/flickr_functions
-	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-flickrfunctions.git
-[submodule "plugins/journal"]
-	path = plugins/journal
-	url = ssh://git@windmill.repositoryhosting.com/windmill/blogmill-pt-journal.git
+
