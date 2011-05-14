@@ -30,6 +30,7 @@ class AppController extends Controller {
 	 * @author Joaquin Windmuller
 	 */
 	public function beforeFilter() {
+        $this->__setLanguage();
 		if ($this->Auth) {
 			// Allow access to public areas to visitors
 			if (!$this->Auth->user() && $this->isAuthorized()) {
@@ -68,6 +69,17 @@ class AppController extends Controller {
 
     public function __requestRecieved() {
         $plugins = $this->Blogmill->pluginsAttached('request_received');
+    }
+
+    /**
+     * Loads the locale.php file inside config
+     */
+    private function __setLanguage() {
+        App::import(array(
+            'type' => 'File', 
+            'name' => 'BlogmillLocaleSetting',
+            'file' => APP . 'config' . DS . 'locale.php'
+        ));
     }
 }
 ?>
