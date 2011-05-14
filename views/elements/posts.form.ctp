@@ -1,5 +1,5 @@
 <div class="posts form">
- 		<h1><span><?php echo Inflector::humanize(Inflector::underscore($type)); ?></span></h1>
+    <h1><span><?php echo $postTypes[$plugin][$type]['name']; ?></span></h1>
 
 <?php
 	$post_id = isset($this->params['pass'][2]) ? $this->params['pass'][2] : '';

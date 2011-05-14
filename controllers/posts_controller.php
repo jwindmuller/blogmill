@@ -75,7 +75,7 @@ class PostsController extends AppController {
 		$post_type_decorators = $this->Blogmill->activeThemeDecorators();
 		foreach ($post_type_decorators as $group => $decorator) {
 			if (!in_array("$plugin.$modelName", $decorator['types'])) continue;
-			$decorators_group = array('title' => __($decorator['label'], true), 'fields' => array());
+			$decorators_group = array('title' => $decorator['label'], 'fields' => array());
 			foreach ($decorator['fields'] as $name => $field_definition) {
 				$validation = $field_definition['validation'];
 				unset($field_definition['validation']);
@@ -87,7 +87,7 @@ class PostsController extends AppController {
 				$formLayout['form-sidebar'][] = $decorators_group;
 		}
         $formLayout['form-sidebar'][] = array('title' => __('Category', true), 'fields' => array(array('category_id' => array('empty' => true))));
-		$this->set(compact('type', 'formLayout'));
+		$this->set(compact('plugin', 'type', 'formLayout'));
 	}
 	
 	private function __setCategories() {
