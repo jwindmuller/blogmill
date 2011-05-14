@@ -19,29 +19,19 @@ class BlogmillFormHelper extends AppHelper {
 			return $this->Form->input($field, $options);
 		}
 		$type = $typeDefinition = $Post->fields[$field];
-		$label = false;
-		$class = 'input ' . $type;
 		if (is_array($type)) {
-			if(isset($type['label'])) {
-				$label = $type['label'];
-			}
+            unset($typeDefinition['type']);
 			$type = $type['type'];
-			$class = 'input ' . $type;
-		}
-		if (is_array($type)) {
-			$typeDefinition = $type;
-			$type = $type['type'];
-		}
+		} else {
+            $typeDefinition = array();
+        }
+        $class = 'input ' . $type;
 		if (array_key_exists($type, $this->__typeMap)) {
-			$typeDefinition['label'] = $label;
 			if ($this->__typeMap[$type] === false)
 				return $this->{"__$type"}($field, $typeDefinition);
 			$type = $this->__typeMap[$type];
 		}
-		$options = $options + compact('type') + array('div' => compact('class'));
-		if ($label) {
-			$options['label'] = $label;
-		}
+		$options = $options + compact('type') + array('div' => compact('class')) + $typeDefinition;
 		return $this->Form->input($field, $options);
 	}
 	
@@ -78,14 +68,16 @@ class BlogmillFormHelper extends AppHelper {
 			'$(function() {$("div.input.values").stars({inputType: "select", disableValue : false});})',
 			array('inline' => false)
 		);
+        $max = $typeDefinition['count'];
+        unset($typeDefinition);
 		return $this->Form->input($field,
-			array('type' => 'select', 'options' => range(0, $typeDefinition['count']), 'div' => array('class' => 'input values'))
+			array('type' => 'select', 'options' => range(0, $max), 'div' => array('class' => 'input values')) + $typeDefinition
 		);
 	}
 	
 	private function __html($field, $typeDefinition) {
 		$this->JavaScript->link('jquery.tinymce/jquery.tinymce', false);
-		return $this->Form->input($field, array('type' => 'textarea', 'div' => array('class' => 'input htmleditor')));
+		return $this->Form->input($field, array('type' => 'textarea', 'div' => array('class' => 'input htmleditor')) + $typeDefinition);
 	}
 	
 	private function __longtext($field, $typeDefinition) {
@@ -110,7 +102,7 @@ class BlogmillFormHelper extends AppHelper {
 				array('inline' => false)
 			);
 		}
-		return $this->Form->input($field, array('type' => 'textarea', 'div' => array('class' => 'input longtext ' . $class)));
+		return $this->Form->input($field, array('type' => 'textarea', 'div' => array('class' => 'input longtext ' . $class)) + $typeDefinition);
 	}
 	
 	public function inputs($for) {
