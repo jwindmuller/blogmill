@@ -6,7 +6,7 @@
 	$selectTitle = __('New Post', true);
 	if (isset($postTypes)) {
 		foreach ($postTypes as $plugin => $types) {
-			$pluginItems = array("<strong>$plugin</strong>");
+			$pluginItems = array();
 			foreach ($types as $type => $definition) {
 				$pluginItems[] = $html->link(
 					isset($definition['name']) ? $definition['name'] : $type,

@@ -183,7 +183,6 @@ aside#sidebar p {
 aside#sidebar div.select {
 	background:transparent url('../img/dashboard/select.png') no-repeat 0 0;
 	position:relative;
-	width:140px;
 }
 aside#sidebar div.select a {
 	text-decoration:none;
@@ -193,13 +192,13 @@ aside#sidebar div.select strong {
 	font-weight:normal;
 	color:#fff;
 	display:block;
-	width:120px;
 	height:10px;
 	padding:5px 10px;
 	cursor:pointer;
 }
 aside#sidebar div.select ul li ul li strong {
 	cursor:default;
+    border-bottom:#ccc 1px solid;
 }
 aside#sidebar div.select ul {
 	position:absolute;
@@ -212,15 +211,16 @@ aside#sidebar div.select ul {
 aside#sidebar div.select ul li {
 	background:#f4f4f4;
 	border:#ccc 1px solid;
-	border-top:0;
+	border-top:none;
+    border-bottom:none;
 	overflow:hidden;
 }
 aside#sidebar div.select ul li a {
 	display:block;
-	white-space:nowrap;
 	padding:3px 10px;
 	color:#333;
 	text-decoration:none;
+    border-bottom:#ccc 1px solid;
 }
 aside#sidebar div.select ul li a:hover,
 aside#sidebar div.select ul li a:focus {
@@ -420,7 +420,8 @@ form div.htmleditor span.mceEditor.form-error {
 }
 form div.htmleditor span.mceEditor {
 	border:none;
-	padding-bottom:15px;
+	padding-bottom:0;
+    margin-bottom:0;
 }
 form div.longtext {
 	position:relative;
