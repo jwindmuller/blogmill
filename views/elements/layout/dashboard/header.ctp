@@ -32,16 +32,23 @@
             <?php foreach( $adminMenus as $plugin => $menu): ?>
                 <?php foreach($menu as $item) : ?>
                 <?php
-                    $active = $this->name == 'Plugins' && $this->action == 'dashboard_page' &&
-                                $this->params['pass'][0] == $plugin && $this->params['pass'][1] == $item;
+                    if (is_array($item)) {
+                        $label = current($item);
+                        $item = key($item);
+                    } else {
+                        $label = $item;
+                    }
+                    $active  =  $this->name == 'Plugins' &&
+                                $this->action == 'dashboard_page' &&
+                                $this->params['pass'][0] == $plugin &&
+                                $this->params['pass'][1] == $item;
                 ?>
                 <li<?php echo $active ? ' class="current"' : ''; ?>><?php
                         echo $this->Html->link(
-    		    			$item,
+                            $label,
 				    	    array('controller' => 'plugins', 'action' => 'page', 'dashboard' => true, $plugin, $item)
 				        );
                     ?>
-    
                 </li>
                 <?php endforeach; ?>
             <?php endforeach; ?>           
