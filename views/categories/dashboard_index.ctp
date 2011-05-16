@@ -1,7 +1,7 @@
 <div class="categories index">
 	<h1><span><?php __('Categories');?></span></h1>
    	<ul class="actions">
-    	<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Category', true)), array('action' => 'add')); ?></li>
+    	<li><?php echo $this->Html->link(__('New Category', true), array('action' => 'add')); ?></li>
    	</ul>
 	<table cellpadding="0" cellspacing="0">
 	<tr>

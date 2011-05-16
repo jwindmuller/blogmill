@@ -29,15 +29,15 @@
 		<li><?php echo $this->Html->link(sprintf(__('Edit %s', true), __('Category', true)), array('action' => 'edit', $category['Category']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('Delete %s', true), __('Category', true)), array('action' => 'delete', $category['Category']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $category['Category']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Categories', true)), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Category', true)), array('action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Category', true), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Categories', true)), array('controller' => 'categories', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Parent Category', true)), array('controller' => 'categories', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Parent Category', true), array('controller' => 'categories', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Posts', true)), array('controller' => 'posts', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Post', true)), array('controller' => 'posts', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Post', true), array('controller' => 'posts', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 <div class="related">
-	<h3><?php printf(__('Related %s', true), __('Categories', true));?></h3>
+	<h3><?php __('Related Categories');?></h3>
 	<?php if (!empty($category['SubCategory'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
@@ -72,7 +72,7 @@
 
 	<div class="actions">
 		<ul>
-			<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Sub Category', true)), array('controller' => 'categories', 'action' => 'add'));?> </li>
+			<li><?php echo $this->Html->link(__('New Sub Category', true), array('controller' => 'categories', 'action' => 'add'));?> </li>
 		</ul>
 	</div>
 </div>
@@ -120,7 +120,7 @@
 
 	<div class="actions">
 		<ul>
-			<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Post', true)), array('controller' => 'posts', 'action' => 'add'));?> </li>
+			<li><?php echo $this->Html->link(__('New Post', true), array('controller' => 'posts', 'action' => 'add'));?> </li>
 		</ul>
 	</div>
 </div>

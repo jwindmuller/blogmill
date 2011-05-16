@@ -1,11 +1,11 @@
-# LANGUAGE translation of Blogmill
-# Copyright 2011 Joaquin Windmuller <joaquin _at_ windmuller _dot_ ca>
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2011-05-14 04:33+0000\n"
+"POT-Creation-Date: 2011-05-16 02:50+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,58 +14,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: /controllers/categories_controller.php:23;45
-#: /controllers/comments_controller.php:13;35
-#: /controllers/fields_controller.php:13;35
-#: /controllers/post_types_controller.php:13;33
-#: /controllers/posts_controller.php:30;56
-#: /controllers/users_controller.php:14;84
-msgid "Invalid %s"
+#: /controllers/categories_controller.php:23;45;56
+msgid "Invalid category"
 msgstr ""
 
 #: /controllers/categories_controller.php:33
-#: /controllers/comments_controller.php:23;40
-#: /controllers/fields_controller.php:23;40
-#: /controllers/post_types_controller.php:23;38
-#: /controllers/posts_controller.php:104
-#: /controllers/users_controller.php:95
-msgid "The %s has been saved"
+msgid "The category has been saved"
 msgstr ""
 
 #: /controllers/categories_controller.php:36
-#: /controllers/comments_controller.php:26;43
-#: /controllers/fields_controller.php:26;43
-#: /controllers/post_types_controller.php:26;41
-#: /controllers/posts_controller.php:107
-#: /controllers/users_controller.php:35;98
-msgid "The %s could not be saved. Please, try again."
-msgstr ""
-
-#: /controllers/categories_controller.php:56
-#: /controllers/comments_controller.php:55
-#: /controllers/fields_controller.php:55
-#: /controllers/post_types_controller.php:51
-#: /controllers/posts_controller.php:122
-#: /controllers/users_controller.php:136
-msgid "Invalid id for %s"
+msgid "The category could not be saved. Please, try again."
 msgstr ""
 
 #: /controllers/categories_controller.php:60
-#: /controllers/comments_controller.php:59
-#: /controllers/fields_controller.php:59
-#: /controllers/post_types_controller.php:55
-#: /controllers/posts_controller.php:126
-#: /controllers/users_controller.php:140
-msgid "%s deleted"
+msgid "Category deleted"
 msgstr ""
 
 #: /controllers/categories_controller.php:63
+msgid "Category was not deleted"
+msgstr ""
+
+#: /controllers/comments_controller.php:13;35;55
+msgid "Invalid comment"
+msgstr ""
+
+#: /controllers/comments_controller.php:23;40
+msgid "The comment has been saved"
+msgstr ""
+
+#: /controllers/comments_controller.php:26;43
+msgid "The comment could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/comments_controller.php:59
+msgid "Comment deleted"
+msgstr ""
+
 #: /controllers/comments_controller.php:62
-#: /controllers/fields_controller.php:62
-#: /controllers/post_types_controller.php:58
-#: /controllers/posts_controller.php:129
-#: /controllers/users_controller.php:143
-msgid "%s was not deleted"
+msgid "Comment was not deleted"
 msgstr ""
 
 #: /controllers/contacts_controller.php:16
@@ -76,11 +62,30 @@ msgstr ""
 msgid "There was a problem sending this email, please try again"
 msgstr ""
 
+#: /controllers/posts_controller.php:30;56;122
+msgid "Invalid post"
+msgstr ""
+
 #: /controllers/posts_controller.php:89
-#: /views/categories/dashboard_index.ctp:4
-#: /views/categories/view.ctp:2;29;30;32
+#: /views/categories/view.ctp:2;29;30
 #: /views/elements/category.form.ctp:5
 msgid "Category"
+msgstr ""
+
+#: /controllers/posts_controller.php:104
+msgid "The post has been saved"
+msgstr ""
+
+#: /controllers/posts_controller.php:107
+msgid "The post could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/posts_controller.php:126
+msgid "Post deleted"
+msgstr ""
+
+#: /controllers/posts_controller.php:129
+msgid "Post was not deleted"
 msgstr ""
 
 #: /controllers/posts_controller.php:136
@@ -116,7 +121,11 @@ msgid "Could not change the theme, please try again."
 msgstr ""
 
 #: /controllers/settings_controller.php:198
-msgid "Correctly save the settings for plugin %s"
+msgid "Correctly saved the settings for plugin %s"
+msgstr ""
+
+#: /controllers/users_controller.php:14;84;136
+msgid "Invalid user"
 msgstr ""
 
 #: /controllers/users_controller.php:27
@@ -125,6 +134,10 @@ msgstr ""
 
 #: /controllers/users_controller.php:30
 msgid "The user was created but the email could not be sent"
+msgstr ""
+
+#: /controllers/users_controller.php:35;98
+msgid "The user could not be saved. Please, try again."
 msgstr ""
 
 #: /controllers/users_controller.php:54
@@ -139,6 +152,10 @@ msgstr ""
 msgid "The notification could not be sent"
 msgstr ""
 
+#: /controllers/users_controller.php:95
+msgid "The user has been saved"
+msgstr ""
+
 #: /controllers/users_controller.php:121
 msgid "Welcome!"
 msgstr ""
@@ -149,6 +166,14 @@ msgstr ""
 
 #: /controllers/users_controller.php:129
 msgid "Invalid request, please try again or contact the administrator.!"
+msgstr ""
+
+#: /controllers/users_controller.php:140
+msgid "User deleted"
+msgstr ""
+
+#: /controllers/users_controller.php:143
+msgid "User was not deleted"
 msgstr ""
 
 #: /controllers/users_controller.php:160
@@ -407,26 +432,14 @@ msgid "Last modified:"
 msgstr ""
 
 #: /views/categories/dashboard_index.ctp:2
-#: /views/categories/view.ctp:31;33;40
+#: /views/categories/view.ctp:31;33
 #: /views/elements/layout/dashboard/header.ctp:22
 msgid "Categories"
 msgstr ""
 
 #: /views/categories/dashboard_index.ctp:4
-#: /views/categories/view.ctp:32;34;36;75;123
-#: /views/comments/add.ctp:21
-#: /views/comments/dashboard_index.ctp:57;59
-#: /views/comments/edit.ctp:23
-#: /views/comments/view.ctp:47;49
-#: /views/fields/add.ctp:19
-#: /views/fields/edit.ctp:21
-#: /views/fields/index.ctp:51;53
-#: /views/fields/view.ctp:32;34
-#: /views/post_types/add.ctp:18
-#: /views/post_types/edit.ctp:20
-#: /views/post_types/index.ctp:47;49
-#: /views/post_types/view.ctp:27;29;72
-msgid "New %s"
+#: /views/categories/view.ctp:32
+msgid "New Category"
 msgstr ""
 
 #: /views/categories/dashboard_index.ctp:12
@@ -436,14 +449,6 @@ msgstr ""
 #: /views/comments/dashboard_index.ctp:11;55
 #: /views/comments/edit.ctp:17
 #: /views/comments/view.ctp:42
-#: /views/fields/add.ctp:14
-#: /views/fields/edit.ctp:15
-#: /views/fields/index.ctp:9;49
-#: /views/fields/view.ctp:27
-#: /views/post_types/add.ctp:13
-#: /views/post_types/edit.ctp:14
-#: /views/post_types/index.ctp:8;45
-#: /views/post_types/view.ctp:22;43
 #: /views/posts/dashboard_index.ctp:11
 #: /views/users/dashboard_index.ctp:14
 #: /views/users/dashboard_view.ctp:47;72
@@ -454,9 +459,6 @@ msgstr ""
 #: /views/categories/dashboard_view.ctp:35
 #: /views/categories/view.ctp:64;112
 #: /views/comments/dashboard_index.ctp:33
-#: /views/fields/index.ctp:27
-#: /views/post_types/index.ctp:23
-#: /views/post_types/view.ctp:61
 #: /views/posts/dashboard_index.ctp:41
 #: /views/settings/dashboard_menu.ctp:44;44
 #: /views/users/dashboard_index.ctp:30
@@ -468,9 +470,6 @@ msgstr ""
 #: /views/categories/dashboard_view.ctp:36
 #: /views/categories/view.ctp:65;113
 #: /views/comments/dashboard_index.ctp:34
-#: /views/fields/index.ctp:28
-#: /views/post_types/index.ctp:24
-#: /views/post_types/view.ctp:62
 #: /views/posts/dashboard_index.ctp:42
 #: /views/settings/dashboard_menu.ctp:51;51
 #: /views/users/dashboard_index.ctp:31
@@ -483,12 +482,7 @@ msgstr ""
 #: /views/categories/view.ctp:66;114
 #: /views/comments/dashboard_index.ctp:35
 #: /views/comments/edit.ctp:20
-#: /views/fields/edit.ctp:18
-#: /views/fields/index.ctp:29
 #: /views/helpers/blogmill.php:69
-#: /views/post_types/edit.ctp:17
-#: /views/post_types/index.ctp:25
-#: /views/post_types/view.ctp:63
 #: /views/settings/dashboard_menu.ctp:58;58
 #: /views/users/dashboard_index.ctp:32
 #: /views/users/dashboard_view.ctp:96
@@ -501,8 +495,6 @@ msgstr ""
 
 #: /views/categories/dashboard_index.ctp:40
 #: /views/comments/dashboard_index.ctp:43
-#: /views/fields/index.ctp:37
-#: /views/post_types/index.ctp:33
 #: /views/posts/dashboard_index.ctp:52
 #: /views/users/dashboard_index.ctp:43
 msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
@@ -510,8 +502,6 @@ msgstr ""
 
 #: /views/categories/dashboard_index.ctp:45
 #: /views/comments/dashboard_index.ctp:48
-#: /views/fields/index.ctp:42
-#: /views/post_types/index.ctp:38
 #: /views/posts/dashboard_index.ctp:57
 #: /views/users/dashboard_index.ctp:48
 msgid "previous"
@@ -519,43 +509,18 @@ msgstr ""
 
 #: /views/categories/dashboard_index.ctp:48
 #: /views/comments/dashboard_index.ctp:51
-#: /views/fields/index.ctp:45
-#: /views/post_types/index.ctp:41
 #: /views/posts/dashboard_index.ctp:60
 #: /views/users/dashboard_index.ctp:51
 msgid "next"
 msgstr ""
 
 #: /views/categories/dashboard_view.ctp:3
-#: /views/categories/view.ctp:40;80
-#: /views/post_types/view.ctp:33
-msgid "Related %s"
-msgstr ""
-
-#: /views/categories/dashboard_view.ctp:3
-#: /views/categories/view.ctp:35;80
-#: /views/comments/add.ctp:20
-#: /views/comments/dashboard_index.ctp:58
-#: /views/comments/edit.ctp:22
-#: /views/comments/view.ctp:48
-#: /views/elements/layout/dashboard/header.ctp:8
-#: /views/fields/add.ctp:18
-#: /views/fields/edit.ctp:20
-#: /views/fields/index.ctp:52
-#: /views/fields/view.ctp:33
-#: /views/post_types/add.ctp:17
-#: /views/post_types/edit.ctp:19
-#: /views/post_types/index.ctp:48
-#: /views/post_types/view.ctp:28;33
-#: /views/posts/dashboard_index.ctp:2
-msgid "Posts"
+msgid "Posts under this Category"
 msgstr ""
 
 #: /views/categories/dashboard_view.ctp:7
 #: /views/categories/view.ctp:4;44;84
 #: /views/comments/view.ctp:4
-#: /views/fields/view.ctp:4
-#: /views/post_types/view.ctp:4;37
 #: /views/users/dashboard_view.ctp:62
 msgid "Id"
 msgstr ""
@@ -580,7 +545,6 @@ msgstr ""
 
 #: /views/categories/dashboard_view.ctp:11
 #: /views/categories/view.ctp:88
-#: /views/post_types/view.ctp:39
 #: /views/users/dashboard_view.ctp:64
 msgid "User Id"
 msgstr ""
@@ -588,21 +552,18 @@ msgstr ""
 #: /views/categories/dashboard_view.ctp:12
 #: /views/categories/view.ctp:89
 #: /views/comments/view.ctp:34
-#: /views/post_types/view.ctp:40
 #: /views/users/dashboard_view.ctp:24;65
 msgid "Created"
 msgstr ""
 
 #: /views/categories/dashboard_view.ctp:13
 #: /views/categories/view.ctp:90
-#: /views/post_types/view.ctp:41
 #: /views/users/dashboard_view.ctp:29;66
 msgid "Modified"
 msgstr ""
 
 #: /views/categories/dashboard_view.ctp:14
 #: /views/categories/view.ctp:47;91
-#: /views/post_types/view.ctp:42
 #: /views/users/dashboard_view.ctp:67
 msgid "Category Id"
 msgstr ""
@@ -612,12 +573,6 @@ msgstr ""
 #: /views/comments/dashboard_index.ctp:35
 #: /views/comments/edit.ctp:20
 #: /views/comments/view.ctp:45
-#: /views/fields/edit.ctp:18
-#: /views/fields/index.ctp:29
-#: /views/fields/view.ctp:30
-#: /views/post_types/edit.ctp:17
-#: /views/post_types/index.ctp:25
-#: /views/post_types/view.ctp:25;63
 #: /views/users/dashboard_index.ctp:32
 #: /views/users/dashboard_view.ctp:50;96
 msgid "Are you sure you want to delete # %s?"
@@ -628,7 +583,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: /views/categories/view.ctp:19;34
+#: /views/categories/view.ctp:19
 #: /views/elements/category.form.ctp:11
 msgid "Parent Category"
 msgstr ""
@@ -636,18 +591,12 @@ msgstr ""
 #: /views/categories/view.ctp:29
 #: /views/comments/edit.ctp:4
 #: /views/comments/view.ctp:44
-#: /views/fields/edit.ctp:4
-#: /views/fields/view.ctp:29
-#: /views/post_types/edit.ctp:4
-#: /views/post_types/view.ctp:24
 #: /views/users/dashboard_edit.ctp:7
 msgid "Edit %s"
 msgstr ""
 
 #: /views/categories/view.ctp:30
 #: /views/comments/view.ctp:45
-#: /views/fields/view.ctp:30
-#: /views/post_types/view.ctp:25
 msgid "Delete %s"
 msgstr ""
 
@@ -656,48 +605,53 @@ msgstr ""
 #: /views/comments/dashboard_index.ctp:58
 #: /views/comments/edit.ctp:21;22
 #: /views/comments/view.ctp:46;48
-#: /views/fields/add.ctp:17;18
-#: /views/fields/edit.ctp:19;20
-#: /views/fields/index.ctp:52
-#: /views/fields/view.ctp:31;33
-#: /views/post_types/add.ctp:16;17
-#: /views/post_types/edit.ctp:18;19
-#: /views/post_types/index.ctp:48
-#: /views/post_types/view.ctp:26;28
 msgid "List %s"
+msgstr ""
+
+#: /views/categories/view.ctp:34
+msgid "New Parent Category"
+msgstr ""
+
+#: /views/categories/view.ctp:35;80
+#: /views/comments/add.ctp:20
+#: /views/comments/dashboard_index.ctp:58
+#: /views/comments/edit.ctp:22
+#: /views/comments/view.ctp:48
+#: /views/elements/layout/dashboard/header.ctp:8
+#: /views/posts/dashboard_index.ctp:2
+msgid "Posts"
 msgstr ""
 
 #: /views/categories/view.ctp:36;123
 #: /views/comments/add.ctp:21
 #: /views/comments/dashboard_index.ctp:59
 #: /views/comments/edit.ctp:23
-#: /views/comments/view.ctp:9;49
-#: /views/fields/add.ctp:19
-#: /views/fields/edit.ctp:21
-#: /views/fields/index.ctp:53
-#: /views/fields/view.ctp:9;34
-#: /views/post_types/add.ctp:18
-#: /views/post_types/edit.ctp:20
-#: /views/post_types/index.ctp:49
-#: /views/post_types/view.ctp:29;72
-msgid "Post"
+#: /views/comments/view.ctp:49
+#: /views/elements/layout/dashboard/sidebar.ctp:6
+#: /views/users/dashboard_view.ctp:54;105
+msgid "New Post"
+msgstr ""
+
+#: /views/categories/view.ctp:40
+msgid "Related Categories"
 msgstr ""
 
 #: /views/categories/view.ctp:75
-msgid "Sub Category"
+msgid "New Sub Category"
+msgstr ""
+
+#: /views/categories/view.ctp:80
+msgid "Related %s"
 msgstr ""
 
 #: /views/comments/add.ctp:4
 #: /views/elements/category.form.ctp:5
-#: /views/fields/add.ctp:4
-#: /views/post_types/add.ctp:4
 msgid "Add %s"
 msgstr ""
 
 #: /views/comments/add.ctp:4
-#: /views/comments/dashboard_index.ctp:57
 #: /views/comments/edit.ctp:4
-#: /views/comments/view.ctp:2;44;45;47
+#: /views/comments/view.ctp:2;44;45
 #: /views/elements/comments.form.ctp:28
 msgid "Comment"
 msgstr ""
@@ -706,11 +660,7 @@ msgstr ""
 #: /views/comments/edit.ctp:14
 #: /views/elements/category.form.ctp:18
 #: /views/elements/comments.form.ctp:31
-#: /views/fields/add.ctp:11
-#: /views/fields/edit.ctp:12
-#: /views/helpers/blogmill_form.php:157
-#: /views/post_types/add.ctp:10
-#: /views/post_types/edit.ctp:11
+#: /views/helpers/blogmill_form.php:151
 #: /views/users/dashboard_add.ctp:11
 #: /views/users/dashboard_edit.ctp:49
 msgid "Submit"
@@ -729,16 +679,23 @@ msgstr ""
 msgid "When"
 msgstr ""
 
+#: /views/comments/dashboard_index.ctp:57
+#: /views/comments/view.ctp:47
+msgid "New Comment"
+msgstr ""
+
+#: /views/comments/view.ctp:9
+msgid "Post"
+msgstr ""
+
 #: /views/comments/view.ctp:14
-#: /views/fields/view.ctp:14
-#: /views/helpers/blogmill_form.php:153
-#: /views/post_types/view.ctp:14
+#: /views/helpers/blogmill_form.php:147
 msgid "Name"
 msgstr ""
 
 #: /views/comments/view.ctp:19
 #: /views/elements/email_dump.ctp:12
-#: /views/helpers/blogmill_form.php:154
+#: /views/helpers/blogmill_form.php:148
 #: /views/users/dashboard_view.ctp:14
 msgid "Email"
 msgstr ""
@@ -815,56 +772,33 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: /views/elements/layout/dashboard/header.ctp:50
+#: /views/elements/layout/dashboard/header.ctp:57
 #: /views/settings/dashboard_index.ctp:1
 msgid "Settings"
 msgstr ""
 
-#: /views/elements/layout/dashboard/header.ctp:57
+#: /views/elements/layout/dashboard/header.ctp:64
 #: /views/settings/dashboard_themes.ctp:1
 msgid "Current Theme"
 msgstr ""
 
-#: /views/elements/layout/dashboard/header.ctp:63
+#: /views/elements/layout/dashboard/header.ctp:70
 msgid "Plugins"
 msgstr ""
 
-#: /views/elements/layout/dashboard/header.ctp:72
+#: /views/elements/layout/dashboard/header.ctp:79
 msgid "Logout (%s)"
-msgstr ""
-
-#: /views/elements/layout/dashboard/sidebar.ctp:6
-#: /views/users/dashboard_view.ctp:54;105
-msgid "New Post"
-msgstr ""
-
-#: /views/fields/add.ctp:4
-#: /views/fields/edit.ctp:4
-#: /views/fields/index.ctp:51
-#: /views/fields/view.ctp:2;29;30;32
-msgid "Field"
-msgstr ""
-
-#: /views/fields/add.ctp:17
-#: /views/fields/edit.ctp:19
-#: /views/fields/index.ctp:2
-#: /views/fields/view.ctp:31
-msgid "Fields"
-msgstr ""
-
-#: /views/fields/view.ctp:19
-msgid "Value"
 msgstr ""
 
 #: /views/helpers/blogmill.php:51
 msgid "edit this post"
 msgstr ""
 
-#: /views/helpers/blogmill_form.php:155
+#: /views/helpers/blogmill_form.php:149
 msgid "Subject"
 msgstr ""
 
-#: /views/helpers/blogmill_form.php:156
+#: /views/helpers/blogmill_form.php:150
 msgid "Message"
 msgstr ""
 
@@ -879,28 +813,6 @@ msgstr ""
 
 #: /views/layouts/default.ctp:31
 msgid "CakePHP: the rapid development php framework"
-msgstr ""
-
-#: /views/post_types/add.ctp:4
-#: /views/post_types/edit.ctp:4
-#: /views/post_types/index.ctp:47
-#: /views/post_types/view.ctp:2;24;25;27
-msgid "Post Type"
-msgstr ""
-
-#: /views/post_types/add.ctp:16
-#: /views/post_types/edit.ctp:18
-#: /views/post_types/index.ctp:2
-#: /views/post_types/view.ctp:26
-msgid "Post Types"
-msgstr ""
-
-#: /views/post_types/view.ctp:9
-msgid "Original"
-msgstr ""
-
-#: /views/post_types/view.ctp:38
-msgid "Post Type Id"
 msgstr ""
 
 #: /views/posts/dashboard_index.ctp:7

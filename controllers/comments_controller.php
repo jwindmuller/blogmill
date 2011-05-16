@@ -10,7 +10,7 @@ class CommentsController extends AppController {
 
 	function view($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'comment'));
+			$this->Session->setFlash(__('Invalid comment', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		$this->set('comment', $this->Comment->read(null, $id));
@@ -20,10 +20,10 @@ class CommentsController extends AppController {
 		if (!empty($this->data)) {
 			$this->Comment->create();
 			if ($this->Comment->save($this->data)) {
-				$this->Session->setFlash(sprintf(__('The %s has been saved', true), 'comment'));
+				$this->Session->setFlash(__('The comment has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'comment'));
+				$this->Session->setFlash(__('The comment could not be saved. Please, try again.', true));
 			}
 		}
 		$posts = $this->Comment->Post->find('list');
@@ -32,15 +32,15 @@ class CommentsController extends AppController {
 
 	function edit($id = null) {
 		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'comment'));
+			$this->Session->setFlash(__('Invalid comment', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
 			if ($this->Comment->save($this->data)) {
-				$this->Session->setFlash(sprintf(__('The %s has been saved', true), 'comment'));
+				$this->Session->setFlash(__('The comment has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'comment'));
+				$this->Session->setFlash(__('The comment could not be saved. Please, try again.', true));
 			}
 		}
 		if (empty($this->data)) {
@@ -52,14 +52,14 @@ class CommentsController extends AppController {
 
 	function delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(sprintf(__('Invalid id for %s', true), 'comment'));
+			$this->Session->setFlash(__('Invalid comment', true));
 			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->Comment->delete($id)) {
-			$this->Session->setFlash(sprintf(__('%s deleted', true), 'Comment'));
+			$this->Session->setFlash(__('Comment deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		$this->Session->setFlash(sprintf(__('%s was not deleted', true), 'Comment'));
+		$this->Session->setFlash(__('Comment was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
 }

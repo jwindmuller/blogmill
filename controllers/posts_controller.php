@@ -27,7 +27,7 @@ class PostsController extends AppController {
 	
 	function view($id, $slug = null) {
 		if (!$id) {
-			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'post'));
+			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
@@ -53,7 +53,7 @@ class PostsController extends AppController {
 	
 	function dashboard_edit($plugin, $type, $id = null) {
 		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'post'));
+			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		$this->__prepareModel($plugin, $type);
@@ -101,10 +101,10 @@ class PostsController extends AppController {
 		$this->data['Post']['type'] = $type;
         $this->data['Post']['user_id'] = $this->Auth->user('id');
 		if ($this->Post->savePost($this->data)) {
-			$this->Session->setFlash(sprintf(__('The %s has been saved', true), 'post'));
+			$this->Session->setFlash(__('The post has been saved', true));
 			$this->redirect(array('action' => 'index'));
 		} else {
-			$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'post'));
+			$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
 		}
 	}
 	
@@ -119,14 +119,14 @@ class PostsController extends AppController {
 
 	function dashboard_delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(sprintf(__('Invalid id for %s', true), 'post'));
+			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->Post->delete($id)) {
-			$this->Session->setFlash(sprintf(__('%s deleted', true), 'Post'));
+			$this->Session->setFlash(__('Post deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		$this->Session->setFlash(sprintf(__('%s was not deleted', true), 'Post'));
+		$this->Session->setFlash(__('Post was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
 		

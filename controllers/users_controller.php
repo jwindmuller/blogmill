@@ -11,7 +11,7 @@ class UsersController extends AppController {
 
 	function dashboard_view($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'user'));
+			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		$this->set('user', $this->User->read(null, $id));
@@ -32,7 +32,7 @@ class UsersController extends AppController {
                 }
 
 			} else {
-				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'user'));
+				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
 			}
 			$this->data['User']['password'] = $password;
 			$this->data['User']['password_confirm'] = $password_confirm;
@@ -81,7 +81,7 @@ class UsersController extends AppController {
 
 	function dashboard_edit($id = null) {
 		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(sprintf(__('Invalid %s', true), 'user'));
+			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect(array('action' => 'index'));
 		}
         $user = $this->User->findById($id);
@@ -92,10 +92,10 @@ class UsersController extends AppController {
                 unset($this->data['User']['password_confirm']);
             }
 			if ($this->User->save($this->data)) {
-				$this->Session->setFlash(sprintf(__('The %s has been saved', true), 'user'));
+				$this->Session->setFlash(__('The user has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again.', true), 'user'));
+				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
 			}
 		}
 		if (empty($this->data)) {
@@ -133,14 +133,14 @@ class UsersController extends AppController {
 
 	function delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(sprintf(__('Invalid id for %s', true), 'user'));
+			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->User->delete($id)) {
-			$this->Session->setFlash(sprintf(__('%s deleted', true), 'User'));
+			$this->Session->setFlash(__('User deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		$this->Session->setFlash(sprintf(__('%s was not deleted', true), 'User'));
+		$this->Session->setFlash(__('User was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
 

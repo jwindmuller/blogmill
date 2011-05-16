@@ -1,6 +1,6 @@
 <div class="categories view">
 <h2><?php  echo $category['Category']['title']; ?></h2>
-	<h3><?php printf(__('Related %s', true), __('Posts', true));?></h3>
+	<h3><?php __('Posts under this Category');?></h3>
 	<?php if (!empty($category['Post'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>

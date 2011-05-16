@@ -195,7 +195,7 @@ class SettingsController extends AppController {
 					}
 				}
 				if (empty($errors)) {
-					$this->Session->setFlash(sprintf(__('Correctly save the settings for plugin %s', true), $plugin));
+					$this->Session->setFlash(sprintf(__('Correctly saved the settings for plugin %s', true), $plugin));
 					$this->redirect(array('controller' => 'settings', 'action' => 'plugins'));
 				}
 				$this->Setting->validationErrors = $errors;
