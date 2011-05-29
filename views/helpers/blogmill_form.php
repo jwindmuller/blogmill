@@ -48,10 +48,11 @@ class BlogmillFormHelper extends AppHelper {
 				}
 			}
 		}
-		$label = $typeDefinition['label'];
-		if (!$label)
-			$label = Inflector::humanize($field);
-		if ($width || $height) {
+        $label = Inflector::humanize($field);
+		if (isset($typeDefinition['label'])) {
+            $label = $typeDefinition['label'];
+        }
+        if ($width || $height) {
 			if ($width && $height) $label .= " (${width}x${height})";
 			elseif ($width) $label .= " (${width}px width)";
 			elseif ($height) $label .= " (${height}px height)";
@@ -69,7 +70,7 @@ class BlogmillFormHelper extends AppHelper {
 			array('inline' => false)
 		);
         $max = $typeDefinition['count'];
-        unset($typeDefinition);
+        unset($typeDefinition['count']);
 		return $this->Form->input($field,
 			array('type' => 'select', 'options' => range(0, $max), 'div' => array('class' => 'input values')) + $typeDefinition
 		);
@@ -113,7 +114,9 @@ class BlogmillFormHelper extends AppHelper {
 			$title = '';
 			$class = $class_wrap = '';
 			if (is_array($field)) {
-				$title = sprintf('<strong class="title">%s</strong>', $field['title']); 
+                $title = '';
+                if (isset($field['title']))
+    				$title = sprintf('<strong class="title">%s</strong>', $field['title']); 
 				$class = ' class="group"';
 				$class_wrap = ' class="group-wrap"';
 				if (isset($field['width'])) 
