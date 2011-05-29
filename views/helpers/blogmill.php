@@ -6,7 +6,10 @@ class BlogmillHelper extends AppHelper {
 	
     public function beforeRender() {
         $view =& ClassRegistry::getObject('view');
-        $scripts_for_bottom = $view->viewVars['scripts_for_bottom'];
+        $scripts_for_bottom = array();
+        if (isset($view->viewVars['scripts_for_bottom'])) {
+            $scripts_for_bottom = $view->viewVars['scripts_for_bottom'];
+        }
         $scripts = array();
         foreach( $scripts_for_bottom as $url ) {
             $scripts[] = $this->Javascript->link($url);
@@ -126,6 +129,5 @@ class BlogmillHelper extends AppHelper {
 		$menu = $menu ? unserialize($menu['Setting']['value']) : array();
 		return $menu;
 	}
-
 }
 ?>
