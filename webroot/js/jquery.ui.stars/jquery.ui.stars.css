@@ -18,6 +18,7 @@
   overflow: hidden;
   text-indent: -999em;
   cursor: pointer;
+  margin:-3px -5px 5px 10px;
 }
 .ui-stars-star a,
 .ui-stars-cancel a {
