@@ -33,12 +33,14 @@ class BlogmillEmailComponent extends Object {
         $this->Controller->set($data);
 
         $this->Email->sendAs = 'both';
-        if (isset($options['debug'])) {
+        $this->Email->delivery = 'mail';
+        if (Configure::read('debug') > 1) {
             $this->Email->from = htmlentities($this->Email->form);
             $this->Email->to = htmlentities($this->Email->to);
             $this->Email->replyTo = htmlentities($this->Email->replyTo);
             $this->Email->delivery = 'debug';
         }
+
 
         return $this->Email->send();
     }
