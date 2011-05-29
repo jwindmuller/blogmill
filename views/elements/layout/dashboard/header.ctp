@@ -1,7 +1,7 @@
 <header id="top">
 	<nav>
 		<?php
-            echo $this->Html->link(isset($site_name) ? $site_name : __('Go to Site', true), '/', array('class' => 'home')); ?>
+            echo $this->Html->link(!empty($site_name) ? $site_name : __('Go to Site', true), '/', array('class' => 'home')); ?>
 		<?php if ($this->Session->check('Auth.User')): ?>
 		<ul>
 			<li<?php echo $this->name == 'Posts' ? ' class="current"' : ''; ?>><?php
