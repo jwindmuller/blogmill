@@ -1,6 +1,7 @@
 <header id="top">
 	<nav>
-		<?php echo $this->Html->link(__('Go to Site', true), '/', array('class' => 'home')); ?>
+		<?php
+            echo $this->Html->link(isset($site_name) ? $site_name : __('Go to Site', true), '/', array('class' => 'home')); ?>
 		<?php if ($this->Session->check('Auth.User')): ?>
 		<ul>
 			<li<?php echo $this->name == 'Posts' ? ' class="current"' : ''; ?>><?php
@@ -30,13 +31,10 @@
 				);
             ?></li>
             <?php foreach( $adminMenus as $plugin => $menu): ?>
-                <?php foreach($menu as $item) : ?>
+                <?php foreach($menu as $item => $label) : ?>
                 <?php
-                    if (is_array($item)) {
-                        $label = current($item);
-                        $item = key($item);
-                    } else {
-                        $label = $item;
+                    if (is_numeric($item)) {
+                        $item = $label;
                     }
                     $active  =  $this->name == 'Plugins' &&
                                 $this->action == 'dashboard_page' &&

@@ -25,6 +25,9 @@ class BlogmillComponent extends Object {
 		$this->__readPlugins();
 		// Sets up the current theme (data, helpers)
 		$this->__setupCurrentTheme();
+        // Sets up the current site name
+        $site_name = $this->Settings->get('BlogmillDefault.blogmill_site_name');
+        $this->Controller->set(compact('site_name'));
 	}
     
     public function beforeRender($controller) {
