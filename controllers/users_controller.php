@@ -43,11 +43,11 @@ class UsersController extends AppController {
         $Setting = ClassRegistry::init('Setting');
         $blogmill_site_name = $Setting->get('BlogmillDefault.blogmill_site_name');
         $options = array(
-            'from' => array(
+            'to' => array(
                 'name' => $user['User']['name'],
                 'email' => $user['User']['email']
             ),
-            'to' => array(
+            'from' => array(
                 'name' => '',
                 'email' => $Setting->get('BlogmillDefault.blogmill_contact_email')
             ),
