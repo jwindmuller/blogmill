@@ -22,7 +22,7 @@ class PostsController extends AppController {
 		$this->paginate = array('conditions' => array('type' => "$plugin.$type"), 'order' => 'created DESC');
 		$this->paginate['contain'] = array('Field', 'User(id,username)', 'Category');
         $posts = $this->paginate();
-		$this->set(compact('posts', 'type'));
+		$this->set(compact('posts', 'plugin', 'type'));
 	}
 	
 	function view($id, $slug = null) {
