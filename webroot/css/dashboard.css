@@ -383,6 +383,10 @@ form div.input.select {
 	-webkit-border-radius:10px;
 	width:100%;
 }
+div.form-wrapper div.cell.form-sidebar label,
+div.form-wrapper div.cell.form-sidebar input {
+    font-size:1em
+}
 form div.input.values label,
 form div.input.select label {
 	float:left;
