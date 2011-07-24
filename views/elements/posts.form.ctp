@@ -18,5 +18,10 @@
 		</div>
 	<?php echo $this->Form->input('guide', array('type' => 'hidden')); ?>
 	</fieldset>
-<?php echo $this->Form->end(sprintf(__('Create %s', true), Inflector::humanize(Inflector::underscore($type))));?>
+<?php
+    echo $this->Form->end(sprintf(
+            empty($post_id) ? __('Create %s', true) : __('Update %s', true),
+            Inflector::humanize(Inflector::underscore($type))
+    ));
+?>
 </div>
