@@ -5,7 +5,6 @@ class PostsController extends AppController {
 	var $components = array('HtmlPurifier');
 	
 	public function home() {
-		
 	}
 	
 	function index($plugin, $type=null) {
@@ -138,6 +137,7 @@ class PostsController extends AppController {
 				'controller' => 'posts',
 				'action' => 'view',
 				'id' => $post_id,
+                'type' => $this->Post->field('type', array('id' => $post_id)),
 				'slug' => $slug,
 				'#' => 'comments'
 			));
