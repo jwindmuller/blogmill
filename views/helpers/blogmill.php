@@ -61,6 +61,7 @@ class BlogmillHelper extends AppHelper {
 		$options = array_merge($options, $html_options);
 		return $this->Html->link(
 			$title, array(
+                'dashboard' => true,
 				'controller' => 'posts',
 				'action' => 'edit',
 				$plugin, $type,
