@@ -1,9 +1,18 @@
-<?php $typePlural = Inflector::pluralize($postTypes[$plugin][$type]['name']); ?>
+<?php
+    $typePlural = Inflector::pluralize($postTypes[$plugin][$type]['name']);
+    $this->viewVars['title_for_layout'] = $typePlural;
+?>
 <h1><?php echo $typePlural; ?></h1>
-<?php if ($posts) : ?>
-<?php foreach ($posts as $i => $post): list($plugin, $type) = explode('.', $post['Post']['type']); ?>
-	<?php echo $this->element(Inflector::underscore($type) . "/index", array('plugin' => $plugin, 'post' => $post)); ?>
-<?php endforeach ?>
-<?php else: ?>
-    <?php printf(__('No %s here yet', true), $typePlural); ?>
-<?php endif;?>
+<?php
+if ($posts) :
+    foreach ($posts as $i => $post):
+        list($plugin, $type) = explode('.', $post['Post']['type']);
+        echo $this->element(
+            Inflector::underscore($type) . "/index",
+            array('plugin' => $plugin, 'post' => $post)
+        );
+    endforeach;
+else:
+    echo '<p>', sprintf(__('No %s here yet', true), $typePlural), '</p>';
+endif;
+?>
