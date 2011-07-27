@@ -2,7 +2,7 @@
 App::import('Sanitize');
 class BlogmillHelper extends AppHelper {
 	
-	var $helpers = array('Html', 'Text', 'Javascript');
+	var $helpers = array('Html', 'Text', 'Javascript', 'Session');
 	
     public function beforeRender() {
         $view =& ClassRegistry::getObject('view');
@@ -130,5 +130,9 @@ class BlogmillHelper extends AppHelper {
 		$menu = $menu ? unserialize($menu['Setting']['value']) : array();
 		return $menu;
 	}
+
+    public function isOwner($post) {
+        return $this->field($post, 'user_id') == $this->Session->read('Auth.User.id');
+    }
 }
 ?>
