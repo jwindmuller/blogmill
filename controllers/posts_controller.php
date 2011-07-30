@@ -48,6 +48,7 @@ class PostsController extends AppController {
 	}
 
 	function dashboard_add($plugin, $type) {
+        $this->Blogmill->loadHtmlEditor();    
 		$this->__prepareModel($plugin, $type);
 		$this->__setCategories();
 		$this->Post->create();
@@ -59,6 +60,7 @@ class PostsController extends AppController {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
 		}
+        $this->Blogmill->loadHtmlEditor();
 		$this->__prepareModel($plugin, $type);
 		$this->__setCategories();
 		$this->__savePost("$plugin.$type");
@@ -119,6 +121,7 @@ class PostsController extends AppController {
             }
 			if ($type == 'html' && isset($this->data['Post'][$field])) {
                 $fieldData = $this->data['Post'][$field];
+                $fieldData = $this->Blogmill->transformHtmlEditorData( $fieldData );
 				$this->data['Post'][$field] = $this->HtmlCleaner->cleanup( $fieldData, $this->tagWhitelist);
 			}
 		}

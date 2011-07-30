@@ -185,6 +185,26 @@ class SettingsController extends AppController {
 		$this->set('configurable_plugins', $this->Blogmill->getConfigurablePlugins());
 		if ($plugin) {
 			$configurable_keys = $this->Blogmill->getConfigurableKeys($plugin);
+            foreach( $configurable_keys as $key => $config ) {
+                if (isset($config['hookable'])) {
+                    $config['options'] = array();
+                    if ( isset( $config['default'] ) ) {
+                        $config['options'][$config['default']] = $config['default'];
+                        unset($config['default']);
+                    }
+                    foreach( $this->hookableSettings as $hookPlugin => $hooks ) {
+                        if ( in_array( $key, $hooks ) ) {
+                            $config['options'][$hookPlugin] = $hookPlugin;
+                        }
+                    }
+                }
+                if (isset($config['by_user'])) {
+                    $current_user_id = $this->Auth->user('id');
+                    unset($configurable_keys[$key]);
+                    $key = $key . ':user-' . $current_user_id;
+                    $configurable_keys[$key] = $config;
+                }
+            }
 			$this->set(compact('plugin', 'configurable_keys'));
 			if (!empty($this->data)) {
 				$errors = array();

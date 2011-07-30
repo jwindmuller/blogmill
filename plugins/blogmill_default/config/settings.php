@@ -40,6 +40,13 @@ class BlogmillDefaultSettings extends BlogmillSettings {
 			'label' => __('Contact email', true),
 			'longdesc' => __('Write the contact email where you want to receive emails.', true)
 		),
+		'blogmill_editor' => array(
+			'label' => __('Editor to use', true),
+			'longdesc' => __('Select the preferred editor to write html content.', true),
+            'by_user' => true,
+            'hookable' => true,
+            'default' => 'html'
+		),
 	);
     }
 }

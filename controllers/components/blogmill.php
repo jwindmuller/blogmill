@@ -9,12 +9,14 @@ class BlogmillComponent extends Object {
 	private $__plugins;
 	private $__configurablePlugins;
     private $__adminMenus;
+    private $__hookableSettings;
 
     private $__scriptsForBottom;
 	
 	public function startup(&$controller) {
         $this->__scriptsForBottom = 
         $this->__adminMenus = 
+        $this->__hookableSettings = 
         array();
 
 		$this->Controller = $controller;
@@ -46,7 +48,33 @@ class BlogmillComponent extends Object {
 		);
         $this->Controller->set('pageInfo', $this->Controller->pageInfo);
 	}
-	
+
+
+    public function loadHtmlEditor() {
+        $Setting = ClassRegistry::init('Setting');
+        $htmlEditor = 'BlogmillDefault.blogmill_editor:user-' . $this->Controller->Session->read('Auth.User.id');
+        $editor = $Setting->get($htmlEditor);
+        if ( $editor !== false && $editor !== 'html') {
+            $this->Controller->helpers[] = $editor . '.' . $editor . 'Editor';
+            $this->Controller->set('editor_loaded', $editor);
+        }
+    }
+
+    public function transformHtmlEditorData($data) {
+        $Setting = ClassRegistry::init('Setting');
+        $htmlEditor = 'BlogmillDefault.blogmill_editor:user-' . $this->Controller->Session->read('Auth.User.id');
+        $editor = $Setting->get($htmlEditor);
+        if ( $editor !== false && $editor !== 'html') {
+            $txName = 'HtmlTransformer';
+            $txClass = $txName . 'Component';
+            App::import('Component', $editor . '.' . $txName);
+
+            $tx = new $txClass();
+            $data = $tx->transform($data);
+        }
+        return $data;
+    }
+
 	/**
 	 * Returns the page type.
 	 * This eventually will return things like: home (home page), post_listing (an index of posts), static (static pages)
@@ -123,7 +151,6 @@ class BlogmillComponent extends Object {
 		$currentPage = $this->Controller->pageInfo['page'][0];
 		if (isset($themeInfo['layouts'][$currentPage])) {
 			$layouts = $themeInfo['layouts'];
-			
 			if (isset($layouts[$currentPage]['helpers'])) {
 				$this->__loadThemeHelpers($layouts);
 			}
@@ -268,7 +295,16 @@ class BlogmillComponent extends Object {
 					$this->__loadPostTypes($class->types, $plugin);
 				}
                 if (isset($class->adminMenu) && is_array($class->adminMenu)) {
-                    $this->__adminMenus = array_merge($this->__adminMenus, array($plugin => $class->adminMenu));
+                    $this->__adminMenus = array_merge(
+                        $this->__adminMenus,
+                        array($plugin => $class->adminMenu)
+                    );
+                }
+                if ( isset( $class->hookableSettings ) ) {
+                    $this->__hookableSettings = array_merge(
+                        $this->__hookableSettings,
+                        array($plugin => $class->hookableSettings)
+                    );
                 }
 				$isConfigurable = isset($class->configurable) && is_array($class->configurable);
 				if ($isConfigurable) {
@@ -279,6 +315,7 @@ class BlogmillComponent extends Object {
 		$themes = $this->Controller->themes = $this->themes;
 		$postTypes = $this->Controller->postTypes = $this->postTypes;
         $adminMenus = $this->__adminMenus;
+        $this->Controller->hookableSettings = $this->__hookableSettings;
 		$this->Controller->set(compact('themes', 'postTypes', 'adminMenus'));
 	}
 	

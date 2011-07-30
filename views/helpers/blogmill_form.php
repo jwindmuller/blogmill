@@ -1,6 +1,6 @@
 <?php
 class BlogmillFormHelper extends AppHelper {
-	public $helpers = array('Html', 'Form', 'JavaScript');
+	public $helpers = array('Html', 'Form', 'JavaScript', 'Session');
 	private $__typeMap = array(
 		'html' => false,
 		'image' => false,
@@ -77,9 +77,31 @@ class BlogmillFormHelper extends AppHelper {
 	}
 	
 	private function __html($field, $typeDefinition) {
-		$this->JavaScript->link('jquery.tinymce/jquery.tinymce', false);
-		return $this->Form->input($field, array('type' => 'textarea', 'div' => array('class' => 'input htmleditor')) + $typeDefinition);
+    	$view =& ClassRegistry::getObject('view');
+        if ( isset($view->viewVars['editor_loaded']) ) {
+            $fieldValue = $this->__loadCustomEditor($field, $view->viewVars['editor_loaded']);
+            $typeDefinition['value'] = $fieldValue;
+        } else  {
+            $this->JavaScript->link('jquery.tinymce/jquery.tinymce', false);
+        }
+	    return $this->Form->input(
+            $field,
+            array(
+                'type' => 'textarea',
+                'div' => array('class' => 'input htmleditor')
+            ) + $typeDefinition
+        );
 	}
+    
+    private function __loadCustomEditor($field, $editor) {
+        $plugin = $editor;
+        $editorName = $plugin . 'Editor';
+        $className = $editorName . 'Helper';
+	    $view =& ClassRegistry::getObject('view');
+        $htmlField = $this->data['Post'][$field];
+        $view->{$editorName}->enable();
+        return $view->{$editorName}->transformContent( $htmlField );
+    }
 	
 	private function __longtext($field, $typeDefinition) {
 		$Post = ClassRegistry::init('Post');
