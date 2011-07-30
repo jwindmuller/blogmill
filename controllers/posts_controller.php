@@ -1,8 +1,12 @@
 <?php
 class PostsController extends AppController {
 
-	var $name = 'Posts';
-	var $components = array('HtmlPurifier');
+	public $name = 'Posts';
+	public $components = array('HtmlCleaner');
+    private $tagWhitelist = array(
+        'p', 'strong', 'em', 'br', 'u'
+    );
+
 	
 	public function home() {
 	}
@@ -62,7 +66,7 @@ class PostsController extends AppController {
 			$this->data = $this->Post->read(null, $id);
 		}
 	}
-	
+    
 	private function __prepareModel($plugin, $type) {
 		$modelName = Inflector::Camelize($type);
 		$model = ClassRegistry::init("$plugin.$modelName");
@@ -110,8 +114,12 @@ class PostsController extends AppController {
 	private function __prepareData() {
 		$fields = $this->Post->fields;
 		foreach ($fields as $field => $type) {
+            if ( is_array($type) ) {
+                $type = $type['type'];
+            }
 			if ($type == 'html' && isset($this->data['Post'][$field])) {
-				$this->data['Post'][$field] = $this->HtmlPurifier->purify($this->data['Post'][$field]);
+                $fieldData = $this->data['Post'][$field];
+				$this->data['Post'][$field] = $this->HtmlCleaner->cleanup( $fieldData, $this->tagWhitelist);
 			}
 		}
 	}
