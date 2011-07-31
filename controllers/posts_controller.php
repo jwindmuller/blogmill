@@ -4,6 +4,9 @@ class PostsController extends AppController {
 	public $name = 'Posts';
 	public $components = array('HtmlCleaner');
     private $tagWhitelist = array(
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'ul', 'ol', 'li',
+        'blockquote', 'code', 'pre',
         'p', 'strong', 'em', 'br', 'u'
     );
 
