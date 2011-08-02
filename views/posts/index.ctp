@@ -7,10 +7,13 @@
 if ($posts) :
     foreach ($posts as $i => $post):
         list($plugin, $type) = explode('.', $post['Post']['type']);
-        echo $this->element(
-            strtolower(Inflector::underscore($type)) . "/index",
-            array('plugin' => $plugin, 'post' => $post)
-        );
+        $type = strtolower(Inflector::underscore($type));
+        $themeView = APP . 'plugins' . DS . strtolower($activeThemePlugin) . DS . 'views' . DS . 'elements' . DS . $type . DS . 'index.ctp';
+        $options = compact('plugin', 'post');
+        if ( file_exists($themeView) ) {
+            $options['plugin'] = $activeThemePlugin;
+        }
+        echo $this->element($type . "/index", $options);
     endforeach;
 else:
     echo '<p>', sprintf(__('No %s here yet', true), $typePlural), '</p>';

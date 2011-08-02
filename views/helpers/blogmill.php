@@ -42,10 +42,15 @@ class BlogmillHelper extends AppHelper {
 			unset($options['display']);
 		}
 		$default_options = array(
-			'action' => 'view'
+			'action' => 'view',
+            'before' => '',
+            'after' => ''
 		);
 		if (!is_array($options)) $options=array();
 		$options = array_merge($default_options, $options);
+        unset($default_options);
+        $display = $options['before']. $display . $options['after'];
+        unset($options['before'], $options['after']);
 		list($plugin, $type) = explode('.', $post['type']);
 		return $this->Html->link($display, $this->postURL($post, $options), $html_options);
 	}
