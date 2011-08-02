@@ -8,7 +8,7 @@ if ($posts) :
     foreach ($posts as $i => $post):
         list($plugin, $type) = explode('.', $post['Post']['type']);
         echo $this->element(
-            Inflector::underscore($type) . "/index",
+            strtolower(Inflector::underscore($type)) . "/index",
             array('plugin' => $plugin, 'post' => $post)
         );
     endforeach;
