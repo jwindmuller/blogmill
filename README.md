@@ -21,8 +21,19 @@ To install Blogmill, you need to:
 Post Types & Fields
 -------------------
 
+Post Types are data objects made up of fields. They are the center of the extensibility of Blogmill because they allow anyone to define their own types to solve their own needs.
+
+Some examples of Post Types can be a journal entry, a book review, a link, etc. Each one of those have different fields that define them. For example:
+
+* A journal entry has a title and a content.
+* A book review can have a title, a content, and 5 star ratings for character development, story and writing style.
+* A link will have a title, URL and description.
+
+As you can see, each post type has different fields and each field can have different types (the content of the journal entry will allow html but the URL field of the link should be a valid URL).
+
+### Defining Post Types
 Post types can be defined by plugins, and for each post type it's fields. To define a 
-post type you need to define it in the config/settings.php file of the plugin:
+post type you need to define it in the config/settings.php file of the plugin, in this example we define the Journal post type:
 
     $this->types = array(
         'Journal' => array(
@@ -64,6 +75,58 @@ Themes
 Blogmill currently comes default with a bare bones (no styles) theme which will be replaced
 eventually with a real generic theme that will show the basics of theme development for 
 Blogmill.
+
+Plugins may define themes, to do that the config/settings.php file needs something like this:
+
+    $this->theme = array(
+        'name' => 'ThemeName',
+        'version' => '1.0',
+        'menus' => array(
+            'top_menu' => array(
+                'name' => 'Top Menu',
+                'description' => 'Menu at the top of the website'
+            )
+        ),
+        'layouts' => array(
+            'home' => array(
+                'name' => 'home',
+                'data' => array(
+                    'latest_post' => array(
+                            'type' => 'Journal.Journal',
+                            'limit' => 1,
+                            'order' => 'Post.created DESC'
+                        )
+                ),
+                'load_menus' => array('top_menu'),
+                'helpers' => array()
+            ),
+            'inner' => array(
+                'name' => 'inner',
+            ),
+            'contact' => array(
+                'name' => 'inner'
+            )
+        ),
+        'post_type_decorators' => array()
+    );
+
+The variable this->theme is an array that allows the following keys:
+
+* **name** - Name of the theme.
+* **version** - Version of the theme.
+* **menus** - definition of menus available on the theme.
+* **layouts** - definition of layout to use by page type (see BlogmillComponent::__currentPage to see the pages available). Each layout definition allows the following keys:
+    * **name** - name of the file to use (placed on views/layouts/).
+    * **data** - data to load, an array of data sets (the data set name is the key) that the layout file expects:
+        * **type** - post type to use, use PluginName.PostType syntax.
+        * **limit** - how many posts the layout needs.
+        * **order** - sort order.
+    * **post\_type\_decorators** - see the Post Type Decorators section.
+
+Post Type Decorators
+--------------------
+
+TODO
 
 Hooks
 -----
