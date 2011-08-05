@@ -60,6 +60,11 @@ $(function(){
                     var nameInput = $(this).parents('div.input').siblings('div.input').children('input');
 					var urlInput = $(this).parents('#post-selector').siblings('input');
                     $(this).toggleClass('selected');
+                    if ($(this).is('.selected')) {
+                        $(this).animate({'text-indent' : '10px'});
+                    } else {
+                        $(this).animate({'text-indent' : '0'});
+                    }
                     var types = '';
                     $(this).parent().find('.selected').each(function() {
                         types += $(this).text() + ',';
