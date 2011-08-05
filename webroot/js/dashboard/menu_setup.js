@@ -52,7 +52,7 @@ $(function(){
 
     var specialFunctions = {
         '__IndexPages' : function() {
-            $posts = $('#post-selector .posts');
+            $posts = $('#post-selector .posts').html('');
             $.each(postTypes, function(plugin, val) {
                 if (plugin[0] == '_') return;
                 $li = $('<li>').html(plugin);
