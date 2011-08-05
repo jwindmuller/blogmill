@@ -17,14 +17,33 @@ if (!function_exists('array_permutations')) {
     }
 }
 class BlogmillRouteFunctions {
+    
+    private $postIndexes = array();
+    
+    function &getInstance() {
+		static $instance = array();
 
-    public function postIndex($url, $types) {
+		if (!$instance) {
+			$instance[0] =& new BlogmillRouteFunctions();
+		}
+		return $instance[0];
+	}
+    
+    public function postIndex($url, $types, $title) {
+        $self = BlogmillRouteFunctions::getInstance();
         $perms = array_permutations($types);
         foreach( $perms as $i => $perm ) {
             $type = join(',', $perm);
+            $self->postIndexes[$type] = $title;
             Router::connect($url, array('controller' => 'posts', 'action' => 'index', $type));
         }
-        
     }
-
+    
+    public function getIndexName($type) {
+        $self = BlogmillRouteFunctions::getInstance();
+        if ( isset($self->postIndexes[$type]) ) {
+            return $self->postIndexes[$type];
+        }
+        return false;
+    }
 }

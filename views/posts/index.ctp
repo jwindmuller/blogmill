@@ -1,10 +1,8 @@
 <?php
     $type = implode(',', $types);
-    $themeLinks = Set::extract( '/themes/.[plugin='. $activeThemePlugin . ']', $this->viewVars );
-    $themeLinks = $themeLinks[0]['links'];
     $title = '';
-    if ( isset( $themeLinks[$type] )) {
-        $title = $themeLinks[$type]['name'];
+    if ( BlogmillRouteFunctions::getIndexName($type) !== false ) {
+        $title = BlogmillRouteFunctions::getIndexName($type);
     } else if ( count($types) == 1) {
         $type = $types[0];
         list($plugin, $type) = pluginSplit($type);

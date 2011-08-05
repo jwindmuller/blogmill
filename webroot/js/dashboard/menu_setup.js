@@ -53,9 +53,10 @@ $(function(){
     var specialFunctions = {
         '__IndexPages' : function() {
             $posts = $('#post-selector .posts').html('');
+            
             $.each(postTypes, function(plugin, val) {
                 if (plugin[0] == '_') return;
-                $li = $('<li>').html(plugin);
+                $li = $('<li>').html(plugin).data('plugin', plugin);
                 $li.click(function() {
                     var nameInput = $(this).parents('div.input').siblings('div.input').children('input');
 					var urlInput = $(this).parents('#post-selector').siblings('input');
@@ -67,7 +68,7 @@ $(function(){
                     }
                     var types = '';
                     $(this).parent().find('.selected').each(function() {
-                        types += $(this).text() + ',';
+                        types += $(this).data('plugin') + '.' + $(this).text() + ',';
                     });
                     types = types.replace(/(.*),/, '$1');
                     if (types == '') {
