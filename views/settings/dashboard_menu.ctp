@@ -70,7 +70,6 @@
 </div>
 <?php
 	echo $this->Javascript->link('dashboard/menu_setup', false);
-	echo $this->Javascript->link('dashboard/page_selector', false);
 	$menuChangeURL = $this->Html->url(array('controller' => 'settings', 'action' => 'edit_menu', 'ext' => 'json'));
 	$postListURL = $this->Html->url(array('controller' => 'posts', 'action' => 'list', 'ext' => 'json'));
 	$sortingURL = $this->Html->url(array('controller' => 'settings', 'action' => 'menu_reorder', $menu_name, 'ext' => 'json'));
