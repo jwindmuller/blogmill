@@ -2,6 +2,7 @@
 	Router::parseExtensions('json');
 	
 	App::import('Lib', 'routes/BlogmillUnmatchedRoute');
+    App::import('Lib', 'routes/BlogmillRouteFunctions');
 
 	$plugins = Configure::listObjects('plugin');
 	foreach ($plugins as $i => $plugin) {

@@ -74,6 +74,12 @@
 	$menuChangeURL = $this->Html->url(array('controller' => 'settings', 'action' => 'edit_menu', 'ext' => 'json'));
 	$postListURL = $this->Html->url(array('controller' => 'posts', 'action' => 'list', 'ext' => 'json'));
 	$sortingURL = $this->Html->url(array('controller' => 'settings', 'action' => 'menu_reorder', $menu_name, 'ext' => 'json'));
+    $customIndexURL = $this->Html->url(array(
+        'controller' => 'settings',
+        'action' => 'get_index_url',
+        'ext' => 'json'
+    ));
+
 
 	$selectorPostTypes = array();
 	foreach ($postTypes as $plugin => $types) {
@@ -87,6 +93,8 @@
 		}
 	}
     $selectorPostTypes['_FixedPages'][] = array('type' => '_FixedPages', 'name' => 'Other Pages');
+    $selectorPostTypes['_IndexPages'][] = array('type' => '__IndexPages', 'name' => 'List of Posts');
+
 
 	$selectorPostTypes = $this->Javascript->object($selectorPostTypes);
 	$handle = $this->Html->image('dashboard/move.png', array('class' => 'handle'));
@@ -96,6 +104,7 @@
 			var pageSelectorOptions = {
 				'postListURL' :  '$postListURL',
                 'sortingURL' : '$sortingURL',
+                'customIndexURL' : '$customIndexURL',
 				'postTypes' : $selectorPostTypes,
 				'handle' : '$handle',
 				'UrlInputClass' : '.settings-url'

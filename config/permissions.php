@@ -49,6 +49,7 @@ class BlogmillPermissions {
 			'dashboard_remove_from_menu' => 'user',
 			'dashboard_change_theme' => 'user',
             'dashboard_plugins' => 'user',
+            'dashbboard_get_index_url' => 'user'
 		),
         'Plugins' => array(
             'dashboard_page' => 'user'

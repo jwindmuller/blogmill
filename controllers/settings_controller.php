@@ -226,4 +226,14 @@ class SettingsController extends AppController {
 			}
 		}
 	}
+
+    public function dashboard_get_index_url() {
+        $types = $this->params['url']['types'];
+        $index_url = Router::url(array(
+            'controller' => 'posts',
+            'action' => 'index',
+            'dashboard' => false, $types
+        ));
+        $this->set(compact('index_url'));
+    }
 }

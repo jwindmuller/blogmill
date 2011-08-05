@@ -628,6 +628,9 @@ ul#menu-items {
 	outline:none;
 	margin:0 5px 0 0;
 }
+.menu-item input#SettingsUrl {
+    width:425px;
+}
 .menu-item label {
     position:absolute;
     top:-1px;

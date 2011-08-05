@@ -1,5 +1,5 @@
 $(function(){
-	var list, dialog, postListURL, sortingURL = null;
+	var list, dialog, postListURL, sortingURL, customIndexURL = null;
 	dialog = $('<div id="post-selector"><div class="arrow" /><ul class="types"/><ul class="posts" />');
 	
 	function reloadOriginalList() {
@@ -22,6 +22,10 @@ $(function(){
         });
     }
 	function fillPostList (plugin, type) {
+        if (typeof specialFunctions[type] == 'function') {
+            specialFunctions[type]();
+            return;
+        }
 		$.getJSON(postListURL, {"plugin" : plugin, "type" : type}, function(data, textStatus, jqXHR) {
 			var posts = dialog.children('.posts').empty().removeClass('empty');
 			if (data.length==0) {
@@ -45,6 +49,46 @@ $(function(){
 			};
 		});
 	}
+
+    var specialFunctions = {
+        '__IndexPages' : function() {
+            $posts = $('#post-selector .posts');
+            $.each(postTypes, function(plugin, val) {
+                if (plugin[0] == '_') return;
+                $li = $('<li>').html(plugin);
+                $li.click(function() {
+                    var nameInput = $(this).parents('div.input').siblings('div.input').children('input');
+					var urlInput = $(this).parents('#post-selector').siblings('input');
+                    $(this).toggleClass('selected');
+                    var types = '';
+                    $(this).parent().find('.selected').each(function() {
+                        types += $(this).text() + ',';
+                    });
+                    types = types.replace(/(.*),/, '$1');
+                    if (types == '') {
+                        nameInput.val('').siblings('label').show();
+                        urlInput.val('').siblings('label').show();
+                        return;
+                    }
+                    $.getJSON(
+                        customIndexURL,
+                        {"types" : types},
+                        function(data, textStatus, jqXHR) {
+                            nameInput
+                                .val(types.replace(/,/g, '+'))
+                                .siblings('label').hide();
+                            urlInput
+                                .val(data.url)
+                                .siblings('label').hide();
+                        }
+                    );
+                });
+                $posts.append($li);
+            });
+        }
+    }
+    var postTypes;
+
 	function postDetail(post) {
 		var html = '<strong>' + post['display'] + '</strong>';
 		    html += '<p>' + post['excerpt'] + '</p>';
@@ -58,13 +102,14 @@ $(function(){
 	}
 	$.fn.menuSetup = function(pageSelectorOptions) {
 		postListURL = pageSelectorOptions.postListURL;
+        customIndexURL = pageSelectorOptions.customIndexURL;
 		list = $(this);                         
 		list.children().prepend(pageSelectorOptions.handle)
 			.find('input').click(function(e) {
 				e.stopPropagation();
 				$(this).focus();
 			});
-		var postTypes = pageSelectorOptions.postTypes;
+		postTypes = pageSelectorOptions.postTypes;
 		$.each(postTypes, function(plugin, val) {
             //<span class="plugin">' + plugin + '</span>
 			var li = dialog.children('.types').append('<li><ul /></li>');
