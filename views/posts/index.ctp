@@ -1,8 +1,18 @@
 <?php
-    $typePlural = Inflector::pluralize($postTypes[$plugin][$type]['name']);
-    $this->viewVars['title_for_layout'] = $typePlural;
+    $type = implode(',', $types);
+    $themeLinks = Set::extract( '/themes/.[plugin='. $activeThemePlugin . ']', $this->viewVars );
+    $themeLinks = $themeLinks[0]['links'];
+    $title = '';
+    if ( isset( $themeLinks[$type] )) {
+        $title = $themeLinks[$type]['name'];
+    } else if ( count($types) == 1) {
+        $type = $types[0];
+        list($plugin, $type) = pluginSplit($type);
+        $title = Inflector::pluralize($postTypes[$plugin][$type]['name']);
+    }
+    $this->viewVars['title_for_layout'] = $title;
 ?>
-<h1><?php echo $typePlural; ?></h1>
+<h1><?php echo $title; ?></h1>
 <?php
 if ($posts) :
     foreach ($posts as $i => $post):

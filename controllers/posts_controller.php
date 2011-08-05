@@ -14,21 +14,30 @@ class PostsController extends AppController {
 	public function home() {
 	}
 	
-	function index($plugin, $type=null) {
-		if (!$type) {
-			$type = Inflector::singularize($plugin);
-			$plugin = null;
-			foreach ($this->postTypes as $pluginName => $typeDef) {
-				if (array_key_exists($type, $typeDef)) {
-					$plugin = $pluginName;
-					break;
-				}
-			}
-		}
-		$this->paginate = array('conditions' => array('type' => "$plugin.$type"), 'order' => 'created DESC');
-		$this->paginate['contain'] = array('Field', 'User(id,username)', 'Category');
+	function index($type) {
+        $types = array();
+        if (strpos($type, ',')) {
+            $type = explode(',', $type);
+        }
+        if (is_string($type)) {
+            $type = array($type);
+        }
+        foreach( $type as $t ) {
+            list($plugin, $t) =  pluginSplit($t);
+            if ( empty($plugin) ) {
+                $plugin = $t;
+            }
+            if ( isset( $this->postTypes[$plugin][$t] ) ) {
+                $types[] = "$plugin.$t";
+            }
+        } 
+		$this->paginate = array(
+            'conditions' => array('type' => $types),
+            'order'  => 'created DESC',
+            'contain' => array('Field', 'User(id,username)', 'Category')
+        );
         $posts = $this->paginate();
-		$this->set(compact('posts', 'plugin', 'type'));
+		$this->set(compact('posts', 'plugin', 'types'));
 	}
 	
 	function view($id, $slug = null) {
@@ -162,6 +171,7 @@ class PostsController extends AppController {
 	public function dashboard_list() {
 		$plugin = $this->params['url']['plugin'];
 		$type = $this->params['url']['type'];
+        $this->set(compact('type'));
         if ($plugin == '_FixedPages') {
             $this->render('menu_fixed_pages');
         } else {
