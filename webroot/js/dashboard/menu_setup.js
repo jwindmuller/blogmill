@@ -126,7 +126,8 @@ $(function(){
 				$type.data('plugin', plugin);
 				$type.data('type', type);
 				ul.append($type);
-				$type.click(function() {
+				$type.click(function(event) {
+                    event.preventDefault();
 					fillPostList($(this).data('plugin'), $(this).data('type'));
                 });
 			};
