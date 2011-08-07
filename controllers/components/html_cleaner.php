@@ -1,6 +1,9 @@
 <?php
-App::import('Core', 'Sanitize');
-App::import('Vendor', 'HTMLCleaner', array('file' => 'HTMLCleaner.php'));
+App::import(array(
+    'type' => 'Vendor',
+    'name' => 'HTMLPurifier',
+    'file' => 'htmlpurifier' . DS . 'HTMLPurifier.standalone.php'
+));
 class HtmlCleanerComponent extends Object {
     
     var $controller;
@@ -11,20 +14,21 @@ class HtmlCleanerComponent extends Object {
     }
 
     function cleanup($content, $tagWhitelist = array()) {
-        $this->cleaner = new HTMLCleaner();
-        $this->cleaner->Options['UseTidy'] = true;
-        $this->cleaner->Options['OutputXHTML'] = true;
-        $this->cleaner->Options['Optimize'] = true;
-        $this->cleaner->Options['DropEmptyParas'] = true;
-        $content = preg_replace('/rel=[\'"]nofollow[\'"]/', '', $content);
-        $this->cleaner->html = $content;
-        if (is_array($tagWhitelist)) {
-            $this->cleaner->Tag_whitelist = '<' . join('><', $tagWhitelist) . '>';
+        $config = HTMLPurifier_Config::createDefault();
+        $htmlAllowed = '';
+        foreach( $tagWhitelist as $tag => $attrs ) {
+            if (!is_array($attrs)) {
+                $tag = $attrs;
+                $htmlAllowed .= $tag . ',';
+                continue;
+            }
+            foreach( $attrs as $i => $attr ) {
+                $htmlAllowed .= $tag . '[' . $attr . '],';
+            }
         }
-        $this->cleaner->Attrib_blacklist = '[^= ]*';
-        $content = $this->cleaner->cleanUp('utf8');
-        $content = preg_replace('/<a(\s)?/', '<a rel="nofollow"\\1', $content);
-        return $content;
+        $htmlAllowed = trim($htmlAllowed, ',');
+        $config->set('HTML.Allowed', $htmlAllowed);
+        $purifier = new HTMLPurifier($config);
+        return $purifier->purify($content);
     }
 }
-?>
