@@ -7,7 +7,7 @@ class PostsController extends AppController {
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
         'ul', 'ol', 'li',
         'blockquote', 'code', 'pre',
-        'p', 'strong', 'em', 'br', 'u'
+        'p', 'strong', 'em', 'br', 'u', 'a' => array('href', 'title')
     );
 
 	
