@@ -38,7 +38,32 @@ class PostsController extends AppController {
         );
         $posts = $this->paginate();
 		$this->set(compact('posts', 'plugin', 'types'));
+        $this->__indexRSS($plugin, $types);
 	}
+
+    private function __indexRSS($plugin, $types) {
+        if ( !$this->RequestHandler->isRss() ) return;
+        $this->layout = 'default';
+        $this->plugin = null;
+
+        $title = '';
+
+        $type = implode(',', $types);
+        if ( BlogmillRouteFunctions::getIndexName($type) !== false ) {
+            $title = BlogmillRouteFunctions::getIndexName($type);
+        } else if ( count($types) == 1) {
+            $type = $types[0];
+            list($plugin, $type) = pluginSplit($type);
+            $title = Inflector::pluralize($this->postTypes[$plugin][$type]['name']);
+        }
+        $Setting = ClassRegistry::init('Setting');
+        $channel = array(
+            'title' => $Setting->get('BlogmillDefault.blogmill_site_name') . ' - ' . $title,
+            'link' => Router::url('/', true),
+            'description'=> $Setting->get('BlogmillDefault.blogmill_site_description')
+        );
+        $this->set(compact('channel'));
+    }
 	
 	function view($id, $slug = null) {
 		if (!$id) {

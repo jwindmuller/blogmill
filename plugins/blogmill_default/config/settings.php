@@ -36,6 +36,9 @@ class BlogmillDefaultSettings extends BlogmillSettings {
         'blogmill_site_name' => array(
             'label' => __('Website name', true)
         ),
+        'blogmill_site_description' => array(
+            'label' => __('Description or tagline for the site', true)
+        ),
 		'blogmill_contact_email' => array(
 			'label' => __('Contact email', true),
 			'longdesc' => __('Write the contact email where you want to receive emails.', true)

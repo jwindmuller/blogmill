@@ -1,5 +1,5 @@
 <?php
-	Router::parseExtensions('json');
+	Router::parseExtensions('json', 'rss');
 	
 	App::import('Lib', 'routes/BlogmillUnmatchedRoute');
     App::import('Lib', 'routes/BlogmillRouteFunctions');
