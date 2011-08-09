@@ -15,6 +15,7 @@
             $options = compact('label');
             if ( isset($settings['options']) ) {
                 $options['type'] = 'select';
+                $options['div'] = false;
                 $options['options'] = $settings['options'];
             }
     ?>
