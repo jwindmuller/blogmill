@@ -48,7 +48,17 @@ class PostsController extends AppController {
 		if (!empty($this->data)) {
 			$this->__saveComment($id, $slug);
 		}
-		$this->set('post', $this->Post->read(null, $id));
+        $post = $this->Post->read(null, $id);
+        if ( $post['Post']['slug'] !== $slug ) {
+            $this->redirect(array(
+                'action' => 'view',
+                'id' => $id,
+                'type' => $post['Post']['type'],
+                'slug' => $post['Post']['slug']
+            ), 301);
+        }
+        $title_for_layout = $post['Post']['display'];
+		$this->set(compact('post', 'title_for_layout'));
 	}
 
 	function dashboard_index($type=false) {

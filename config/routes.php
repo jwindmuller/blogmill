@@ -50,4 +50,12 @@
 			'routeClass' => 'BlogmillUnmatchedRoute'
 		)
 	);
+    Router::connect(
+		'/post/:id',
+		array('controller' => 'posts', 'action' => 'view', 'type' => null),
+		array(
+			'pass' => array('id'),
+			'id' => '[0-9]+'
+		)
+	);
 ?>
