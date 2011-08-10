@@ -62,6 +62,11 @@ class PostsController extends AppController {
             'link' => Router::url('/', true),
             'description'=> $Setting->get('BlogmillDefault.blogmill_site_description')
         );
+        $themeIconFile = App::pluginPath($this->activeThemePlugin) . 'webroot' . DS . 'favicon.ico';
+        if ( file_exists($themeIconFile) ) {
+            $iconUrl = '/' . strtolower($this->activeThemePlugin) . '/favicon.ico';
+            $channel['icon'] = $channel['logo'] = Router::url($iconUrl, true);
+        }
         $this->set(compact('channel'));
     }
 	
