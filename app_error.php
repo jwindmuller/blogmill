@@ -1,17 +1,36 @@
 <?php
 class AppError extends ErrorHandler {
- 
-    function __construct($method, $messages) {
-        Configure::write('debug', 1);
-        parent::__construct($method, $messages);
+    
+    function __construct($method, $messages, $controller = false) {
+        $this->controller = &$controller;
+        if ( $controller === false ) {
+            parent::__construct($method, $messages);
+        }
     }
- 
+
     function _outputMessage($template) {
         if ($template == 'missingTable') {
             $this->__createTablesFromSchema();
-           $this->controller->redirect(array('controller' => 'setup', 'action' => 'go', 'dashboard' => true));
+            $this->controller->redirect(array(
+                'controller' => 'setup',
+                'action' => 'go',
+                'dashboard' => true
+            ));
         }
-        parent::_outputMessage($template);
+        // Startup The Blogmill Component to get the current theme info.
+        $this->controller->Blogmill->startup($this->controller);
+        $this->plugin = $this->controller->activeThemePlugin;
+        $this->controller->render($template, $this->controller->layout);
+		$this->controller->afterFilter();
+		echo $this->controller->output;
+    }
+
+    public function error404($params) {
+        $this->controller->name = 'CakeError';
+        $this->controller->action = 'error404';
+		$this->controller->header("HTTP/1.0 404 Not Found");
+		echo $this->controller->render('/errors/error404');
+        $this->_stop();
     }
 
     private function __createTablesFromSchema() {

@@ -6,20 +6,20 @@ class BlogmillComponent extends Object {
 	private $themes;
 	private $postTypes;
 	private $pluginSettings;
-	private $__plugins;
+	private $__plugins = array();
 	private $__configurablePlugins;
     private $__adminMenus;
     private $__hookableSettings;
 
     private $__scriptsForBottom;
 	
-	public function startup(&$controller) {
+	public function startup($controller) {
         $this->__scriptsForBottom = 
         $this->__adminMenus = 
         $this->__hookableSettings = 
         array();
 
-		$this->Controller = $controller;
+		$this->Controller = &$controller;
 		$this->Settings = ClassRegistry::init('Setting');
 		// Setup current page's information
 		$this->__loadPageInfo();
@@ -33,6 +33,9 @@ class BlogmillComponent extends Object {
 	}
     
     public function beforeRender($controller) {
+        if (!is_array($this->__scriptsForBottom)) {
+            $this->__scriptsForBottom = array();
+        }
         $controller->set('scripts_for_bottom', $this->__scriptsForBottom);
     }
 	
@@ -85,6 +88,9 @@ class BlogmillComponent extends Object {
 	private function __currentPage() {
 		$page = 'other';
 		switch (true) {
+            case $this->Controller->name == 'CakeError':
+                $page = 'error';
+                break;
 			case $this->Controller->name == 'Posts' && $this->Controller->action == 'home':
 				$page = 'home';
 				break;
@@ -131,8 +137,8 @@ class BlogmillComponent extends Object {
 			array_unshift($_app->views, APP . 'plugins' . DS . Inflector::underscore($plugin) . DS . 'views' . DS);
 			$pluginSettings = new $pluginSettingsClass;
 			ClassRegistry::addObject($pluginSettingsClass, $pluginSettings);
-			$this->Controller->set('activeThemePlugin', $plugin);
-		}
+        }
+        $this->Controller->set('activeThemePlugin', $plugin);
 		$pluginSettings->activated = true;
 		return array($plugin, $pluginSettings);
 	}
@@ -215,8 +221,9 @@ class BlogmillComponent extends Object {
                 $conditions = compact('type');
             }
             if ($type == "*") {
-                $conditions = array('type <>' => '');   
+                $conditions = array('type <>' => '');
             }
+            $conditions['draft'] = false;
 			$options = compact('conditions') + array('limit' => $definition['limit']);
 			if (isset($definition['order'])) {
 				$options['order'] = $definition['order'];

@@ -3,10 +3,11 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('type');?></th>
-			<th><?php echo $this->Paginator->sort('display');?></th>
+			<th><?php echo $this->Paginator->sort(__('Title', true), 'display');?></th>
 			<th><?php __('User');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
+            <th><?php echo $this->Paginator->sort('status');?></th>
 			<th><?php echo $this->Paginator->sort('category_id');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
@@ -32,8 +33,9 @@
 		<td>
 			<?php echo $this->Html->link($post['User']['username'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>
-		<td><?php echo $post['Post']['created']; ?>&nbsp;</td>
-		<td><?php echo $post['Post']['modified']; ?>&nbsp;</td>
+		<td><?php echo $this->Time->format('M-d-Y, h:m', $post['Post']['created']); ?></td>
+		<td><?php echo $this->Time->format('M-d-Y, h:m', $post['Post']['modified']); ?></td>
+        <td><?php echo $post['Post']['draft'] ? __('Draft', true) : __('Published', true); ?></td>
 		<td>
 			<?php echo $this->Html->link($post['Category']['title'], array('controller' => 'categories', 'action' => 'view', $post['Category']['id'])); ?>
 		</td>

@@ -519,9 +519,17 @@ form .form-main .group-wrap .group {
 	width:auto;
 	margin:0 5px;
 }
-form .submit {
-    margin-top:-15px;
+.submit, .draft {
+    display:inline;
+    padding:0 10px 0 0
+}
+fieldset.submit {
     padding-left:30px;
+    margin-top:-15px;
+    display:block;
+}
+.draft {
+    margin-bottom:15px;
 }
 form .group .title,
 h3 {

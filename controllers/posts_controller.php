@@ -30,9 +30,12 @@ class PostsController extends AppController {
             if ( isset( $this->postTypes[$plugin][$t] ) ) {
                 $types[] = "$plugin.$t";
             }
-        } 
+        }
+        if ( empty($types) ) {
+            $this->_blogmill404Error();
+        }
 		$this->paginate = array(
-            'conditions' => array('type' => $types),
+            'conditions' => array('type' => $types, 'draft' => false),
             'order'  => 'created DESC',
             'contain' => array('Field', 'User(id,username)', 'Category')
         );
@@ -79,6 +82,9 @@ class PostsController extends AppController {
 			$this->__saveComment($id, $slug);
 		}
         $post = $this->Post->read(null, $id);
+        if ( $post===false || $post['Post']['draft'] ) {
+            $this->_blogmill404Error();
+        }
         if ( $post['Post']['slug'] !== $slug ) {
             $this->redirect(array(
                 'action' => 'view',

@@ -7,7 +7,7 @@ class BlogmillHelper extends AppHelper {
     public function beforeRender() {
         $view =& ClassRegistry::getObject('view');
         $scripts_for_bottom = array();
-        if (isset($view->viewVars['scripts_for_bottom'])) {
+        if ( isset($view->viewVars['scripts_for_bottom']) && is_array($view->viewVars['scripts_for_bottom']) ) {
             $scripts_for_bottom = $view->viewVars['scripts_for_bottom'];
         }
         $scripts = array();

@@ -16,5 +16,7 @@ $map = array(
 		'users_name' => 'M4d894ed8089c487ea1b51cb7fb8c9e6b'),
 	8 => array(
 		'make_post_category_optional' => 'M4d915855b8904bf490956d86fb8c9e6b'),
+	9 => array(
+		'post_drafts' => 'M4e4547fdaf04408f8808e458fb8c9e6b'),
 );
 ?>

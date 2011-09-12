@@ -18,10 +18,21 @@
 		</div>
 	<?php echo $this->Form->input('guide', array('type' => 'hidden')); ?>
 	</fieldset>
-<?php
-    echo $this->Form->end(sprintf(
+    <fieldset class="submit">
+    <?php
+        echo $this->Form->input(
+            'draft',
+            array(
+                'type' => 'checkbox',
+                'div' => array('class' => 'draft'),
+                'label' => __('Save as draft', true)
+            )
+        );
+        echo $this->Form->end(sprintf(
             empty($post_id) ? __('Create %s', true) : __('Update %s', true),
-            Inflector::humanize(Inflector::underscore($type))
-    ));
-?>
+            Inflector::humanize(Inflector::underscore($postTypes[$plugin][$type]['name']))
+        ));
+    ?>
+    </fieldset>
+
 </div>

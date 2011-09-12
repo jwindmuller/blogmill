@@ -64,7 +64,9 @@ class AppController extends Controller {
 		if (isset($this->params['prefix'])) {
 			$this->layout = $this->params['prefix'];
 		}
-        $this->__requestRecieved();
+        if ($this->name !== 'CakeError') {
+            $this->__requestRecieved();
+        }
 	}
 
     public function __requestRecieved() {
@@ -80,6 +82,14 @@ class AppController extends Controller {
             'name' => 'BlogmillLocaleSetting',
             'file' => APP . 'config' . DS . 'locale.php'
         ));
+    }
+
+
+    protected function _blogmill404Error() {
+        App::import('Core', 'Error');
+        include_once (APP . 'app_error.php');
+        $error = new AppError('error404', array(), &$this);
+        $error->error404(array());
     }
 }
 ?>
