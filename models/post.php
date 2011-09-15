@@ -292,7 +292,8 @@ class Post extends AppModel {
 			'type' => true,
 			'category_id' => true,
 			'display' => true,
-			'guide' => true
+			'guide' => true,
+			'draft' => true
 		);
 		$data = array_intersect_key($this->data['Post'], $defaultFields);
 		$isEdit=isset($data['id']) && !empty($data['id']);
