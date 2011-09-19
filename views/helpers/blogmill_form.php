@@ -5,7 +5,8 @@ class BlogmillFormHelper extends AppHelper {
 		'html' => false,
 		'image' => false,
 		'longtext' => false,
-		'values' => false
+		'values' => false,
+		'date' => false
 	);
 	
 	public function input($field) {
@@ -91,6 +92,25 @@ class BlogmillFormHelper extends AppHelper {
                 'div' => array('class' => 'input htmleditor')
             ) + $typeDefinition
         );
+	}
+	
+	private function __date($field, $typeDefinition) {
+		$this->JavaScript->link('jquery.ui/jquery.ui.core', false);
+		$this->Html->css('../js/jquery.ui.datepicker/jquery.ui.datepicker', null, array('inline' => false));
+		$this->JavaScript->link('jquery.ui.datepicker/jquery.ui.datepicker', false);
+		$this->JavaScript->link('jquery.datepicker/jquery.datepicker', false);
+		debug($typeDefinition);
+		$timezone = date_default_timezone_get();
+		$currentTime = date('H:m:i');
+		return $this->Form->input(
+			$field,
+			array(
+				'after' => '<span class="note">' .
+					sprintf(__('Times are in %s', true), $timezone) . '.<br />' .
+					sprintf(__('Current time is: %s', true), $currentTime) .
+					'</span>'
+			) +  $typeDefinition
+		);
 	}
     
     private function __loadCustomEditor($field, $editor) {
