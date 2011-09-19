@@ -35,8 +35,8 @@ class PostsController extends AppController {
             $this->_blogmill404Error();
         }
 		$this->paginate = array(
-            'conditions' => array('type' => $types, 'draft' => false),
-            'order'  => 'created DESC',
+            'conditions' => array('type' => $types, 'draft' => false, 'published <=' => date('Y-m-d H:i:j')),
+            'order'  => 'published DESC',
             'contain' => array('Field', 'User(id,username)', 'Category')
         );
         $posts = $this->paginate();
@@ -149,7 +149,30 @@ class PostsController extends AppController {
 			if (count($decorators_group['fields'])>0)
 				$formLayout['form-sidebar'][] = $decorators_group;
 		}
-        $formLayout['form-sidebar'][] = array('title' => __('Category', true), 'fields' => array(array('category_id' => array('empty' => true))));
+        $formLayout['form-sidebar'][] = array(
+			'title' => __('Category', true),
+			'fields' => array(
+				array('category_id' => array('empty' => true))
+			)
+		);
+        $formLayout['form-sidebar'][] = array(
+			'title' => __('Publish Date', true),
+			'fields' => array(
+				array('published' => array()),
+			)
+		);
+		$formLayout['form-sidebar'][] = array(
+			'title' => __('Draft', true),
+			'fields' => array(
+				array(
+					'draft' => array(
+						'label' =>  __('Keep as Draft', true),
+						'after' => sprintf('<span class="note">%s</span>', __('When the publish date arrives it will not be published.', true))
+					)
+				),
+			)
+		);
+		$this->Post->fields['published'] = array('label' => __('Published', true), 'type' => 'date', 'timeFormat' => 24);
 		$this->set(compact('plugin', 'type', 'formLayout'));
 	}
 	
@@ -225,4 +248,3 @@ class PostsController extends AppController {
         }
 	}
 }
-?>

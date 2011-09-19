@@ -289,6 +289,7 @@ class Post extends AppModel {
 			'id' => true,
 			'created' => true,
 			'modified' => true,
+            'published' => true,
 			'type' => true,
 			'category_id' => true,
 			'display' => true,

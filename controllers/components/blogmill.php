@@ -225,8 +225,12 @@ class BlogmillComponent extends Object {
                 $conditions = array('type <>' => '');
             }
             $conditions['draft'] = false;
+			$conditions['published NOT'] = null;
 			$options = compact('conditions') + array('limit' => $definition['limit']);
 			if (isset($definition['order'])) {
+				if (!is_array($definition['order'])) {
+					$definition['order'] = array($definition['order']);
+				}
 				$options['order'] = $definition['order'];
 			}
 			$themeData[$index] = $postModel->find('all', $options);

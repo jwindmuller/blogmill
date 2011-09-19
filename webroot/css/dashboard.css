@@ -415,6 +415,11 @@ form div.htmleditor span.mceEditor {
 	font-size:1.1em;
     color:#333;
 }
+form div.checkbox input {
+	display:inline;
+	width:auto;
+	float:none;
+}
 form div.input input:focus,
 form div.input textarea:focus {
 	border:#666 1px solid;
@@ -474,6 +479,12 @@ form .file input {
 }
 form .file .error-message {
     padding-right:0;
+}
+form .note {
+	display:block;
+	font-size:0.9em;
+	color:#333;
+	padding-left:3px;
 }
 form fieldset {
 	border:none;

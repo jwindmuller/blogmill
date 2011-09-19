@@ -4,12 +4,13 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('type');?></th>
 			<th><?php echo $this->Paginator->sort(__('Title', true), 'display');?></th>
-			<th><?php __('User');?></th>
-			<th><?php echo $this->Paginator->sort('created');?></th>
+			<th><?php __('Edit'); ?></th>
+			<th><?php __('Author');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
-            <th><?php echo $this->Paginator->sort('status');?></th>
+            <th><?php echo $this->Paginator->sort(__('Draft', true), 'draft');?></th>
+            <th><?php echo $this->Paginator->sort(__('Publish Date', true), 'published');?></th>
 			<th><?php echo $this->Paginator->sort('category_id');?></th>
-			<th class="actions"><?php __('Actions');?></th>
+			<th class="actions"><?php __('Delete');?></th>
 	</tr>
 	<?php
 	$i = 0;
@@ -29,21 +30,27 @@
                 echo $this->Html->link($type, array('controller' => 'posts', 'action' => 'index', $post['Post']['type']));
             ?>
 		</td>
-		<td><strong><?php echo $post['Post']['display']; ?></strong></td>
+		<td>
+			<strong><?php
+				echo $this->Blogmill->postLink($post, array('display' => $post['Post']['display']));
+			?></strong>
+		</td>
+		<td><?php echo $this->Blogmill->postEditLink($post, __('Edit', true)); ?></td>
 		<td>
 			<?php echo $this->Html->link($post['User']['username'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>
-		<td><?php echo $this->Time->format('M-d-Y, h:m', $post['Post']['created']); ?></td>
-		<td><?php echo $this->Time->format('M-d-Y, h:m', $post['Post']['modified']); ?></td>
-        <td><?php echo $post['Post']['draft'] ? __('Draft', true) : __('Published', true); ?></td>
+		<td><?php echo $this->Time->format('M-d-Y, H:i', $post['Post']['modified']); ?></td>
+		<td><?php echo $post['Post']['draft'] ?  __('Draft', true) : '&nbsp;'; ?></td>
+        <td><?php
+			if ($post['Post']['published'] !== null) 
+				echo $this->Time->format('M-d-Y, H:i', $post['Post']['published']);
+			else echo '&nbsp;'
+		?></td>
 		<td>
 			<?php echo $this->Html->link($post['Category']['title'], array('controller' => 'categories', 'action' => 'view', $post['Category']['id'])); ?>
 		</td>
 		<td class="actions">
-			<?php echo $this->Blogmill->postLink($post, array('display' => __('View', true))); ?>
-			<?php echo $this->Blogmill->postEditLink($post, __('Edit', true)); ?>
 			<?php echo $this->Blogmill->postDeleteLink($post); ?>
-			<?php echo $this->Html->link(__('Add to Menu', true), array('controller' => 'settings', 'action' => 'add_to_menu', 'post' => $post['Post']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

@@ -18,5 +18,7 @@ $map = array(
 		'make_post_category_optional' => 'M4d915855b8904bf490956d86fb8c9e6b'),
 	9 => array(
 		'post_drafts' => 'M4e4547fdaf04408f8808e458fb8c9e6b'),
+	10 => array(
+		'published__date' => 'M4e72b5f3e99444808549475dfb8c9e6b'),
 );
 ?>

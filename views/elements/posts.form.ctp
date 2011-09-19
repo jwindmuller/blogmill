@@ -20,14 +20,6 @@
 	</fieldset>
     <fieldset class="submit">
     <?php
-        echo $this->Form->input(
-            'draft',
-            array(
-                'type' => 'checkbox',
-                'div' => array('class' => 'draft'),
-                'label' => __('Save as draft', true)
-            )
-        );
         echo $this->Form->end(sprintf(
             empty($post_id) ? __('Create %s', true) : __('Update %s', true),
             Inflector::humanize(Inflector::underscore($postTypes[$plugin][$type]['name']))
