@@ -1,4 +1,7 @@
 <?php
+//App::import('Model', 'CakeSchema', false);
+App::import('Lib', 'Migrations.MigrationVersion');
+
 class AppError extends ErrorHandler {
     
     function __construct($method, $messages, $controller = false) {
@@ -10,7 +13,7 @@ class AppError extends ErrorHandler {
 
     function _outputMessage($template) {
         if ($template == 'missingTable') {
-            $this->__createTablesFromSchema();
+            $this->upgradeRequired();
             $this->controller->redirect(array(
                 'controller' => 'setup',
                 'action' => 'go',
@@ -33,15 +36,11 @@ class AppError extends ErrorHandler {
         $this->_stop();
     }
 
-    private function __createTablesFromSchema() {
-        App::import('Model', 'CakeSchema');
-        // Main App Schema
-        $schema = new CakeSchema(array('name' => 'App'));
-        $schema = $schema->load();
-        $db =& ConnectionManager::getDataSource($schema->connection);
-        foreach ($schema->tables as $table => $fields) {
-            $db->execute($db->createSchema($schema, $table));
-        }
+    public function upgradeRequired() {
+		$this->Blogmill->checkUpgradeRequired();
+    }
+
+    private function __installPluginTables() {
         // Load plugin schemas
 		$plugins = Configure::listObjects('plugin');
         foreach( $plugins as $plugin ) {

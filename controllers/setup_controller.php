@@ -134,4 +134,12 @@ class SetupController extends AppController {
 			}
 		}
 	}
+
+    function dashboard_upgrade() {
+        App::import('Core', 'Error');
+        include_once (APP . 'app_error.php');
+        $error = new AppError('upgradeRequired', array(), &$this);
+        $error->upgradeRequired();
+        $this->redirect(array('action' => 'go'));
+    }
 }

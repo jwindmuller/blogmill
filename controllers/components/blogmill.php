@@ -1,4 +1,5 @@
 <?php 
+App::import('Lib', 'Migrations.MigrationVersion');
 class BlogmillComponent extends Object {
 	
 	private $Controller;
@@ -381,5 +382,20 @@ class BlogmillComponent extends Object {
 
     public function scriptForBottom($url) {
         $this->__scriptsForBottom[] = $url;
+    }
+
+    public function checkUpgradeRequired() {
+        $Version = new MigrationVersion(array(
+			'connection' => 'default'
+		));
+        $mapping = $Version->getMapping('app');
+        $latestVersion = $Version->getVersion('app');
+        end($mapping);
+        $last = key($mapping);
+        if ( $latestVersion < $last ) {
+            $options['version'] = $last;
+            $options['type'] = 'app';
+            $Version->run($options);
+        }
     }
 }

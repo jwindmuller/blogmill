@@ -30,6 +30,8 @@ class AppController extends Controller {
 	 * @author Joaquin Windmuller
 	 */
 	public function beforeFilter() {
+        $this->Blogmill->checkUpgradeRequired();
+	  //  die;
         $this->__setLanguage();
 		if ($this->Auth) {
 			// Allow access to public areas to visitors
@@ -83,7 +85,6 @@ class AppController extends Controller {
             'file' => APP . 'config' . DS . 'locale.php'
         ));
     }
-
 
     protected function _blogmill404Error() {
         App::import('Core', 'Error');
