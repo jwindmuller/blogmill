@@ -60,7 +60,7 @@ class PagesController extends AppController {
  * @param mixed What page to display
  * @access public
  */
-	function display() {
+	public function display() {
 		$path = func_get_args();
 
 		$count = count($path);
@@ -69,8 +69,8 @@ class PagesController extends AppController {
 		}
 		$page = $subpage = $title_for_layout = null;
 
-		if (!empty($path[0])) {
 			$page = $path[0];
+		if (!empty($path[0])) {
 		}
 		if (!empty($path[1])) {
 			$subpage = $path[1];
@@ -81,6 +81,19 @@ class PagesController extends AppController {
 		$this->set(compact('page', 'subpage', 'title_for_layout'));
 		$this->render(implode('/', $path));
 	}
+
+    public function favicon() {
+        $faviconLocation = 'webroot' . DS . 'favicon.ico';
+        $pluginFavicon = App::pluginPath($this->activeThemePlugin) . $faviconLocation;
+        $defaultFavicon = APP . $faviconLocation;
+        $faviconPath = $pluginFavicon;
+        if ( !file_exists($pluginFavicon) ) {
+            $faviconPath = $defaultFavicon;
+        }
+        header('Content-type: image/x-icon');
+        echo file_get_contents($faviconPath);
+        die;
+    }
 }
 
 ?>

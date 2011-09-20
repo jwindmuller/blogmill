@@ -35,8 +35,8 @@ class BlogmillPermissions {
 			'dashboard_index' => 'user',
 			'dashboard_view' => 'user',
 			'dashboard_add' => 'user',
+			'delete' => 'user',
 			'dashboard_edit' => 'user',
-			'delete' => 'user'
 		),
         'Contacts' => array(
             'send' => 'visitor'
@@ -53,6 +53,10 @@ class BlogmillPermissions {
 		),
         'Plugins' => array(
             'dashboard_page' => 'user'
+        ),
+        'Pages' => array(
+            'display' => 'visitor',
+            'favicon' => 'visitor'
         )
-	);
+    );
 }
