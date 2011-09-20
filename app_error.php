@@ -37,7 +37,7 @@ class AppError extends ErrorHandler {
     }
 
     public function upgradeRequired() {
-		$this->Blogmill->checkUpgradeRequired();
+		$this->controller->Blogmill->checkUpgradeRequired();
     }
 
     private function __installPluginTables() {
