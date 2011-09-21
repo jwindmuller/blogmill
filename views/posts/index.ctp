@@ -1,3 +1,4 @@
+<div class="posts index">
 <?php
     $type = implode(',', $types);
     $title = '';
@@ -28,3 +29,4 @@ else:
     echo '<p>', sprintf(__('No %s here yet', true), $typePlural), '</p>';
 endif;
 ?>
+</div>
