@@ -99,7 +99,6 @@ class BlogmillFormHelper extends AppHelper {
 		$this->Html->css('../js/jquery.ui.datepicker/jquery.ui.datepicker', null, array('inline' => false));
 		$this->JavaScript->link('jquery.ui.datepicker/jquery.ui.datepicker', false);
 		$this->JavaScript->link('jquery.datepicker/jquery.datepicker', false);
-		debug($typeDefinition);
 		$timezone = date_default_timezone_get();
 		$currentTime = date('H:m:i');
 		return $this->Form->input(
