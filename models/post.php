@@ -119,7 +119,6 @@ class Post extends AppModel {
 		// Allow these image mime-types, all others will be rejected
 		$valid_mime_types = array('image/jpeg', 'image/png', 'image/gif');
 		$filename = $data['tmp_name'];
-		// var_dump($data);
 
 		// Catch I/O Errors.
 		if (!is_readable($filename)) {
@@ -152,9 +151,7 @@ class Post extends AppModel {
 				return false;
 			}
 		}
-		
 		$ext = $this->__extension($mime_type);
-		// $this->data['Field'][$field_name]['value'] = $ext;
 		return $this->__upload($field_name, $ext);
 	}
 	
