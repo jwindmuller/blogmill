@@ -1,4 +1,5 @@
 <?php
+App::import('Sanitize');
 class Post extends AppModel {
 	var $name = 'Post';
 	var $actsAs = array(
@@ -264,7 +265,7 @@ class Post extends AppModel {
 	 * @see Post::__prepareData
 	 * @author Joaquin Windmuller
 	 */
-	public function savePost($data = null) {
+	public function savePost($data) {
 		$this->data = $data;
 		$this->__prepareData();
         // validate => true because we're validating Fields in the main Post model. 
@@ -281,7 +282,8 @@ class Post extends AppModel {
 	 * @author Joaquin Windmuller
 	 */
 	private function __prepareData() {
-		$this->__loadDisplayFields();
+		$this->loadDisplayFields();
+		debug($this->data, true);
 		$defaultFields = array(
 			'id' => true,
 			'created' => true,
@@ -291,7 +293,8 @@ class Post extends AppModel {
 			'category_id' => true,
 			'display' => true,
 			'guide' => true,
-			'draft' => true
+			'draft' => true,
+			'excerpt' => false
 		);
 		$data = array_intersect_key($this->data['Post'], $defaultFields);
 		$isEdit=isset($data['id']) && !empty($data['id']);
@@ -316,6 +319,11 @@ class Post extends AppModel {
 			}
 			$this->data['Field'][] = compact('name', 'value', 'id');
 		}
+		foreach ($defaultFields as $field => $keepHtml) {
+			if ( isset($this->data['Post'][$field]) && $keepHtml && is_string($this->data['Post'][$field]) ) {
+				$this->data['Post'][$field] = Sanitize::html($this->data['Post'][$field]);
+			}
+		}
 	}
 	
 	/**
@@ -324,7 +332,10 @@ class Post extends AppModel {
 	 * @return void
 	 * @author Joaquin Windmuller
 	 */
-	public function __loadDisplayFields() {
+	public function loadDisplayFields($data = null) {
+		if ($data) {
+			$this->data = $data;
+		}
 		$type = $this->data['Post']['type'];
 		list($plugin, $type) = explode('.', $type);
 		$class = "${plugin}Settings";
@@ -339,11 +350,10 @@ class Post extends AppModel {
 		$class = new $class;
 		$display = $class->types[$type]['display'];
 		$this->data['Post']['display'] = $this->data['Post'][$display];
-		if (isset($class->types[$type]['excerpt']) && (!isset($this->data['Post']['excerpt']) || $this->data['Post']['excerpt']!=='')) {
+		if (isset($class->types[$type]['excerpt']) && (!isset($this->data['Post']['excerpt']) || $this->data['Post']['excerpt']=='')) {
 			$excerpt = $class->types[$type]['excerpt'];
 			$this->data['Post']['excerpt'] = $this->data['Post'][$excerpt];
 		}
-	
 	}
 	
 	/**

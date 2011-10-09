@@ -9,7 +9,9 @@ class PostsController extends AppController {
         'blockquote', 'code', 'pre',
         'p', 'strong', 'em', 'br', 'u', 'a' => array('href', 'title')
     );
-
+	private $excerptTagWhitelist = array(
+        'strong', 'em', 'br', 'u', 'a' => array('href', 'title')
+    );
 	
 	public function home() {
 	}
@@ -183,9 +185,9 @@ class PostsController extends AppController {
 	
 	private function __savePost($type) {
 		if (empty($this->data)) return;
-		$this->__prepareData();
 		$this->data['Post']['type'] = $type;
         $this->data['Post']['user_id'] = $this->Auth->user('id');
+		$this->__prepareData();
 		if ($this->Post->savePost($this->data)) {
 			$this->Session->setFlash(__('The post has been saved', true));
 			$this->redirect(array('action' => 'index'));
@@ -195,15 +197,21 @@ class PostsController extends AppController {
 	}
 	
 	private function __prepareData() {
+		$this->Post->loadDisplayFields($this->data);
+		$this->data = $this->Post->data;
+		$excerpt = $this->data['Post']['excerpt'];
+		$excerpt = $this->HtmlCleaner->cleanup( $excerpt, $this->excerptTagWhitelist );
+		$excerpt = str_replace('<br />', ' ', $excerpt);
+		$this->data['Post']['excerpt'] = $excerpt;
 		$fields = $this->Post->fields;
 		foreach ($fields as $field => $type) {
             if ( is_array($type) ) {
                 $type = $type['type'];
             }
-			if ($type == 'html' && isset($this->data['Post'][$field])) {
+			if ( $type == 'html' && isset($this->data['Post'][$field]) ) {
                 $fieldData = $this->data['Post'][$field];
                 $fieldData = $this->Blogmill->transformHtmlEditorData( $fieldData );
-				$this->data['Post'][$field] = $this->HtmlCleaner->cleanup( $fieldData, $this->tagWhitelist);
+				$this->data['Post'][$field] = $this->HtmlCleaner->cleanup( $fieldData, $this->tagWhitelist );
 			}
 		}
 	}
