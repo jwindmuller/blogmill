@@ -30,7 +30,9 @@ class BlogmillComponent extends Object {
 		$this->__setupCurrentTheme();
         // Sets up the current site name
         $site_name = $this->Settings->get('BlogmillDefault.blogmill_site_name');
-        $this->Controller->set(compact('site_name'));
+        // Sets up the current site description
+        $site_description = $this->Settings->get('BlogmillDefault.blogmill_site_description');
+        $this->Controller->set(compact('site_name', 'site_description'));
 	}
     
     public function beforeRender($controller) {
