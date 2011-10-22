@@ -283,7 +283,6 @@ class Post extends AppModel {
 	 */
 	private function __prepareData() {
 		$this->loadDisplayFields();
-		debug($this->data, true);
 		$defaultFields = array(
 			'id' => true,
 			'created' => true,
@@ -291,6 +290,7 @@ class Post extends AppModel {
             'published' => true,
 			'type' => true,
 			'category_id' => true,
+			'user_id' => true,
 			'display' => true,
 			'guide' => true,
 			'draft' => true,
