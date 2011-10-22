@@ -31,7 +31,6 @@ class AppController extends Controller {
 	 */
 	public function beforeFilter() {
         $this->Blogmill->checkUpgradeRequired();
-	  //  die;
         $this->__setLanguage();
 		if ($this->Auth) {
 			// Allow access to public areas to visitors
@@ -69,6 +68,8 @@ class AppController extends Controller {
         if ($this->name !== 'CakeError') {
             $this->__requestRecieved();
         }
+		// HOOK: allow plugins to load js and css resource files
+		$this->Blogmill->pluginsAttached('load_resources');
 	}
 
     public function __requestRecieved() {
