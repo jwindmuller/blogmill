@@ -9,8 +9,9 @@
     if (is_file($theme_view)) {
         $plugin = $activeThemePlugin;
     }
+	$isDraft = $this->Blogmill->field($post, 'draft');
 ?> 
-<div class="post view">
+<div class="post view<?php echo $isDraft ? ' draft' : '';?>">
 	<?php echo $this->element($type . '/view-item', compact('plugin', 'post')); ?> 
     <?php 
 	    $type = Set::extract($postTypes, $post['Post']['type']);

@@ -8,7 +8,7 @@ class PostsController extends AppController {
         'ul', 'ol', 'li',
         'blockquote', 'code', 'pre',
         'p', 'strong', 'em', 'br', 'u', 'a' => array('href', 'title'),
-	'img' => array('title', 'alt', 'src')
+		'img' => array('title', 'alt', 'src')
     );
 	private $excerptTagWhitelist = array(
         'strong', 'em', 'br', 'u', 'a' => array('href', 'title')
@@ -86,7 +86,9 @@ class PostsController extends AppController {
 		}
         $post = $this->Post->read(null, $id);
         if ( $post===false || $post['Post']['draft'] ) {
-            $this->_blogmill404Error();
+			if ($post['Post']['user_id'] !== $this->Auth->user('id')) {
+            	$this->_blogmill404Error();
+			}
         }
         if ( $post['Post']['slug'] !== $slug ) {
             $this->redirect(array(
