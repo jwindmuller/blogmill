@@ -12,7 +12,23 @@ class BlogmillHelper extends AppHelper {
         }
         $scripts = array();
         foreach( $scripts_for_bottom as $url ) {
-            $scripts[] = $this->Javascript->link($url);
+			$type = 'js';
+			if ( is_array($url) ) {
+				list($url, $type) = $url;
+			}
+			$script = '';
+			switch ($type) {
+				case 'js':
+					$script = $this->Javascript->link($url);
+					break;
+				case 'css':
+					$script = $this->Html->css($url);
+					break;
+				default:
+					$script = '<!-- Unknown type: ' . $type . '. Did not load: ' . $url . ' -->';
+					break;
+			}
+           	$scripts[] = $script;
         }
         $view->viewVars['scripts_for_bottom'] = implode("\n\t", $scripts);
     }

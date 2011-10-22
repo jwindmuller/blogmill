@@ -1,5 +1,6 @@
 <?php 
 App::import('Lib', 'Migrations.MigrationVersion');
+App::import('Component', 'BlogmillHook');
 class BlogmillComponent extends Object {
 	
 	private $Controller;
@@ -386,8 +387,8 @@ class BlogmillComponent extends Object {
         }
     }
 
-    public function scriptForBottom($url) {
-        $this->__scriptsForBottom[] = $url;
+    public function scriptForBottom($url, $type = 'js') {
+        $this->__scriptsForBottom[] = array($url, $type);
     }
 
     public function checkUpgradeRequired() {
