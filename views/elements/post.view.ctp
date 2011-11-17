@@ -15,8 +15,10 @@
 	<?php echo $this->element($type . '/view-item', compact('plugin', 'post')); ?> 
     <?php 
 	    $type = Set::extract($postTypes, $post['Post']['type']);
-    	if (!isset($type['comments']) || $type['comments']) {
-	    	echo $this->element('comments.form');
-    	}
+        if ($commentsEnabled) {
+            if ((!isset($type['comments']) || $type['comments'])) {
+                echo $this->element('comments.form');
+            }
+        }
     ?>
 </div>
