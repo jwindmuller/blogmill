@@ -30,7 +30,7 @@ class CommentsController extends AppController {
 		$this->set(compact('posts'));
 	}
 
-	function edit($id = null) {
+	function dashboard_edit($id = null) {
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid comment', true));
 			$this->redirect(array('action' => 'index'));
@@ -50,7 +50,7 @@ class CommentsController extends AppController {
 		$this->set(compact('posts'));
 	}
 
-	function delete($id = null) {
+	function dashboard_delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid comment', true));
 			$this->redirect(array('action'=>'index'));
