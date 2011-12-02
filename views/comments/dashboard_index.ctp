@@ -32,6 +32,7 @@
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $comment['Comment']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $comment['Comment']['id'])); ?>
+            <?php echo $this->Html->link(__('Spam', true), array('action' => 'spam', $comment['Comment']['id'])); ?>
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $comment['Comment']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $comment['Comment']['id'])); ?>
 		</td>
 	</tr>

@@ -10,7 +10,7 @@ class AppController extends Controller {
 	 * @var array helper names
 	 */
 	var $helpers = array('Text', 'Html', 'Form', 'Javascript', 'Session', 'Blogmill', 'BlogmillForm', 'Time');
-	var $components = array('Session', 'Acl', 'RequestHandler', 'Blogmill', 'Cookie',
+	var $components = array('Session', 'Acl', 'RequestHandler', 'Blogmill', 'BlogmillHook', 'Cookie',
 		'Auth' => array(
 			'authorize' => 'controller',
 			'loginAction' => array('controller' => 'users', 'action' => 'login', 'dashboard' => true),

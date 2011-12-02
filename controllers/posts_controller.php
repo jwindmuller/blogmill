@@ -234,6 +234,8 @@ class PostsController extends AppController {
 		
 	private function __saveComment($post_id, $slug) {
 		$this->data['Comment']['post_id'] = $post_id;
+        $this->data['Comment']['approved'] = false;
+        $this->data = $this->BlogmillHook->call('before_comment', $this->data);
 		if ($this->Post->Comment->save($this->data)) {
 			$this->Session->setFlash(__('Thanks for leaving your comment', true));
 			$this->redirect(array(
