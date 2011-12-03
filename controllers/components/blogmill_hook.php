@@ -25,7 +25,9 @@ class BlogmillHookComponent extends Object {
 			);
             if (class_exists($hookClass)) {
                 $obj = new $hookClass;
-                call_user_func(array($obj, $hook_name), &$params);
+                if (method_exists($obj, $hook_name)) {
+                    call_user_func(array($obj, $hook_name), &$params);
+                }
             }
         }
         return $params;
