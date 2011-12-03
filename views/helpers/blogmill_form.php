@@ -192,6 +192,7 @@ class BlogmillFormHelper extends AppHelper {
 		$form.= $this->Form->input('email', array('label' => __('Email', true)));
 		$form.= $this->Form->input('subject', array('label' => __('Subject', true)));
 		$form.= $this->Form->input('message', array('label' => __('Message', true), 'type' => 'textarea'));
+		$form.= $this->Form->input('extra', array('label' => __('Leave empty if you are a human', true), 'div' => array('style' => 'display:none;visibility:hidden;')));
 		$form.= $this->Form->end(__('Submit', true));
 		return $form;
 	}
