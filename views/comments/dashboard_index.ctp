@@ -29,12 +29,38 @@
 		<td><?php echo $comment['Comment']['url']; ?>&nbsp;</td>
 		<td><?php echo $comment['Comment']['content']; ?>&nbsp;</td>
 		<td><?php echo $this->Time->niceShort($comment['Comment']['created']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $comment['Comment']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $comment['Comment']['id'])); ?>
-            <?php echo $this->Html->link(__('Spam', true), array('action' => 'spam', $comment['Comment']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $comment['Comment']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $comment['Comment']['id'])); ?>
-		</td>
+        <td class="actions">
+            <?php echo $this->Html->link(
+                __('View', true),
+                array('action' => 'view', $comment['Comment']['id'])
+            ); ?>
+            <?php echo $this->Html->link(
+                __('Edit', true),
+                array('action' => 'edit', $comment['Comment']['id'])
+            ); ?>
+            <?php
+            $approved = $comment['Comment']['approved'];
+            echo $this->Html->link(
+                $approved ? __('Disapprove', true) : __('Approve', true),
+                array('action' => 'approve', $comment['Comment']['id'], $approved ? 'no' : 'yes')
+            ); ?>
+            <?php echo $this->Html->link(
+                __('Spam', true),
+                array('action' => 'spam', $comment['Comment']['id']), null,
+                sprintf(
+                    __('Are you sure you want to mark as spam and delete this comment from "%s"?', true),
+                    trim($comment['Comment']['name'])
+                )
+            ); ?>
+            <?php echo $this->Html->link(
+                __('Delete', true),
+                array('action' => 'delete', $comment['Comment']['id']), null,
+                sprintf(
+                    __('Are you sure you want to delete this comment from "%s"?', true),
+                    trim($comment['Comment']['name'])
+                )
+            ); ?>
+        </td>
 	</tr>
 <?php endforeach; ?>
 	</table>

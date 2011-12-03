@@ -52,7 +52,7 @@ class Post extends AppModel {
 			'className' => 'Comment',
 			'foreignKey' => 'post_id',
 			'dependent' => true,
-			'conditions' => '',
+			'conditions' => array('Comment.approved' => true, 'Comment.spam' => false),
 			'fields' => '',
 			'order' => '',
 			'limit' => '',

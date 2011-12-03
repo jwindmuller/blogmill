@@ -59,11 +59,16 @@ class CommentsController extends AppController {
         if ($comment) {
             $this->BlogmillHook->call('comment_is_spam', $comment);
         }
-        $comment['Comment']['spam'] = true;
-        $comment['Comment']['approved'] = false;
-        if (!$this->Comment->save($comment)) {
+        if (!$this->Comment->delete($id)) {
             $this->Session->setFlash(__('Could not mark the comment as spam', true));
         }
+        $this->redirect(array('action' => 'index'));
+    }
+
+    public function dashboard_approve($id = null, $status) {
+        $approved = $status === 'yes';
+        $Comment =  array('id' => $id, 'approved' => $approved, 'spam' => false);
+        $this->Comment->save(compact('Comment'), false, array_keys($Comment));
         $this->redirect(array('action' => 'index'));
     }
 

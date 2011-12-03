@@ -29,6 +29,8 @@ class BlogmillPermissions {
 			'add' => 'visitor',
 			'dashboard_index' => 'user',
 			'dashboard_index' => 'user',
+            'dashboard_approve' => 'user',
+            'dashboard_spam' => 'user',
 		),
 		'Categories' => array(
 			'view' => 'visitor',
