@@ -10,7 +10,7 @@ class AppController extends Controller {
 	 * @var array helper names
 	 */
 	var $helpers = array('Text', 'Html', 'Form', 'Javascript', 'Session', 'Blogmill', 'BlogmillForm', 'Time');
-	var $components = array('Session', 'Acl', 'RequestHandler', 'Blogmill', 'BlogmillHook', 'Cookie',
+	var $components = array('Session', 'Acl', 'RequestHandler', 'Blogmill', 'BlogmillHook', 'BlogmillAction', 'Cookie',
 		'Auth' => array(
 			'authorize' => 'controller',
 			'loginAction' => array('controller' => 'users', 'action' => 'login', 'dashboard' => true),
@@ -51,8 +51,12 @@ class AppController extends Controller {
 		if ($this->Auth->user('id')) {
 			$aro = array('model' => 'User', 'foreign_key' => $this->Auth->user('id'));
 		}
-		$isAuthorized = $this->Acl->check($aro,'controllers/' . $this->name . '/' . $this->action);
-		return $isAuthorized;
+        if ($this->action == 'dashboard_execute_action') {
+            $isAuthorized = is_array($aro);
+        } else {
+            $isAuthorized = $this->Acl->check($aro,'controllers/' . $this->name . '/' . $this->action);
+        }
+        return $isAuthorized;
 	}
 	
 	/**
@@ -93,5 +97,9 @@ class AppController extends Controller {
         $error = new AppError('error404', array(), &$this);
         $error->error404(array());
     }
+
+    final function dashboard_execute_action($action, $plugin) {
+        $this->BlogmillAction->execute_plugin_action($action, $plugin);
+        $this->redirect($this->referer());
+    }
 }
-?>

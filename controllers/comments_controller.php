@@ -5,7 +5,11 @@ class CommentsController extends AppController {
 
 	function dashboard_index() {
 		$this->Comment->recursive = 0;
-		$this->set('comments', $this->paginate());
+        $params = array('comment_list', array());
+        $actions = $this->BlogmillHook->call('actions_for', $params);
+        $actions = $actions[1];
+        $comments = $this->paginate();
+        $this->set(compact('comments', 'actions'));
 	}
 
 	function view($id = null) {

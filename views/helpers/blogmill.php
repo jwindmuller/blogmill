@@ -156,5 +156,21 @@ class BlogmillHelper extends AppHelper {
     public function isOwner($post) {
         return $this->field($post, 'user_id') == $this->Session->read('Auth.User.id');
     }
+
+    public function actionsList($actionsList) {
+        $html = array();
+        foreach ($actionsList as $plugin => $actions) {
+            $plugin = Inflector::underscore($plugin);
+            foreach ($actions as $action) {
+                $html[] = sprintf(
+                    '<li>%s</li>',
+                    $this->Html->link(
+                        $action['label'],
+                        array_merge(array('action' => 'execute_action', $plugin), $action['url'])
+                    )
+                );
+            }
+        }
+        return join($html);
+    }
 }
-?>
