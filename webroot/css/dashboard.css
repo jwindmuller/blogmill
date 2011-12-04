@@ -301,6 +301,12 @@ table tr td:last-child {
 table tr.selected td {
 	background:#FFEFF0;
 }
+table tr.spam td:first-child {
+	border-left:#000 2px solid;
+}
+table tr.spam td:first-child:after {
+	content:"SPAM!";
+}
 div.table-top,
 div.table-bottom {
 	text-align:right;

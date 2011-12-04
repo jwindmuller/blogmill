@@ -13,10 +13,13 @@
 	<?php
 	$i = 0;
 	foreach ($comments as $comment):
-		$class = null;
+        $isSpam = $comment['Comment']['spam'];
+		$class = ' class="';
 		if ($i++ % 2 == 0) {
-			$class = ' class="altrow"';
+			$class .= 'altrow ';
 		}
+        $class .= $isSpam ? 'spam' : '';
+        $class .= '"';
 	?>
 	<tr<?php echo $class;?>>
 		<td>
@@ -42,15 +45,20 @@
             $approved = $comment['Comment']['approved'];
             echo $this->Html->link(
                 $approved ? __('Disapprove', true) : __('Approve', true),
-                array('action' => 'approve', $comment['Comment']['id'], $approved ? 'no' : 'yes')
+                array('action' => 'approve', $comment['Comment']['id'], ($approved ? 'no' : 'yes'))
             ); ?>
-            <?php echo $this->Html->link(
-                __('Spam', true),
-                array('action' => 'spam', $comment['Comment']['id']), null,
-                sprintf(
-                    __('Are you sure you want to mark as spam and delete this comment from "%s"?', true),
-                    trim($comment['Comment']['name'])
-                )
+            <?php
+            $prompt = sprintf(
+                __('Are you sure you want to mark as spam and delete this comment from "%s"?', true),
+                trim($comment['Comment']['name'])
+            );
+            if ($isSpam) {
+                $prompt = false;
+            }
+            echo $this->Html->link(
+                $isSpam ? __('Not Spam', true) : __('Spam', true),
+                array('action' => 'spam', $comment['Comment']['id'], ($isSpam ? 'no' : 'yes')), null,
+                $prompt
             ); ?>
             <?php echo $this->Html->link(
                 __('Delete', true),

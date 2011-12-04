@@ -50,17 +50,28 @@ class CommentsController extends AppController {
 		$this->set(compact('posts'));
 	}
 
-    public function dashboard_spam($id = null) {
+    public function dashboard_spam($id = null, $status) {
         if (!$id) {
 			$this->Session->setFlash(__('Invalid comment', true));
 			$this->redirect(array('action'=>'index'));
 		}
+        $spam = $status == 'yes';
+        $this->Comment->recursive = -1;
         $comment = $this->Comment->read(null, $id);
         if ($comment) {
-            $this->BlogmillHook->call('comment_is_spam', $comment);
-        }
-        if (!$this->Comment->delete($id)) {
-            $this->Session->setFlash(__('Could not mark the comment as spam', true));
+            if ($spam) {
+                $this->BlogmillHook->call('comment_is_spam', $comment);
+                if (!$this->Comment->delete($id)) {
+                    $this->Session->setFlash(__('Could not delete the comment', true));
+                }
+            } else {
+                $this->BlogmillHook->call('comment_is_ham', $comment);
+                $comment['Comment']['spam'] = false;
+                $comment['Comment']['approved'] = true;
+                if ($this->Comment->save($comment)) {
+                    $this->Session->setFlash(__('Comment approved', true));
+                }
+            }
         }
         $this->redirect(array('action' => 'index'));
     }
@@ -85,4 +96,3 @@ class CommentsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 }
-?>
