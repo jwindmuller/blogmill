@@ -2,9 +2,10 @@
 App::import('Sanitize');
 class Post extends AppModel {
 	var $name = 'Post';
+
 	var $actsAs = array(
         'Containable',
-        'Sluggable' => array('overwrite' => true, 'translation' => 'utf-8', 'label' => 'display'),
+        'Sluggable' => array('overwrite' => true, 'translation' => 'utf-8', 'label' => 'slug'),
 	    'Acl' => array('type' => 'controlled')
     );
 
@@ -26,7 +27,7 @@ class Post extends AppModel {
                 'required' => true,
                 'allowEmpty' => true
 			)
-		),
+		)
 	);
 
 	var $belongsTo = array(
@@ -291,12 +292,14 @@ class Post extends AppModel {
 			'type' => true,
 			'category_id' => true,
 			'user_id' => true,
-			'display' => true,
+			'display' => false,
 			'guide' => true,
 			'draft' => true,
-			'excerpt' => false
+			'excerpt' => false,
+			'slug' => false
 		);
 		$data = array_intersect_key($this->data['Post'], $defaultFields);
+		$this->data['Post']['slug'] = $this->data['Post']['display'];
 		$isEdit=isset($data['id']) && !empty($data['id']);
 		if ($isEdit) {
 			$currentFields = $this->fields($data['id']);
@@ -319,8 +322,8 @@ class Post extends AppModel {
 			}
 			$this->data['Field'][] = compact('name', 'value', 'id');
 		}
-		foreach ($defaultFields as $field => $keepHtml) {
-			if ( isset($this->data['Post'][$field]) && $keepHtml && is_string($this->data['Post'][$field]) ) {
+		foreach ($defaultFields as $field => $removeHtml) {
+			if ( isset($this->data['Post'][$field]) && is_string($this->data['Post'][$field]) && $removeHtml ) {
 				$this->data['Post'][$field] = Sanitize::html($this->data['Post'][$field]);
 			}
 		}

@@ -34,9 +34,6 @@ class BlogmillHelper extends AppHelper {
     }
 
 	public function postURL($post, $options=array()) {
-		if (isset($post['Post'])) {
-			$post = $post['Post'];
-		}
 		$action = 'view';
 		if (isset($options['action'])) {
 			$action = $options['action'];
@@ -44,17 +41,16 @@ class BlogmillHelper extends AppHelper {
 		return array(
 			'controller' => 'posts',
 			'action' => $action,
-			'id' => $post['id'], 'slug' => $post['slug'], 'type' => $post['type'],
+            'id'   => $this->field($post, 'id'),
+            'slug' => $this->field($post, 'slug'),
+            'type' => $this->field($post, 'type'),
 			'dashboard' => false
 		) + $options;
 	}
 	public function postLink($post, $options=array(), $html_options=array()) {
-		if (isset($post['Post'])) {
-			$post = $post['Post'];
-		}
-		$display = $post['display'];
+		$display = $this->field($post, 'display');
 		if (isset($options['display'])) {
-			$display=$options['display'];
+			$display= $this->field($post, $options['display']);
 			unset($options['display']);
 		}
 		$default_options = array(
@@ -67,13 +63,14 @@ class BlogmillHelper extends AppHelper {
         unset($default_options);
         $display = $options['before']. $display . $options['after'];
         unset($options['before'], $options['after']);
-		list($plugin, $type) = explode('.', $post['type']);
+		list($plugin, $type) = explode('.', $this->field($post, 'type'));
+		$html_options['escape'] = false;
 		return $this->Html->link($display, $this->postURL($post, $options), $html_options);
 	}
 	
 	public function postEditLink($post, $title = null, $html_options = array()) {
 		$title = is_null($title) ? __('edit this post', true) : $title;
-		list($plugin, $type) = explode('.', $post['Post']['type']);
+		list($plugin, $type) = explode('.', $this->field($post, 'type'));
 		$options = array('class' => 'call-to-action-link edit');
 		if (isset($html_options['class'])) {
 			$options['class'].= ' ' . $html_options['class'];
@@ -86,7 +83,7 @@ class BlogmillHelper extends AppHelper {
 				'controller' => 'posts',
 				'action' => 'edit',
 				$plugin, $type,
-				$post['Post']['id']
+				$this->field($post, 'id')
 			), $options
 		);
 	}
@@ -96,7 +93,7 @@ class BlogmillHelper extends AppHelper {
 			array(
 				'controller' => 'posts',
 				'action' => 'delete',
-				$post['Post']['id'],
+				$this->field($post, 'id'),
 				'dashboard' => true
 			)
 		);
@@ -110,10 +107,9 @@ class BlogmillHelper extends AppHelper {
 	 * @author Joaquin Windmuller
 	 */
 	public function excerpt($post, $lenght = 140) {
-		$excerpt = $post['Post']['excerpt'];
-		
+		$excerpt = $this->field($post, 'excerpt');
 		if (empty($excerpt)) {
-			$excerpt = Sanitize::html($post['Post']['content'], array('remove' => true));
+			$excerpt = Sanitize::html($this->field($post, 'content'), array('remove' => true));
 		}
 		$excerpt = $this->Text->truncate($excerpt, $lenght, array('html' => true, 'ending' => '...'));
 		return $excerpt;
@@ -121,7 +117,15 @@ class BlogmillHelper extends AppHelper {
 	
 	public function field($post, $field) {
 		if (!isset($post['Post'][$field])) return false;
-		return $post['Post'][$field];
+		$postType = $post['Post']['type'];
+		$View = ClassRegistry::init('View');
+		$postTypes = $View->viewVars['postTypes'];
+		$fieldDefinitions =  Set::extract($postTypes, $postType);
+		$field_value  = $post['Post'][$field];
+		if (@$fieldDefinitions['fields'][$field]['type'] !== 'html') {
+			$field_value = Sanitize::html($field_value);
+		}
+		return $field_value;
 	}
 	
 	public function guide($post) {

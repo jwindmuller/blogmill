@@ -211,11 +211,19 @@ class PostsController extends AppController {
             if ( is_array($type) ) {
                 $type = $type['type'];
             }
-			if ( $type == 'html' && isset($this->data['Post'][$field]) ) {
+            if ( isset($this->data['Post'][$field]) ) {
                 $fieldData = $this->data['Post'][$field];
-                $fieldData = $this->Blogmill->transformHtmlEditorData( $fieldData );
-				$this->data['Post'][$field] = $this->HtmlCleaner->cleanup( $fieldData, $this->tagWhitelist );
-			}
+                switch ($type) {
+                    case 'html':
+                        $fieldData = $this->Blogmill->transformHtmlEditorData( $fieldData );
+                        $fieldData = $this->HtmlCleaner->cleanup( $fieldData, $this->tagWhitelist );
+                        break;
+                    default:
+                        // Store the data without changes, BlogmillHelper makes sure to Sanitize
+                        break;
+                }
+                $this->data['Post'][$field] = $fieldData;
+            }
 		}
 	}
 
