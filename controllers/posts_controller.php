@@ -106,6 +106,9 @@ class PostsController extends AppController {
         if ($type) {
             $this->paginate['conditions'] = compact('type');
         }
+        if (!isset($this->params['named']['sort'])) {
+            $this->paginate['order'] = 'Post.id DESC';
+        }
 		$this->Post->contain(array('Field', 'Category'));
 		$this->set('posts', $this->paginate());
 	}
