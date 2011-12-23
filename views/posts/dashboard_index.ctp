@@ -32,7 +32,7 @@
 		</td>
 		<td>
 			<strong><?php
-				echo $this->Blogmill->postLink($post, array('display' => $post['Post']['display']));
+				echo $this->Blogmill->postLink($post);
 			?></strong>
 		</td>
 		<td><?php echo $this->Blogmill->postEditLink($post, __('Edit', true)); ?></td>
