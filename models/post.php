@@ -352,8 +352,9 @@ class Post extends AppModel {
 		if (!class_exists($class)) return;
 		$class = new $class;
 		$display = $class->types[$type]['display'];
+		$this->data['Post']['excerpt'] = @$this->data['Post']['excerpt'] . '';
 		$this->data['Post']['display'] = $this->data['Post'][$display];
-		if (isset($class->types[$type]['excerpt']) && (!isset($this->data['Post']['excerpt']) || $this->data['Post']['excerpt']=='')) {
+		if (isset($class->types[$type]['excerpt']) && $this->data['Post']['excerpt']=='') {
 			$excerpt = $class->types[$type]['excerpt'];
 			$this->data['Post']['excerpt'] = $this->data['Post'][$excerpt];
 		}
