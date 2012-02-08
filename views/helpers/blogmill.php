@@ -50,7 +50,10 @@ class BlogmillHelper extends AppHelper {
 	public function postLink($post, $options=array(), $html_options=array()) {
 		$display = $this->field($post, 'display');
 		if (isset($options['display'])) {
-			$display= $this->field($post, $options['display']);
+			$display = $this->field($post, $options['display']);
+			if ($display === false) {
+				$display = $options['display'];
+			}
 			unset($options['display']);
 		}
 		$default_options = array(
