@@ -19,6 +19,7 @@ if ($posts) :
         $type = strtolower(Inflector::underscore($type));
         $themeView = App::pluginPath($activeThemePlugin) .
                      'views' . DS . 'elements' . DS . $type . DS . 'index-item.ctp';
+        $plugin = strtolower($plugin);
         $options = compact('plugin', 'post');
         if ( file_exists($themeView) ) {
             $options['plugin'] = $activeThemePlugin;
