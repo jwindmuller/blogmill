@@ -186,14 +186,18 @@ class BlogmillFormHelper extends AppHelper {
 	 * @see Modify Routes configuration for custom url
 	 * @author Joaquin Windmuller
 	 */
-	public function contactForm() {
+	public function contactForm($options = array()) {
+		$options = array_merge(
+			array('submit' => __('Submit', true)),
+			$options
+		);
 		$form = $this->Form->create('Contact', array('url' => array('controller' => 'contacts', 'action' => 'send')));
 		$form.= $this->Form->input('name', array('label' => __('Name', true)));
 		$form.= $this->Form->input('email', array('label' => __('Email', true)));
 		$form.= $this->Form->input('subject', array('label' => __('Subject', true)));
 		$form.= $this->Form->input('message', array('label' => __('Message', true), 'type' => 'textarea'));
 		$form.= $this->Form->input('extra', array('label' => __('Leave empty if you are a human', true), 'div' => array('style' => 'display:none;visibility:hidden;')));
-		$form.= $this->Form->end(__('Submit', true));
+		$form.= $this->Form->end($options['submit']);
 		return $form;
 	}
 }
