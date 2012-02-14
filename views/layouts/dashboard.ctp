@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<?php echo $html->charset(); ?>
+	<?php echo $html->charset(); ?> 
+	<?php echo $html->meta(null, null, array('name' => 'robots', 'content' => 'noindex,nofollow')) ?> 
 	<title>
 		<?php __('Dashboard'); ?>
 		<?php echo $title_for_layout; ?>

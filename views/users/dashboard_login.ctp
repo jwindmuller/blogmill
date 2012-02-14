@@ -11,7 +11,11 @@
         </div>
     </div>
     <?php
-        $after = ' ' . $this->Html->link(__('lost password', true), array('controller' => 'users', 'action' => 'recover'));
+        $after = ' ' . $this->Html->link(
+            __('lost password', true),
+            array('controller' => 'users', 'action' => 'recover'),
+            array('rel' => 'nofollow')
+        );
         echo $this->Form->submit(__('Login', true), compact('after')); 
     ?>
 <?php echo $this->Form->end(); ?>
