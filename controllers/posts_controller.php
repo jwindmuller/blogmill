@@ -219,6 +219,7 @@ class PostsController extends AppController {
                 switch ($type) {
                     case 'html':
                         $fieldData = $this->Blogmill->transformHtmlEditorData( $fieldData );
+                        $fieldData = str_replace('<p>&nbsp;</p>', '', $fieldData);
                         $fieldData = $this->HtmlCleaner->cleanup( $fieldData, $this->tagWhitelist );
                         break;
                     default:
