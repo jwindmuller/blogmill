@@ -47,6 +47,15 @@ class BlogmillHelper extends AppHelper {
 			'dashboard' => false
 		) + $options;
 	}
+
+    public function postShortURL($post) {
+        return array(
+            'controller' => 'posts',
+            'action' => 'view',
+            'id'   => $this->field($post, 'id'),
+            'dashboard' => false
+        );
+    }
 	public function postLink($post, $options=array(), $html_options=array()) {
 		$display = $this->field($post, 'display');
 		if (isset($options['display'])) {
