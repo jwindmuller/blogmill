@@ -165,6 +165,7 @@ class SettingsController extends AppController {
 	
 	public function dashboard_themes() {
 	}
+
 	public function dashboard_change_theme() {
 		if(isset($this->params['named']['theme'])) {
 			$theme_id = $this->params['named']['theme'];
@@ -207,8 +208,12 @@ class SettingsController extends AppController {
             }
 			$this->set(compact('plugin', 'configurable_keys'));
 			if (!empty($this->data)) {
+                $this->__dataForMulti($configurable_keys);
 				$errors = array();
 				foreach ($this->data['Setting'] as $key => $value) {
+                    if ( !isset($configurable_keys[$key])) {
+                        continue;
+                    }
 					if (!$this->Setting->store("{$plugin}.{$key}", $value)) {
 						$key = str_replace($plugin . '.', '', $key);
 						$errors[$key] = $this->Setting->validationErrors['value'];
@@ -218,14 +223,61 @@ class SettingsController extends AppController {
 					$this->Session->setFlash(sprintf(__('Correctly saved the settings for plugin %s', true), $plugin));
 					$this->redirect(array('controller' => 'settings', 'action' => 'plugins'));
 				}
-				$this->Setting->validationErrors = $errors;
+				$this->Setting->validationErrors += $errors;
 			} else {
-				foreach ($configurable_keys as $key => $value) {
-					$this->data['Setting'][$key] = $this->Setting->get("{$plugin}.{$key}");
+				foreach ($configurable_keys as $key => $config) {
+                    $value = $this->Setting->get("{$plugin}.{$key}");
+                    if (isset($config['multi'])) {
+                        $this->set($key . '_count', max(3, count($value) + 1));
+                        foreach ($value as $i => $multiValue) {
+                            foreach ($multiValue as $fieldName => $fieldValue) {
+                                $this->data['Setting'][$key . '_' . $i . '_' . $fieldName] = $fieldValue;
+                            }
+                        }
+                    } else {
+					   $this->data['Setting'][$key] = $value;
+                    }
 				}
 			}
 		}
 	}
+
+    private function __dataForMulti($configurable_keys) {
+        foreach ($configurable_keys as $fieldName => $config) {
+            if (!isset($config['multi'])) {
+                continue;
+            }
+            $multi = array();
+            $i = 0;
+            while (true) {
+                $allEmpty = true;
+                $someEmpty = false;
+                $notFound = false;
+                foreach ($config['multi'] as $field => $value) {
+                    $dataField = $fieldName .'_' . $i . '_' . $field;
+                    if (!isset($this->data['Setting'][$dataField])) {
+                        $notFound = true;
+                        break;
+                    }
+                    $multi[$i][$field] = $this->data['Setting'][$dataField];
+                    $allEmpty = $allEmpty && empty($multi[$i][$field]);
+                    $someEmpty = $someEmpty || empty($multi[$i][$field]);
+                }
+                if ($allEmpty) {
+                    unset($multi[$i]);
+                } else if ($someEmpty) {
+                    $this->Setting->invalidate($fieldName . '_' . $i);
+                }
+                if ($notFound) {
+                    break;
+                }
+                $i++;
+            }
+            $multi = array_values($multi);
+            $this->data['Setting'][$fieldName] = $multi;
+            $this->set($fieldName . '_count', max(3, count($multi) + 1));
+        }
+    }
 
     public function dashboard_get_index_url() {
         $types = $this->params['url']['types'];

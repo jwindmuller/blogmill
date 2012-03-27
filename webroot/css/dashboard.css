@@ -370,7 +370,7 @@ div.form-wrapper div.cell.form-sidebar,
 div.table div.cell.sidebar {
 	width:250px!important;
 }
-form div.input {
+.input {
 	width:100%;
 	clear:both;
     margin-bottom:10px;
@@ -498,16 +498,22 @@ form fieldset {
 }
 form fieldset legend {
     color:#222;
-	font-size:1.7em;
-	padding:0 0 10px 10px;
+	font-size:1.3em;
+	padding:0 5px;
 }
-form label {
+form label,
+.description {
 	color:#333;
 	font-size:1.2em;
 }
-label p {
+label p,
+.description {
     font-size:0.8em;
     margin:3px 0;
+}
+p.description {
+	font-size:1.1em;
+	margin-bottom:5px;
 }
 form .group {
 	border:#dedede 1px solid;
@@ -837,4 +843,33 @@ ul#menu-items {
     color:#000;
     border:#666 1px solid;
 
+}
+.multiple {
+    clear:none;
+    float:left;
+    margin:0;
+    padding:0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+form div.multiple input {
+	margin-bottom:0;
+}
+.multi hr.clear {
+	border:none;
+	border-top:#e0e0e0 1px solid;
+	margin-top:10px;
+	float:left;
+	width:100%;
+}
+.multi .multi-field :first-child {
+	padding: 0 10px 0 0;
+}
+.multi .error-message {
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    /*margin-right:10px;*/
+    margin: 0;
 }

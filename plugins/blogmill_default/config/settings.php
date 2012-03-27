@@ -40,8 +40,12 @@ class BlogmillDefaultSettings extends BlogmillSettings {
                 'label' => __('Description or tagline for the site', true)
             ),
             'blogmill_contact_email' => array(
-                'label' => __('Contact email', true),
-                'longdesc' => __('Write the contact email where you want to receive emails.', true)
+                'multi' => array(
+                    'name' => __('Name', true),
+                    'email' => __('Email', true)
+                ),
+                'label' => __('Contact emails', true),
+                'longdesc' => __('Write the contact emails where you want to be contacted.', true)
             ),
             'blogmill_editor' => array(
                 'label' => __('Editor to use', true),
