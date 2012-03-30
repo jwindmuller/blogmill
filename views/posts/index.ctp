@@ -7,9 +7,12 @@
     } else if ( count($types) == 1) {
         $type = $types[0];
         list($plugin, $type) = pluginSplit($type);
-        $title = Inflector::pluralize($postTypes[$plugin][$type]['name']);
+        $title = $postTypes[$plugin][$type]['name'];
+        if (isset($postTypes[$plugin][$type]['name_plural'])) {
+            $title = $postTypes[$plugin][$type]['name_plural'];
+        }
     }
-    $this->viewVars['title_for_layout'] = $title;
+    $this->title = $title;
 ?>
 <h1><?php echo $title; ?></h1>
 <?php
