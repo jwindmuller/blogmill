@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2011-05-28 17:08+0000\n"
-"PO-Revision-Date: 2011-05-28 11:12-0700\n"
+"POT-Creation-Date: 2012-03-30 18:25+0000\n"
+"PO-Revision-Date: 2012-03-30 12:33-0700\n"
 "Last-Translator: Joaquin Windmuller <joaquin@windmuller.ca>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "X-Poedit-Bookmarks: -1,117,-1,-1,-1,-1,-1,-1,-1,-1\n"
+
+#: /config/migrations/multiple_email_accounts.php:59
+msgid "Default Contact Email"
+msgstr "Correo de Contacto por defecto"
 
 #: /controllers/categories_controller.php:23;45;56
 msgid "Invalid category"
@@ -34,182 +38,194 @@ msgstr "Categoría eliminada"
 msgid "Category was not deleted"
 msgstr "La Categoría no fue eliminada"
 
-#: /controllers/comments_controller.php:13;35;55
+#: /controllers/comments_controller.php:17;39;59;92
 msgid "Invalid comment"
 msgstr "Comentario Invalido"
 
-#: /controllers/comments_controller.php:23;40
+#: /controllers/comments_controller.php:27;44
 msgid "The comment has been saved"
 msgstr "El comentario ha sido guardado"
 
-#: /controllers/comments_controller.php:26;43
+#: /controllers/comments_controller.php:30;47
 msgid "The comment could not be saved. Please, try again."
 msgstr "El comentario no se salvó. Por favor, intenta de nuevo."
 
-#: /controllers/comments_controller.php:59
+#: /controllers/comments_controller.php:69
+msgid "Could not delete the comment"
+msgstr "No se pudo eliminar el comentario"
+
+#: /controllers/comments_controller.php:76
+msgid "Comment approved"
+msgstr "Comentario aprobado"
+
+#: /controllers/comments_controller.php:96
 msgid "Comment deleted"
 msgstr "Comentario borrado"
 
-#: /controllers/comments_controller.php:62
+#: /controllers/comments_controller.php:99
 msgid "Comment was not deleted"
 msgstr "Comentario no fue eliminado"
 
-#: /controllers/contacts_controller.php:16
+#: /controllers/contacts_controller.php:28
 msgid "Thanks for contacting us, we'll be replying to you by mail soon"
 msgstr "Gracias por contactarnos, muy pronto estaremos contáctandole por correo electrónico."
 
-#: /controllers/contacts_controller.php:19
+#: /controllers/contacts_controller.php:31
 msgid "There was a problem sending this email, please try again"
 msgstr "Hubo un problema enviando este correo eléctronico, por favor inténtelo de nuevo"
 
-#: /controllers/posts_controller.php:30;56;122
+#: /controllers/posts_controller.php:85;130;240
 msgid "Invalid post"
 msgstr "Post Inválido"
 
-#: /controllers/posts_controller.php:89
+#: /controllers/posts_controller.php:165
 #: /views/categories/view.ctp:2;29;30
 #: /views/elements/category.form.ctp:5
 msgid "Category"
 msgstr "Categoría"
 
-#: /controllers/posts_controller.php:104
+#: /controllers/posts_controller.php:171
+#: /views/posts/dashboard_index.ctp:11
+msgid "Publish Date"
+msgstr "Fecha de Publicación"
+
+#: /controllers/posts_controller.php:177
+#: /views/posts/dashboard_index.ctp:10;43
+msgid "Draft"
+msgstr "Borrador"
+
+#: /controllers/posts_controller.php:181
+msgid "Keep as Draft"
+msgstr "Mantener como borrador"
+
+#: /controllers/posts_controller.php:182
+msgid "When the publish date arrives it will not be published."
+msgstr "No será publicado cuando llegue la fecha de publicación."
+
+#: /controllers/posts_controller.php:187
+msgid "Published"
+msgstr "Publicado"
+
+#: /controllers/posts_controller.php:202
 msgid "The post has been saved"
 msgstr "La publicación ha sido guardada"
 
-#: /controllers/posts_controller.php:107
+#: /controllers/posts_controller.php:205
 msgid "The post could not be saved. Please, try again."
 msgstr "La publicación no pudo ser guardada. Por favor, intenta de nuevo."
 
-#: /controllers/posts_controller.php:126
+#: /controllers/posts_controller.php:244
 msgid "Post deleted"
 msgstr "Publicación fue eliminada"
 
-#: /controllers/posts_controller.php:129
+#: /controllers/posts_controller.php:247
 msgid "Post was not deleted"
 msgstr "Publiación no fue eliminada"
 
-#: /controllers/posts_controller.php:136
+#: /controllers/posts_controller.php:256
 msgid "Thanks for leaving your comment"
 msgstr "Gracias por dejar su comentario"
 
-#: /controllers/settings_controller.php:51;130;158
+#: /controllers/settings_controller.php:52;131;159
 msgid "Menu updated!"
 msgstr "¡El menú ha sido actualizado!"
 
-#: /controllers/settings_controller.php:51;85;106
+#: /controllers/settings_controller.php:52;86;107
 msgid "Could not update the menu"
 msgstr "No se pudo actualizar el menú"
 
-#: /controllers/settings_controller.php:83;104
+#: /controllers/settings_controller.php:84;105
 msgid "The menu was updated"
 msgstr "El menú ha sido actualizado"
 
-#: /controllers/settings_controller.php:112
+#: /controllers/settings_controller.php:113
 msgid "Invalid access, no post selected"
 msgstr "Acceso inválido, ninguna publicación ha sido seleccionada"
 
-#: /controllers/settings_controller.php:133;161
+#: /controllers/settings_controller.php:134;162
 msgid "Could not updated the menu!"
 msgstr "¡No se pudo actualizar el menú!"
 
-#: /controllers/settings_controller.php:174
+#: /controllers/settings_controller.php:176
 msgid "Theme Changed!"
 msgstr "¡El tema ha sido cambiado!"
 
-#: /controllers/settings_controller.php:177
+#: /controllers/settings_controller.php:179
 msgid "Could not change the theme, please try again."
 msgstr "No se pudo cambiar el tema, por favor intenta de nuevo"
 
-#: /controllers/settings_controller.php:198
+#: /controllers/settings_controller.php:224
 msgid "Correctly saved the settings for plugin %s"
 msgstr "Se ha guardado correctamente las configuraciones para el plugin %s"
 
-#: /controllers/users_controller-1.php:14;84;136
 #: /controllers/users_controller.php:14;84;136
 msgid "Invalid user"
 msgstr "Usario Incorrecto"
 
-#: /controllers/users_controller-1.php:27
 #: /controllers/users_controller.php:27
 msgid "The user was created and an email was sent to the user"
 msgstr "El usuario ha sido creado y un correo electrónico ha sido enviado al usuario"
 
-#: /controllers/users_controller-1.php:30
 #: /controllers/users_controller.php:30
 msgid "The user was created but the email could not be sent"
 msgstr "El usuario ha sido creado pero el correo electrónico no pudo ser enviado"
 
-#: /controllers/users_controller-1.php:35;98
 #: /controllers/users_controller.php:35;98
 msgid "The user could not be saved. Please, try again."
 msgstr "El usuario no fue guardado. Por favor, intenta de nuevo."
 
-#: /controllers/users_controller-1.php:54
 #: /controllers/users_controller.php:54
 msgid "Activate your account"
 msgstr "Activa tu cuenta"
 
-#: /controllers/users_controller-1.php:65
 #: /controllers/users_controller.php:65
 msgid "The notification email was sent!"
 msgstr "¡La notificación correo electrónico fue enviado!"
 
-#: /controllers/users_controller-1.php:68
 #: /controllers/users_controller.php:68
 msgid "The notification could not be sent"
 msgstr "La notificación no pudo ser enviada"
 
-#: /controllers/users_controller-1.php:95
 #: /controllers/users_controller.php:95
 msgid "The user has been saved"
 msgstr "El usuario ha sido guardado"
 
-#: /controllers/users_controller-1.php:121
 #: /controllers/users_controller.php:121
 msgid "Welcome!"
 msgstr "¡Bienvenido!"
 
-#: /controllers/users_controller-1.php:124
 #: /controllers/users_controller.php:124
 msgid "Could not activate your user, please try again or contact the administrator.!"
 msgstr "No se pudo activar el usuario, por favor intente de nuevo o contacte al administrador"
 
-#: /controllers/users_controller-1.php:129
 #: /controllers/users_controller.php:129
 msgid "Invalid request, please try again or contact the administrator.!"
 msgstr "Solicitud inválida, por favor intente de nuevo o contacte al Administrador"
 
-#: /controllers/users_controller-1.php:140
 #: /controllers/users_controller.php:140
 msgid "User deleted"
 msgstr "Usuario Eliminado"
 
-#: /controllers/users_controller-1.php:143
 #: /controllers/users_controller.php:143
 msgid "User was not deleted"
 msgstr "Usuario no fue eliminado"
 
-#: /controllers/users_controller-1.php:160
 #: /controllers/users_controller.php:160
 msgid "Invalid access"
 msgstr "Acesso inválido"
 
-#: /controllers/users_controller-1.php:168
 #: /controllers/users_controller.php:168
 msgid "Update your password"
 msgstr "Actualiza tu contraseña"
 
-#: /controllers/users_controller-1.php:186
 #: /controllers/users_controller.php:186
 msgid "Check your email for instructions on how to reset your password"
 msgstr "Revisa tu correo eléctronico para las instrucciones sobre como resetear tu contraseña"
 
-#: /controllers/users_controller-1.php:189
 #: /controllers/users_controller.php:189
 msgid "There was an error sending you an email with instructions on how to reset your password, please try again."
 msgstr "Hubo un error al enviar un correo electrónico con las instrucciones de como resetear tu contraseña, por favor intenta de nuevo."
 
-#: /controllers/users_controller-1.php:207
 #: /controllers/users_controller.php:207
 msgid "Password Recovery"
 msgstr "Recuperar contraseña"
@@ -262,15 +278,15 @@ msgstr "Por favor escribe el asunto de tu mensaje"
 msgid "Please write your message"
 msgstr "Por favor escribe tu mensaje"
 
-#: /models/post.php:85
+#: /models/post.php:87
 msgid "Post Type not available"
 msgstr "Tipo de publicación no disponible"
 
-#: /models/post.php:86
+#: /models/post.php:88
 msgid "Please select a category"
 msgstr "Por favor selecciona una categoría"
 
-#: /models/setting.php:27
+#: /models/setting.php:28
 msgid "This Setting is required"
 msgstr "Esta configuración es requerida"
 
@@ -339,12 +355,38 @@ msgid "Website name"
 msgstr "Nombre del sitio"
 
 #: /plugins/blogmill_default/config/settings.php:40
-msgid "Contact email"
-msgstr "Correo de Contacto"
+msgid "Description or tagline for the site"
+msgstr "Descripción o slogan del sitio"
 
-#: /plugins/blogmill_default/config/settings.php:41
-msgid "Write the contact email where you want to receive emails."
-msgstr "Escriba la dirección de correo electrónico donde quiere recibir los correos."
+#: /plugins/blogmill_default/config/settings.php:44
+#: /views/comments/view.ctp:14
+#: /views/helpers/blogmill_form.php:195
+msgid "Name"
+msgstr "Nombre"
+
+#: /plugins/blogmill_default/config/settings.php:45
+#: /views/comments/view.ctp:19
+#: /views/elements/email_dump.ctp:12
+#: /views/helpers/blogmill_form.php:196
+#: /views/users/dashboard_view.ctp:14
+msgid "Email"
+msgstr "Correo Electrónico"
+
+#: /plugins/blogmill_default/config/settings.php:47
+msgid "Contact emails"
+msgstr "Correos de Contacto"
+
+#: /plugins/blogmill_default/config/settings.php:48
+msgid "Write the contact emails where you want to be contacted."
+msgstr "Escriba la dirección de correo electrónico donde quiere ser contactado."
+
+#: /plugins/blogmill_default/config/settings.php:51
+msgid "Editor to use"
+msgstr "Editor a usar"
+
+#: /plugins/blogmill_default/config/settings.php:52
+msgid "Select the preferred editor to write html content."
+msgstr "Seleccione su editor preferido para escribir el contenido."
 
 #: /views/categories/dashboard_index.ctp:2
 #: /views/categories/view.ctp:31;33
@@ -361,10 +403,9 @@ msgstr "Nueva Categoría"
 #: /views/categories/dashboard_view.ctp:15
 #: /views/categories/view.ctp:27;48;92
 #: /views/comments/add.ctp:16
-#: /views/comments/dashboard_index.ctp:11;55
-#: /views/comments/edit.ctp:17
+#: /views/comments/dashboard_edit.ctp:17
+#: /views/comments/dashboard_index.ctp:11;90
 #: /views/comments/view.ctp:42
-#: /views/posts/dashboard_index.ctp:11
 #: /views/users/dashboard_index.ctp:14
 #: /views/users/dashboard_view.ctp:47;72
 msgid "Actions"
@@ -373,8 +414,7 @@ msgstr "Acciones"
 #: /views/categories/dashboard_index.ctp:30
 #: /views/categories/dashboard_view.ctp:35
 #: /views/categories/view.ctp:64;112
-#: /views/comments/dashboard_index.ctp:33
-#: /views/posts/dashboard_index.ctp:41
+#: /views/comments/dashboard_index.ctp:37
 #: /views/settings/dashboard_menu.ctp:44;44
 #: /views/users/dashboard_index.ctp:30
 #: /views/users/dashboard_view.ctp:94
@@ -384,8 +424,8 @@ msgstr "Ver"
 #: /views/categories/dashboard_index.ctp:31
 #: /views/categories/dashboard_view.ctp:36
 #: /views/categories/view.ctp:65;113
-#: /views/comments/dashboard_index.ctp:34
-#: /views/posts/dashboard_index.ctp:42
+#: /views/comments/dashboard_index.ctp:41
+#: /views/posts/dashboard_index.ctp:7;38
 #: /views/settings/dashboard_menu.ctp:51;51
 #: /views/users/dashboard_index.ctp:31
 #: /views/users/dashboard_view.ctp:95
@@ -395,9 +435,10 @@ msgstr "Editar"
 #: /views/categories/dashboard_index.ctp:32
 #: /views/categories/dashboard_view.ctp:37
 #: /views/categories/view.ctp:66;114
-#: /views/comments/dashboard_index.ctp:35
-#: /views/comments/edit.ctp:20
-#: /views/helpers/blogmill.php:72
+#: /views/comments/dashboard_edit.ctp:20
+#: /views/comments/dashboard_index.ctp:64
+#: /views/helpers/blogmill.php:103
+#: /views/posts/dashboard_index.ctp:13
 #: /views/settings/dashboard_menu.ctp:58;58
 #: /views/users/dashboard_index.ctp:32
 #: /views/users/dashboard_view.ctp:96
@@ -409,22 +450,22 @@ msgid "Are you sure you want to delete the category \"%s\"? (and all of its subc
 msgstr "¿Está seguro que quieres eliminar la categoría \"%s\"? (y todas sus subcategorías)"
 
 #: /views/categories/dashboard_index.ctp:40
-#: /views/comments/dashboard_index.ctp:43
-#: /views/posts/dashboard_index.ctp:52
+#: /views/comments/dashboard_index.ctp:78
+#: /views/posts/dashboard_index.ctp:61
 #: /views/users/dashboard_index.ctp:43
 msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
 msgstr "Página %page% de %pages%, mostrando registro %current%  de un total de %count%, empezando en el registro %start%, terminando en %end%"
 
 #: /views/categories/dashboard_index.ctp:45
-#: /views/comments/dashboard_index.ctp:48
-#: /views/posts/dashboard_index.ctp:57
+#: /views/comments/dashboard_index.ctp:83
+#: /views/posts/dashboard_index.ctp:66
 #: /views/users/dashboard_index.ctp:48
 msgid "previous"
 msgstr "anterior"
 
 #: /views/categories/dashboard_index.ctp:48
-#: /views/comments/dashboard_index.ctp:51
-#: /views/posts/dashboard_index.ctp:60
+#: /views/comments/dashboard_index.ctp:86
+#: /views/posts/dashboard_index.ctp:69
 #: /views/users/dashboard_index.ctp:51
 msgid "next"
 msgstr "siguiente"
@@ -486,8 +527,7 @@ msgstr "ID categoría"
 
 #: /views/categories/dashboard_view.ctp:37
 #: /views/categories/view.ctp:30;66;114
-#: /views/comments/dashboard_index.ctp:35
-#: /views/comments/edit.ctp:20
+#: /views/comments/dashboard_edit.ctp:20
 #: /views/comments/view.ctp:45
 #: /views/users/dashboard_view.ctp:50;96
 msgid "Are you sure you want to delete # %s?"
@@ -495,6 +535,7 @@ msgstr "¿Está seguro que quieres eliminar # %s?"
 
 #: /views/categories/view.ctp:9;45
 #: /views/elements/settings.menu_item.form.ctp:9
+#: /views/posts/dashboard_index.ctp:6
 msgid "Title"
 msgstr "Título"
 
@@ -504,7 +545,7 @@ msgid "Parent Category"
 msgstr "Categoría Padre"
 
 #: /views/categories/view.ctp:29
-#: /views/comments/edit.ctp:4
+#: /views/comments/dashboard_edit.ctp:4
 #: /views/comments/view.ctp:44
 #: /views/users/dashboard_edit.ctp:7
 msgid "Edit %s"
@@ -517,8 +558,7 @@ msgstr "Eliminar %s"
 
 #: /views/categories/view.ctp:31;33;35
 #: /views/comments/add.ctp:19;20
-#: /views/comments/dashboard_index.ctp:58
-#: /views/comments/edit.ctp:21;22
+#: /views/comments/dashboard_edit.ctp:21;22
 #: /views/comments/view.ctp:46;48
 msgid "List %s"
 msgstr "Listar %s"
@@ -529,8 +569,7 @@ msgstr "Nueva categoría padre"
 
 #: /views/categories/view.ctp:35;80
 #: /views/comments/add.ctp:20
-#: /views/comments/dashboard_index.ctp:58
-#: /views/comments/edit.ctp:22
+#: /views/comments/dashboard_edit.ctp:22
 #: /views/comments/view.ctp:48
 #: /views/elements/layout/dashboard/header.ctp:9
 #: /views/posts/dashboard_index.ctp:2
@@ -539,8 +578,7 @@ msgstr "Publicaciones"
 
 #: /views/categories/view.ctp:36;123
 #: /views/comments/add.ctp:21
-#: /views/comments/dashboard_index.ctp:59
-#: /views/comments/edit.ctp:23
+#: /views/comments/dashboard_edit.ctp:23
 #: /views/comments/view.ctp:49
 #: /views/elements/layout/dashboard/sidebar.ctp:6
 #: /views/users/dashboard_view.ctp:54;105
@@ -565,25 +603,25 @@ msgid "Add %s"
 msgstr "Añador %s"
 
 #: /views/comments/add.ctp:4
-#: /views/comments/edit.ctp:4
+#: /views/comments/dashboard_edit.ctp:4
 #: /views/comments/view.ctp:2;44;45
 #: /views/elements/comments.form.ctp:28
 msgid "Comment"
 msgstr "Comentario"
 
 #: /views/comments/add.ctp:13
-#: /views/comments/edit.ctp:14
+#: /views/comments/dashboard_edit.ctp:14
 #: /views/elements/category.form.ctp:18
 #: /views/elements/comments.form.ctp:31
-#: /views/helpers/blogmill_form.php:151
+#: /views/helpers/blogmill_form.php:191
 #: /views/users/dashboard_add.ctp:11
 #: /views/users/dashboard_edit.ctp:49
 msgid "Submit"
 msgstr "Enviar"
 
 #: /views/comments/add.ctp:19
+#: /views/comments/dashboard_edit.ctp:21
 #: /views/comments/dashboard_index.ctp:2
-#: /views/comments/edit.ctp:21
 #: /views/comments/view.ctp:46
 #: /views/elements/comments.form.ctp:2
 #: /views/elements/layout/dashboard/header.ctp:16
@@ -594,26 +632,33 @@ msgstr "Comentarios"
 msgid "When"
 msgstr "Cuando"
 
-#: /views/comments/dashboard_index.ctp:57
-#: /views/comments/view.ctp:47
-msgid "New Comment"
-msgstr "Nuevo Comentario"
+#: /views/comments/dashboard_index.ctp:47
+msgid "Disapprove"
+msgstr "Rechazar"
+
+#: /views/comments/dashboard_index.ctp:47
+msgid "Approve"
+msgstr "Aprobar"
+
+#: /views/comments/dashboard_index.ctp:52
+msgid "Are you sure you want to mark as spam and delete this comment from \"%s\"?"
+msgstr "¿Está seguro que quieres marcar como Spam y eliminar este comentario a \"%s\"?"
+
+#: /views/comments/dashboard_index.ctp:59
+msgid "Not Spam"
+msgstr "No es Spam"
+
+#: /views/comments/dashboard_index.ctp:59
+msgid "Spam"
+msgstr "Spam"
+
+#: /views/comments/dashboard_index.ctp:67
+msgid "Are you sure you want to delete this comment from \"%s\"?"
+msgstr "¿Está seguro que quieres eliminar el comentario en \"%s\"?"
 
 #: /views/comments/view.ctp:9
 msgid "Post"
 msgstr "Publicación"
-
-#: /views/comments/view.ctp:14
-#: /views/helpers/blogmill_form.php:147
-msgid "Name"
-msgstr "Nombre"
-
-#: /views/comments/view.ctp:19
-#: /views/elements/email_dump.ctp:12
-#: /views/helpers/blogmill_form.php:148
-#: /views/users/dashboard_view.ctp:14
-msgid "Email"
-msgstr "Correo Electrónico"
 
 #: /views/comments/view.ctp:24
 #: /views/users/dashboard_view.ctp:39
@@ -623,6 +668,10 @@ msgstr "Dirección de página web"
 #: /views/comments/view.ctp:29
 msgid "Content"
 msgstr "Contenido"
+
+#: /views/comments/view.ctp:47
+msgid "New Comment"
+msgstr "Nuevo Comentario"
 
 #: /views/elements/comments.form.ctp:4
 msgid "No comments yet, leave yours!"
@@ -641,9 +690,13 @@ msgstr "¡Tu turno!"
 msgid "Contact"
 msgstr "Contacto"
 
-#: /views/elements/posts.form.ctp:21
+#: /views/elements/posts.form.ctp:24
 msgid "Create %s"
 msgstr "Crear %s"
+
+#: /views/elements/posts.form.ctp:24
+msgid "Update %s"
+msgstr "Actualizar %s"
 
 #: /views/elements/settings.menu_item.form.ctp:11
 msgid "Update"
@@ -678,6 +731,14 @@ msgstr "Usted ha solicitado restaurar su contraseña, por favor ve a la siguient
 msgid "If you did not request to change your password, please ignore this email."
 msgstr "Si usted no ha hecho ninguna petición para cambiar si contraseña, por favor ignore este correo electrónico."
 
+#: /views/elements/errors/404.ctp:1
+msgid "Not Found"
+msgstr "No Encontrado"
+
+#: /views/elements/errors/404.ctp:2
+msgid "The document or page you requested does not exist"
+msgstr "La página o documento solicitada no existe"
+
 #: /views/elements/layout/dashboard/header.ctp:4
 msgid "Go to Site"
 msgstr "Ir al Sitio"
@@ -705,23 +766,39 @@ msgstr "Plugins"
 msgid "Logout (%s)"
 msgstr "Salir (%s)"
 
-#: /views/helpers/blogmill.php:54
+#: /views/helpers/blogmill.php:84
 msgid "edit this post"
 msgstr "editar esta publicación"
 
-#: /views/helpers/blogmill_form.php:149
+#: /views/helpers/blogmill_form.php:108
+msgid "Times are in %s"
+msgstr "Las horas están en %s"
+
+#: /views/helpers/blogmill_form.php:109
+msgid "Current time is: %s"
+msgstr "La hora actual es %s"
+
+#: /views/helpers/blogmill_form.php:197
 msgid "Subject"
 msgstr "Asunto"
 
-#: /views/helpers/blogmill_form.php:150
+#: /views/helpers/blogmill_form.php:198
 msgid "Message"
 msgstr "Mensaje"
 
-#: /views/layouts/dashboard.ctp:6
+#: /views/helpers/blogmill_form.php:199
+msgid "Leave empty if you are a human"
+msgstr "Deja este campo vacío si eres humano"
+
+#: /views/helpers/blogmill_form.php:213
+msgid "Select who you want to contact:"
+msgstr "Selecciona a quién quieres contactar"
+
+#: /views/layouts/dashboard.ctp:7
 msgid "Dashboard"
 msgstr "Panel de Control"
 
-#: /views/layouts/dashboard.ctp:8
+#: /views/layouts/dashboard.ctp:9
 #: /views/layouts/default.ctp:16
 msgid "Blogmill"
 msgstr "Blogmill"
@@ -734,17 +811,17 @@ msgstr "Layout predeterminado"
 msgid "CakePHP: the rapid development php framework"
 msgstr "CakePHP: El framework de desarrollo rápido"
 
-#: /views/posts/dashboard_index.ctp:7
-#: /views/users/dashboard_edit.ctp:7
-#: /views/users/dashboard_view.ctp:2
-msgid "User"
-msgstr "Usuario"
+#: /views/posts/dashboard_index.ctp:8
+#: /views/settings/dashboard_change_theme.ctp:8
+#: /views/settings/dashboard_index.ctp:10
+msgid "Author"
+msgstr "Autor"
 
-#: /views/posts/dashboard_index.ctp:44
-msgid "Add to Menu"
-msgstr "Añadir al Menú"
+#: /views/posts/index.ctp:33
+msgid "No %s here yet"
+msgstr "No hay %s aún"
 
-#: /views/posts/json/dashboard_list.ctp:7
+#: /views/posts/json/dashboard_list.ctp:12
 msgid "List of %s"
 msgstr "Lista de %s"
 
@@ -773,11 +850,6 @@ msgstr "Cambiar tema"
 #: /views/settings/dashboard_change_theme.ctp:5
 msgid "Activate"
 msgstr "Activar"
-
-#: /views/settings/dashboard_change_theme.ctp:8
-#: /views/settings/dashboard_index.ctp:10
-msgid "Author"
-msgstr "Autor"
 
 #: /views/settings/dashboard_index.ctp:5
 msgid "Your current theme is %s"
@@ -831,6 +903,14 @@ msgstr "Bajar"
 msgid "Delete this item from the menu?"
 msgstr "¿Desea eliminar este elemento del menú?"
 
+#: /views/settings/dashboard_menu.ctp:96
+msgid "Other Pages"
+msgstr "Otras Páginas"
+
+#: /views/settings/dashboard_menu.ctp:97
+msgid "List of Posts"
+msgstr "Listado de Pulicaciones"
+
 #: /views/settings/dashboard_plugins.ctp:1
 msgid "Plugin Settings"
 msgstr "Configuraciones del plugin"
@@ -843,7 +923,11 @@ msgstr "Estos son los plugins con configuraciones"
 msgid "Configuring %s"
 msgstr "Configurando %s"
 
-#: /views/settings/dashboard_plugins.ctp:17
+#: /views/settings/dashboard_plugins.ctp:44
+msgid "This Setting must be complete"
+msgstr "Esta configuración no está completa"
+
+#: /views/settings/dashboard_plugins.ctp:54
 msgid "Save"
 msgstr "Guardar"
 
@@ -904,6 +988,11 @@ msgstr "Nuevo usuario"
 msgid "Your profile"
 msgstr "Tu perfil"
 
+#: /views/users/dashboard_edit.ctp:7
+#: /views/users/dashboard_view.ctp:2
+msgid "User"
+msgstr "Usuario"
+
 #: /views/users/dashboard_edit.ctp:15
 msgid "Contact information"
 msgstr "Información de contacto"
@@ -933,11 +1022,11 @@ msgstr "¿Está seguro que quieres eliminar al usuario %s?"
 msgid "Notify"
 msgstr "Notificar"
 
-#: /views/users/dashboard_login.ctp:1;15
+#: /views/users/dashboard_login.ctp:1;19
 msgid "Login"
 msgstr "Iniciar Sesión"
 
-#: /views/users/dashboard_login.ctp:14
+#: /views/users/dashboard_login.ctp:15
 msgid "lost password"
 msgstr "Contraseña perdida"
 
