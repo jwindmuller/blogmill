@@ -1,4 +1,6 @@
 <?php
+    $this->title = $this->Blogmill->field($post, 'display');
+
 	list($plugin, $type) = explode('.', $post['Post']['type']);
 	$plugin = Inflector::underscore($plugin);
 	$type = Inflector::underscore($type);
