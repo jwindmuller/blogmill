@@ -10,7 +10,15 @@ class ContactsController extends AppController {
                 $this->_blogmill404Error();
             }
             if ($this->Contact->save($this->data)) {
-                $this->Email->to = $this->Setting->get('BlogmillDefault.blogmill_contact_email');
+                $emails = $this->Setting->get('BlogmillDefault.blogmill_contact_email');
+                $selectedEmail = 0;
+                if (isset($this->data['Contact']['to'])) {
+                    $selectedEmail = $this->data['Contact']['to'];
+                }
+                if ($selectedEmail < 0 || !isset($emails[$selectedEmail]) ) {
+                    $selectedEmail = 0;
+                }
+                $this->Email->to = $emails[0]['email'];
                 $this->Email->subject = $this->data['Contact']['subject'];
                 $this->Email->replyTo = $this->data['Contact']['email'];
                 $name  = $this->data['Contact']['name'];

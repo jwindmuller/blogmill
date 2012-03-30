@@ -197,6 +197,25 @@ class BlogmillFormHelper extends AppHelper {
 		$form.= $this->Form->input('subject', array('label' => __('Subject', true)));
 		$form.= $this->Form->input('message', array('label' => __('Message', true), 'type' => 'textarea'));
 		$form.= $this->Form->input('extra', array('label' => __('Leave empty if you are a human', true), 'div' => array('style' => 'display:none;visibility:hidden;')));
+
+        $Setting = ClassRegistry::init('Setting');
+        $emails = $Setting->get('BlogmillDefault.blogmill_contact_email');
+        if (is_array($emails) && count($emails) > 1) {
+            $emails = Set::extract($emails, '/name');
+            $value = array();
+            $selected = intval(@$this->params['url']['to']);
+            if ( $selected && $selected > -1 && $selected < count($emails) ) {
+                $value = array('value' => $selected);
+            }
+            $form .= $this->Form->input('to',
+                array(
+                    'options' => $emails,
+                    'label' => __('Select who you want to contact:', true),
+                    'div' => array('class' => 'input select contact-list')
+                ) + $value
+            );
+        }
+
 		$form.= $this->Form->end($options['submit']);
 		return $form;
 	}
