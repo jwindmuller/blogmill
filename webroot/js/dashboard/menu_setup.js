@@ -117,7 +117,6 @@ $(function(){
 			});
 		postTypes = pageSelectorOptions.postTypes;
 		$.each(postTypes, function(plugin, val) {
-            //<span class="plugin">' + plugin + '</span>
 			var li = dialog.children('.types').append('<li><ul /></li>');
 			var ul = dialog.children('.types').children('li:last-child').children('ul');
 			for (var i=0; i < val.length; i++) {
