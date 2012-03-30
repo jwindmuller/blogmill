@@ -1,6 +1,7 @@
 (function() {
 	var controller = function(elem) {
-		if ($(elem).attr('class').indexOf('ddowid:') != -1) return false;
+		var className = $(elem).attr('class') || '';
+		if (className.indexOf('ddowid:') != -1) return false;
 		$(elem).addClass('ddowid:' + new Date().getTime()).addClass('select');
 		
 		var itemsController = {
