@@ -13,7 +13,7 @@
 	<p><?php __('Items on this menu'); ?>:</p>
 	<ul id="menu-items">
 	<?php foreach ($menu as $i => $item): ?>
-		<li class="menu-item">
+		<li class="menu-item<?php echo ($edit !== false && $edit == $i) ? ' edit' : ''; ?>">
 			<?php if ($edit !== false && $edit == $i): ?>
                 <?php echo $this->element('settings.menu_item.form', compact('i', 'menu_name', 'item')); ?>
 			<?php else: ?>
@@ -64,10 +64,12 @@
 	<?php $i++; endforeach; ?>
 	</ul>
 <?php endif; ?>
+<?php if ($edit === false): ?>
 <div class="menu-item">
 	<strong>Add item:</strong>
-    <?php echo $this->element('settings.menu_item.form'); ?>
+    <?php echo $this->element('settings.menu_item.form', array('i' => 'new')); ?>
 </div>
+<?php endif ?>
 <?php
 	echo $this->Javascript->link('dashboard/menu_setup', false);
 	$menuChangeURL = $this->Html->url(array('controller' => 'settings', 'action' => 'edit_menu', 'ext' => 'json'));
@@ -91,9 +93,8 @@
 			$selectorPostTypes[$plugin][] = compact("type","name");
 		}
 	}
-    $selectorPostTypes['_FixedPages'][] = array('type' => '_FixedPages', 'name' => 'Other Pages');
-    $selectorPostTypes['_IndexPages'][] = array('type' => '__IndexPages', 'name' => 'List of Posts');
-
+    $selectorPostTypes['_FixedPages'][] = array('type' => '_FixedPages', 'name' => __('Other Pages', true));
+    $selectorPostTypes['_IndexPages'][] = array('type' => '__IndexPages', 'name' => __('List of Posts', true));
 
 	$selectorPostTypes = $this->Javascript->object($selectorPostTypes);
 	$handle = $this->Html->image('dashboard/move.png', array('class' => 'handle'));

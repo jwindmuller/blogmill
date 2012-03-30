@@ -19,6 +19,7 @@ $(function(){
             var _delete = $(elem).find('.actions .delete');
             var delete_link = _delete.attr('href');
             _delete.attr('href', delete_link.replace(/\d+$/, i));
+            i++;
         });
     }
 	function fillPostList (plugin, type) {

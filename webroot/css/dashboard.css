@@ -630,9 +630,13 @@ ul#menu-items {
 	clear:both;
 	margin-bottom:5px;
 }
+.menu-item.edit {
+	padding:5px 10px 2px 10px;
+}
 .menu-item .handle {
-	vertical-align:bottom;
+	vertical-align:top;
 	cursor:move;
+	margin-top:1px;
 }
 .menu-item strong.title {
 	padding:9px 0 1px 0;
@@ -650,6 +654,9 @@ ul#menu-items {
 .menu-item div.actions .move {
 	padding-right:5px;
 	margin-right:5px;
+}
+.menu-item form .submit {
+	margin:0;
 }
 .menu-item form,
 .menu-item form div.input input {
