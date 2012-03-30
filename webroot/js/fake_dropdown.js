@@ -1,8 +1,8 @@
 (function() {
 	var controller = function(elem) {
-		var className = $(elem).attr('class') || '';
-		if (className.indexOf('ddowid:') != -1) return false;
-		$(elem).addClass('ddowid:' + new Date().getTime()).addClass('select');
+		var activated = $(elem).data('ddowid');
+		if (activated != undefined) return false;
+		$(elem).data('ddowid', new Date().getTime()).addClass('select');
 		
 		var itemsController = {
 			currentItem : undefined,
