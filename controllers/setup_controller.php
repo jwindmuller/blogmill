@@ -14,7 +14,7 @@ class SetupController extends AppController {
 		$this->Acl->Aco->query('TRUNCATE TABLE ' . $this->Acl->Aco->hasAndBelongsToMany['Aro']['joinTable']);
 	}
 	
-	private function create_acos() {
+	private function create_aros() {
 		$aro =& $this->Acl->Aro;
 		// If the visitor Aco is there then all of them *should*
 		if ($aro->find('first', array('conditions' => array('alias' => 'visitor', 'parent_id' => null)))) return;
@@ -27,7 +27,7 @@ class SetupController extends AppController {
 		}
 	}
 	
-	private function create_aros() {
+	private function create_acos() {
 		$aco =& $this->Acl->Aco;
 		// Two groups of Acos, data and the controller's actions
 		$groups = array('data', 'controllers');
@@ -108,10 +108,14 @@ class SetupController extends AppController {
                 $this->Auth->logout();
             }
         }
+
+        if ($user || !empty($this->data)) {
+            // Even if the user is not created because of validation issues,
+            // setup_acl_permissions is idempotent so it doesn't matter if we repeat it.
+            $this->setup_acl_permissions();
+        }
+
 		if (!empty($this->data)) {
-			// Even if the user is not created because of validation issues, setup_acl_permissions is idempotent so it doesn't matter if we repeat it. 
-			$this->setup_acl_permissions();
-			
 
 			$success_url = array('controller' => 'posts', 'action' => 'index', 'dashboard' => true);
 
