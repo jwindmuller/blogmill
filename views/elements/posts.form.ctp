@@ -22,7 +22,7 @@
     <?php
         echo $this->Form->end(sprintf(
             empty($post_id) ? __('Create %s', true) : __('Update %s', true),
-            Inflector::humanize(Inflector::underscore($postTypes[$plugin][$type]['name']))
+            $postTypes[$plugin][$type]['name']
         ));
     ?>
     </fieldset>
