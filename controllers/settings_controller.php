@@ -1,4 +1,5 @@
 <?php
+ App::import('Lib', 'routes/BlogmillRouteFunctions');
 class SettingsController extends AppController {
 	public $name = 'Settings';
 	
@@ -284,8 +285,9 @@ class SettingsController extends AppController {
         $index_url = Router::url(array(
             'controller' => 'posts',
             'action' => 'index',
-            'dashboard' => false, $types
+            'dashboard' => false, 'type' => $types
         ));
-        $this->set(compact('index_url'));
+        $index_title = BlogmillRouteFunctions::getIndexName($types);
+        $this->set(compact('index_url', 'index_title'));
     }
 }

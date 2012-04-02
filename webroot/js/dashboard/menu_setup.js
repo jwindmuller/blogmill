@@ -53,43 +53,46 @@ $(function(){
     var specialFunctions = {
         '__IndexPages' : function() {
             $posts = $('#post-selector .posts').html('');
-            
             $.each(postTypes, function(plugin, val) {
                 if (plugin[0] == '_') return;
-                $li = $('<li>').html(plugin).data('plugin', plugin);
-                $li.click(function() {
-                    var nameInput = $(this).parents('div.input').siblings('div.input').children('input');
-					var urlInput = $(this).parents('#post-selector').siblings('input');
-                    $(this).toggleClass('selected');
-                    if ($(this).is('.selected')) {
-                        $(this).animate({'text-indent' : '10px'});
-                    } else {
-                        $(this).animate({'text-indent' : '0'});
-                    }
-                    var types = '';
-                    $(this).parent().find('.selected').each(function() {
-                        types += $(this).data('plugin') + '.' + $(this).text() + ',';
-                    });
-                    types = types.replace(/(.*),/, '$1');
-                    if (types == '') {
-                        nameInput.val('').siblings('label').show();
-                        urlInput.val('').siblings('label').show();
-                        return;
-                    }
-                    $.getJSON(
-                        customIndexURL,
-                        {"types" : types},
-                        function(data, textStatus, jqXHR) {
-                            nameInput
-                                .val(types.replace(/,/g, '+'))
-                                .siblings('label').hide();
-                            urlInput
-                                .val(data.url)
-                                .siblings('label').hide();
+                for (var i = 0; i < val.length; i++) {
+                    $li = $('<li>').html(val[i].name)
+                        .data('plugin', plugin).
+                        data('type', val[i].type);
+                    $li.click(function() {
+                        var nameInput = $(this).parents('div.input').siblings('div.input').children('input');
+                        var urlInput = $(this).parents('#post-selector').siblings('input');
+                        $(this).toggleClass('selected');
+                        if ($(this).is('.selected')) {
+                            $(this).animate({'text-indent' : '10px'});
+                        } else {
+                            $(this).animate({'text-indent' : '0'});
                         }
-                    );
-                });
-                $posts.append($li);
+                        var types = '';
+                        $(this).parent().find('.selected').each(function() {
+                            types += $(this).data('plugin') + '.' + $(this).data('type') + ',';
+                        });
+                        types = types.replace(/(.*),/, '$1');
+                        if (types == '') {
+                            nameInput.val('').siblings('label').show();
+                            urlInput.val('').siblings('label').show();
+                            return;
+                        }
+                        $.getJSON(
+                            customIndexURL,
+                            {"types" : types},
+                            function(data, textStatus, jqXHR) {
+                                nameInput
+                                    .val(data.title)
+                                    .siblings('label').hide();
+                                urlInput
+                                    .val(data.url)
+                                    .siblings('label').hide();
+                            }
+                        );
+                    });
+                    $posts.append($li);
+                };
             });
         }
     }
@@ -132,10 +135,7 @@ $(function(){
                 });
 			};
 		});
-
 		$(pageSelectorOptions.UrlInputClass).click(function(e) {
-			dialog.appendTo($(this).parent()).show();
-		}).focus(function() {
 			dialog.appendTo($(this).parent()).show();
 		});
 		

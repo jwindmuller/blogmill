@@ -35,7 +35,11 @@ class BlogmillRouteFunctions {
         foreach( $perms as $i => $perm ) {
             $type = join(',', $perm);
             $self->postIndexes[$type] = $title;
-            Router::connect($url, array('controller' => 'posts', 'action' => 'index', $type));
+            Router::connect(
+                $url,
+                array('controller' => 'posts', 'action' => 'index', 'type' => $type),
+                array('pass' => array('type'))
+            );
         }
     }
     
