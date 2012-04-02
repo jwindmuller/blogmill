@@ -2,15 +2,15 @@
 <?php
     $type = implode(',', $types);
     $title = '';
-    if ( BlogmillRouteFunctions::getIndexName($type) !== false ) {
-        $title = BlogmillRouteFunctions::getIndexName($type);
-    } else if ( count($types) == 1) {
+    if ( count($types) == 1) {
         $type = $types[0];
         list($plugin, $type) = pluginSplit($type);
         $title = $postTypes[$plugin][$type]['name'];
         if (isset($postTypes[$plugin][$type]['name_plural'])) {
             $title = $postTypes[$plugin][$type]['name_plural'];
         }
+    } else if ( BlogmillRouteFunctions::getIndexName($type) !== false ) {
+        $title = BlogmillRouteFunctions::getIndexName($type);
     }
     $this->title = $title;
 ?>
