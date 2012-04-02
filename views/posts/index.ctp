@@ -27,6 +27,7 @@ if ($posts) :
         if ( file_exists($themeView) ) {
             $options['plugin'] = $activeThemePlugin;
         }
+        $options['index'] = $i;
         echo $this->element($type . "/index-item", $options);
     endforeach;
 else:
