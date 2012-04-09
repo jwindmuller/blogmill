@@ -3,3 +3,4 @@ config/database.php
 webroot/files/*
 *.swp
 plugins/*
+vendors/htmlpurifier/standalone/HTMLPurifier/DefinitionCache/Serializer/HTML/*
