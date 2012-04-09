@@ -135,9 +135,6 @@ class BlogmillHelper extends AppHelper {
 		$postTypes = $View->viewVars['postTypes'];
 		$fieldDefinitions =  Set::extract($postTypes, $postType);
 		$field_value  = $post['Post'][$field];
-		if (@$fieldDefinitions['fields'][$field]['type'] !== 'html') {
-			$field_value = Sanitize::html($field_value);
-		}
 		return $field_value;
 	}
 	

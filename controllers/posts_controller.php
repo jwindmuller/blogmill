@@ -227,7 +227,7 @@ class PostsController extends AppController {
                         $fieldData = $this->HtmlCleaner->cleanup( $fieldData, $this->tagWhitelist );
                         break;
                     default:
-                        // Store the data without changes, BlogmillHelper makes sure to Sanitize
+                        $fieldData = $this->HtmlCleaner->cleanup( $fieldData, array() );
                         break;
                 }
                 $this->data['Post'][$field] = $fieldData;

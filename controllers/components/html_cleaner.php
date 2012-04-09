@@ -14,6 +14,9 @@ class HtmlCleanerComponent extends Object {
     }
 
     function cleanup($content, $tagWhitelist = array()) {
+        if (!is_string($content)) {
+            return $content;
+        }
         $config = HTMLPurifier_Config::createDefault();
         $htmlAllowed = '';
         foreach( $tagWhitelist as $tag => $attrs ) {
