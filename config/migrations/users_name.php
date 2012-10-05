@@ -19,7 +19,7 @@ class M4d894ed8089c487ea1b51cb7fb8c9e6b extends CakeMigration {
 		'up' => array(
 			'create_field' => array(
 				'users' => array(
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 				),
 			),
 			'drop_field' => array(
@@ -32,7 +32,7 @@ class M4d894ed8089c487ea1b51cb7fb8c9e6b extends CakeMigration {
 			),
 			'create_field' => array(
 				'users' => array(
-					'alias' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+					'alias' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 				),
 			),
 		),

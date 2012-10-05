@@ -8,7 +8,7 @@ class SettingFixture extends CakeTestFixture {
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'value' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
 	);
 
 	var $records = array(
