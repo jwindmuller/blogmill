@@ -234,6 +234,7 @@ class SettingsController extends AppController {
             'action' => 'index',
             'dashboard' => false, $types
         ));
-        $this->set(compact('index_url'));
+        $index_name = BlogmillRouteFunctions::getIndexName($types);
+        $this->set(compact('index_url', 'index_name'));
     }
 }

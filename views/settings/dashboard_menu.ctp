@@ -40,7 +40,7 @@
 				</span>
 			<?php
 				echo $this->Html->link(
-					$this->Html->image('dashboard/view.png'), $item['url'],
+					$this->Html->image('dashboard/view.png'), str_replace(Router::url('/'), '/', $item['url']),
 					array('escape' => false, 'title' => __('View', true), 'alt' => __('View', true), 'class' => 'view')
 				);
 			?>
@@ -81,6 +81,9 @@
 
 
 	$selectorPostTypes = array();
+    if (!$postTypes) {
+        $postTypes = array();
+    }
 	foreach ($postTypes as $plugin => $types) {
 		$selectorPostTypes[$plugin] = array();
 		foreach ($types as $type => $def) {

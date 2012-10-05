@@ -56,39 +56,55 @@ $(function(){
             
             $.each(postTypes, function(plugin, val) {
                 if (plugin[0] == '_') return;
-                $li = $('<li>').html(plugin).data('plugin', plugin);
-                $li.click(function() {
-                    var nameInput = $(this).parents('div.input').siblings('div.input').children('input');
-					var urlInput = $(this).parents('#post-selector').siblings('input');
-                    $(this).toggleClass('selected');
-                    if ($(this).is('.selected')) {
-                        $(this).animate({'text-indent' : '10px'});
-                    } else {
-                        $(this).animate({'text-indent' : '0'});
-                    }
-                    var types = '';
-                    $(this).parent().find('.selected').each(function() {
-                        types += $(this).data('plugin') + '.' + $(this).text() + ',';
-                    });
-                    types = types.replace(/(.*),/, '$1');
-                    if (types == '') {
-                        nameInput.val('').siblings('label').show();
-                        urlInput.val('').siblings('label').show();
-                        return;
-                    }
-                    $.getJSON(
-                        customIndexURL,
-                        {"types" : types},
-                        function(data, textStatus, jqXHR) {
-                            nameInput
-                                .val(types.replace(/,/g, '+'))
-                                .siblings('label').hide();
-                            urlInput
-                                .val(data.url)
-                                .siblings('label').hide();
+                $li = $('<li>');
+                if (val.length > 1) {
+                    $li.append($('<span>').html(plugin));
+                };
+                for (var i = 0; i < val.length; i++) {
+                    $item = $('<span>')
+                        .html(val[i].name)
+                        .css('display', 'block')
+                        .data('plugin', plugin)
+                        .data('type', val[i].type);
+                    $item.click(function() {
+                        var nameInput = $(this).parents('div.input').siblings('div.input').children('input');
+                        var urlInput = $(this).parents('#post-selector').siblings('input');
+                        $(this).toggleClass('selected');
+                        if ($(this).is('.selected')) {
+                            $(this).animate({'text-indent' : '10px'});
+                        } else {
+                            $(this).animate({'text-indent' : '0'});
                         }
-                    );
-                });
+                        var types = '';
+                        $(this).parent().parent().find('.selected').each(function() {
+                            types += $(this).data('plugin') + '.' + $(this).data('type') + ',';
+                        });
+                        types = types.replace(/(.*),/, '$1');
+                        console.debug(types);
+                        if (types == '') {
+                            nameInput.val('').siblings('label').show();
+                            urlInput.val('').siblings('label').show();
+                            return;
+                        }
+                        $.getJSON(
+                            customIndexURL,
+                            {"types" : types},
+                            function(data, textStatus, jqXHR) {
+                                var name = data.name;
+                                if (name == '') {
+                                    name = types.replace(/\+/g, ', ');
+                                };
+                                nameInput
+                                    .val(name)
+                                    .siblings('label').hide();
+                                urlInput
+                                    .val(data.url)
+                                    .siblings('label').hide();
+                            }
+                        );
+                    });
+                    $li.append($item);
+                };
                 $posts.append($li);
             });
         }
@@ -117,7 +133,6 @@ $(function(){
 			});
 		postTypes = pageSelectorOptions.postTypes;
 		$.each(postTypes, function(plugin, val) {
-            //<span class="plugin">' + plugin + '</span>
 			var li = dialog.children('.types').append('<li><ul /></li>');
 			var ul = dialog.children('.types').children('li:last-child').children('ul');
 			for (var i=0; i < val.length; i++) {

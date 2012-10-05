@@ -1,1 +1,1 @@
-{"url" : "<?php echo $index_url; ?>"}
+{"url" : "<?php echo $index_url; ?>", "name" : "<?php echo $index_name; ?>"}

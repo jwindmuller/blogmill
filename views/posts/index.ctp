@@ -11,7 +11,11 @@
     }
     $this->viewVars['title_for_layout'] = $title;
 ?>
-<h1><?php echo $title; ?></h1>
+<h1 class="title"><?php echo $title; ?></h1>
+<?php $subtitle = BlogmillRouteFunctions::specialField($type, 'subtitle'); ?>
+<?php if ($subtitle): ?>
+    <p><?php echo $subtitle; ?></p>
+<?php endif ?>
 <?php
 if ($posts) :
     foreach ($posts as $i => $post):
