@@ -22,5 +22,7 @@ $map = array(
 		'published__date' => 'M4e72b5f3e99444808549475dfb8c9e6b'),
 	11 => array(
 		'comment_spam_approved' => 'M4ed94b0e10484593afda05e8fb8c9e6b'),
+	12 => array(
+		'attachments' => 'M506f5decbef840d8ba0c451ffb8c9e6b'),
 );
 ?>
