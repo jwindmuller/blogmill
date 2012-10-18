@@ -24,5 +24,7 @@ $map = array(
 		'comment_spam_approved' => 'M4ed94b0e10484593afda05e8fb8c9e6b'),
 	12 => array(
 		'attachments' => 'M506f5decbef840d8ba0c451ffb8c9e6b'),
+	13 => array(
+		'change_post_id' => 'M50801b5758ac4282af973744fb8c9e6b'),
 );
 ?>
