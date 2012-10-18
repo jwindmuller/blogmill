@@ -6,7 +6,8 @@ class Post extends AppModel {
 	var $actsAs = array(
         'Containable',
         'Sluggable' => array('overwrite' => true, 'translation' => 'utf-8', 'label' => 'slug'),
-	    'Acl' => array('type' => 'controlled')
+        'Acl' => array('type' => 'controlled'),
+        'BlogmillDefault.ImageUploadable' => array('subfolderName' => false, 'contentField' => '')
     );
 
 	var $validate = array(
@@ -89,176 +90,6 @@ class Post extends AppModel {
 	}
 
 	/**
-	 * Validation method that makes sure that the data corresponds to a real image.
-	 * Requires GD installed
-	 *
-	 * @param array $data file data
-	 * @return void
-	 * @author Joaquin Windmuller
-	 */
-	public function validateImage($data, $width=null, $height=null, $rule=null) {
-		if (!$rule) {
-			$rule = $height;
-			if (!$rule) {
-				$rule = $height;
-			}
-		}
-		$field_name = array_pop(array_keys($data));
-		$data = $data[$field_name];
-		$is_required = isset($rule['required']) && $rule['required'];
-		
-		// No upload
-		if ($data['size'] == 0) {
-			if ($is_required) return false;
-			else return true;
-		}
-		
-		// Only accept real uploads
-		if (!$this->__isUploadedFile($data, $is_required)) {
-			return false;
-		}
-		
-		// Allow these image mime-types, all others will be rejected
-		$valid_mime_types = array('image/jpeg', 'image/png', 'image/gif');
-		$filename = $data['tmp_name'];
-
-		// Catch I/O Errors.
-		if (!is_readable($filename)) {
-			$this->log(__METHOD__." failed to read input file: {$filename}");
-			return false;
-		}
-
-		// Retrieve the MimeType of Image, if none is returned, it's invalid
-		if (!$mime_type = $this->__getImageMimeType($filename)) {
-			$this->log(__METHOD__." Uploaded file does not have a mime-type");
-			return false;
-		}
-
-		// Check the MimeType against the array of valid ones specified above
-		if (!in_array($mime_type, $valid_mime_types)) {
-			$this->log(__METHOD__." Uploaded image has rejected Mime Type: {$mime_type}");
-			return false;
-		}
-
-		if (!$this->__getImageHandleFromFile($filename)) {
-			return false;
-		}
-		
-		if (is_numeric($width) || is_numeric($height)) {
-			$size = getimagesize($filename);
-			if (is_numeric($width) && ($size[0]>$width+10 || $size[0]<$width-10)) {
-				return false;
-			}
-			if (is_numeric($height) && ($size[1]>$height+10 || $size[1]<$height-10)) {
-				return false;
-			}
-		}
-		$ext = $this->__extension($mime_type);
-		return $this->__upload($field_name, $ext);
-	}
-	
-	private function __extension($mime_type) {
-		$ext = str_replace('image/', '', $mime_type);
-		$ext = $ext == 'jpeg' ? 'jpg' : $ext;
-		return $ext;
-	}
-	
-	/**
-	 * Moves the uploaded files to its final destination.
-	 *
-	 * @param string $field_name name of the field
-	 * @param string $ext extension
-	 * @return boolean TRUE on success
-	 * @author Joaquin Windmuller
-	 */
-	private function __upload($field_name, $ext) {
-		$guide = $this->data['Post']['guide'];
-		$upload_dir = WWW_ROOT . 'files' . DS . $guide;
-		$upload_file_to = $upload_dir . DS . $field_name . '.' . $ext;
-		$tmp_name = $this->data['Post'][$field_name]['tmp_name'];
-		$folder = new Folder($upload_dir, true);
-		$files = $folder->find("{$field_name}.*");
-		foreach ($files as $file) {
-			$file = new File($folder->path . DS . $file);
-			$file->delete();
-		}
-		return is_dir($upload_dir) && file_exists($upload_dir) && move_uploaded_file($tmp_name, $upload_file_to);
-	}
-	
-	/**
-	 * Basic check for file upload data. Check if is_uploaded_file
-	 *
-	 * @param string $filename path to file
-	 * @return boolean true if is an uploaded file.
-	 * @author Joaquin Windmuller
-	 */
-	private function __isUploadedFile($data, $required) {
-		// Check for Basic PHP file errors.
-		if ($data['error'] !== 0) {
-			return false;
-		}
-		// Finally, use PHP's own file validation method.
-		return is_uploaded_file($data['tmp_name']);
-	}
-
-	/**
-	 * Function that returns the mime type as defined by LibGD
-	 *
-	 * @param string $filename path to file
-	 * @return mixed string mime type if file is image, false if not.
-	 * @author Joaquin Windmuller
-	 */
-	function __getImageMimeType($filename) {
-		// If this error is thrown LibGD is not installed on your server.
-		if (!function_exists('getimagesize')) {
-			$this->log(__METHOD__." LibGD PHP Extension was not found, please refer to http://www.php.net/manual/en/book.image.php");
-			exit();
-		}
-		$result = getimagesize($filename);
-		if (isset($result['mime'])) {
-			return $result['mime'];
-		}
-		return false;
-	}
-
-	/**
-	 * Returns a file handler for an image. Support jpg, gif and png.
-	 *
-	 * @param string $filename path to file
-	 * @return mixed file handler or false if the mime type is not supported or on errors.
-	 * @author Joaquin Windmuller
-	 */
-	function __getImageHandleFromFile($filename) {
-		if (!is_readable($filename)) {
-			$this->log(__METHOD__." failed to read input file: {$filename}");
-			return false;
-		}
-
-		// Retrieve the MimeType of Image, if none is returned, it's invalid
-		if (!$mime_type = $this->__getImageMimeType($filename)) {
-			$this->log(__METHOD__." failed to assertain MimeType of {$filename}");
-			return false;
-		}
-		$mime_type = str_replace('image/', '', $mime_type);
-		switch ($mime_type) {
-			case 'jpeg':
-			case 'gif':
-			case 'png':
-				$function = 'imagecreatefrom' . $mime_type;
-				if (!function_exists($function)) {
-					$this->log(__METHOD__." {$function} not found, install LibGD");
-				}
-				$handle = @$function($filename);
-				break;
-			default:
-				$this->log(__METHOD__." Didn't know how to handle MimeType: {$mime_type}");
-				$handle = false;
-				break;
-		}
-		return $handle;
-    }
-
-	/**
 	 * Instead of using save and saveAll, we use savePost an it does what is needed.
 	 *
 	 * @param string $data data of the post
@@ -305,22 +136,19 @@ class Post extends AppModel {
 			$currentFields = $this->fields($data['id']);
 		}
 		$fields = array_diff_key($this->data['Post'], $defaultFields);
-		if (!$isEdit) {
-			$this->data['Post']['guide'] = String::uuid();
-		}
+		$post_id = $this->data['Post']['id'];
 		foreach ($fields as $name => $value) {
 			if (is_array($value) && isset($value['tmp_name'])) {
 				if (empty($value['tmp_name'])) {
-					unset($this->data['Post'][$name]);
 					continue;
 				}
-				$value = $this->__extension($this->__getImageMimeType($value['tmp_name']));
+				$mime = $this->Behaviors->ImageUploadable->getImageMimeType($value['tmp_name']);
+				$value = $this->Behaviors->ImageUploadable->extension($mime);
 			}
-			$id = '';
 			if ($isEdit && isset($currentFields[$name])) {
 				$id = $currentFields[$name]['id'];
 			}
-			$this->data['Field'][] = compact('name', 'value', 'id');
+			$this->data['Field'][] = compact('name', 'value', 'post_id');
 		}
 		foreach ($defaultFields as $field => $removeHtml) {
 			if ( isset($this->data['Post'][$field]) && is_string($this->data['Post'][$field]) && $removeHtml ) {

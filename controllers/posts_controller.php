@@ -17,6 +17,17 @@ class PostsController extends AppController {
 	private $excerptTagWhitelist = array(
         'strong', 'em', 'br', 'u', 'a' => array('href', 'title')
     );
+
+    public function beforeFilter() {
+        parent::beforeFilter();
+        // Bind attachments here to prevent migrations from failing
+        $this->Post->bindModel(array(
+            'hasMany' => array(
+                'Attachment'
+            )
+        ));
+
+    }
 	
 	public function home() {
 	}
@@ -44,7 +55,7 @@ class PostsController extends AppController {
 		$this->paginate = array(
             'conditions' => array('type' => $types, 'draft' => false, 'published <=' => date('Y-m-d H:i:j')),
             'order'  => 'published DESC',
-            'contain' => array('Field', 'User(id,username)', 'Category')
+            'contain' => array('Field', 'User(id,username)', 'Category', 'Attachment')
         );
         $posts = $this->paginate();
 		$this->set(compact('posts', 'plugin', 'types'));
@@ -113,7 +124,7 @@ class PostsController extends AppController {
         if (!isset($this->params['named']['sort'])) {
             $this->paginate['order'] = 'Post.id DESC';
         }
-		$this->Post->contain(array('Field', 'Category'));
+		$this->Post->contain(array('Field', 'Category', 'Attachment'));
 		$this->set('posts', $this->paginate());
 	}
 

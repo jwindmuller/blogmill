@@ -8,6 +8,7 @@ class BlogmillComponent extends Object {
 	private $themes;
 	private $postTypes;
 	private $pluginSettings;
+    private $attachmentDefinitions = array();
 	private $__plugins = array();
 	private $__configurablePlugins;
     private $__adminMenus;
@@ -270,6 +271,11 @@ class BlogmillComponent extends Object {
 		}
 	}
 	
+    private function __loadAttachmentDefinitions($definitions, $plugin) {
+        foreach ($definitions as $name => $definition) {
+            $this->attachmentDefinitions[$plugin][$name] = $definition;
+        }
+    }
 	/**
 	 * Loads the plugin's that have a settings pages.
 	 *
@@ -325,13 +331,17 @@ class BlogmillComponent extends Object {
 				if ($isConfigurable) {
 					$this->__configurablePlugins[] = $plugin;
 				}
+                if (isset($class->attachmentDefinitions) && is_array($class->attachmentDefinitions)) {
+                    $this->__loadAttachmentDefinitions($class->attachmentDefinitions, $plugin);
+                }
 			}
 		}
 		$themes = $this->Controller->themes = $this->themes;
 		$postTypes = $this->Controller->postTypes = $this->postTypes;
         $adminMenus = $this->__adminMenus;
+        $attachmentDefinitions = $this->attachmentDefinitions;
         $this->Controller->hookableSettings = $this->__hookableSettings;
-		$this->Controller->set(compact('themes', 'postTypes', 'adminMenus'));
+		$this->Controller->set(compact('themes', 'postTypes', 'adminMenus', 'attachmentDefinitions'));
 	}
 	
 	public function plugins() {

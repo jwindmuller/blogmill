@@ -19,10 +19,11 @@
                     }
                     echo $this->Form->input('guide', array('type' => 'hidden', 'value' => $guide));
                     echo $this->Form->input('id', array('type' => 'hidden', 'value' => $guide));
+                    echo $this->element('post.form.attachments')
                 ?>
 			</div>
 			<div class="cell form-sidebar">
-				<?php echo $this->BlogmillForm->inputs('form-sidebar'); ?>			
+				<?php echo $this->BlogmillForm->inputs('form-sidebar'); ?>
 			</div>
 		</div>
 	</fieldset>

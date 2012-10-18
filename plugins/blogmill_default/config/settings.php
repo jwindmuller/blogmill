@@ -3,6 +3,7 @@ class BlogmillDefaultSettings extends BlogmillSettings {
     var $types = array();
     var $configurable;
     var $theme;
+    var $attachmentDefinitions = array();
 
     function __construct() {
         $this->theme = array(
@@ -50,6 +51,14 @@ class BlogmillDefaultSettings extends BlogmillSettings {
                 'hookable' => true,
                 'default' => 'html'
             ),
+        );
+
+        $this->attachmentDefinitions = array(
+            'image' => array(
+                'name' => __('Images', true),
+                'label' => __('Attach an image to this post', true),
+                'type' => 'image'
+            )
         );
     }
 }

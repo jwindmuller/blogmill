@@ -59,6 +59,9 @@ class BlogmillPermissions {
         'Pages' => array(
             'display' => 'visitor',
             'favicon' => 'visitor'
+        ),
+        'Attachments' => array(
+            'chromeless_dashboard_management' => 'user'
         )
     );
 }
