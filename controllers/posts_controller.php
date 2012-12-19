@@ -14,9 +14,6 @@ class PostsController extends AppController {
         'span' => array('class'),
         'hr' => array('class')
     );
-	private $excerptTagWhitelist = array(
-        'strong', 'em', 'br', 'u', 'a' => array('href', 'title')
-    );
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -221,7 +218,7 @@ class PostsController extends AppController {
 		$this->Post->loadDisplayFields($this->data);
 		$this->data = $this->Post->data;
 		$excerpt = $this->data['Post']['excerpt'];
-		$excerpt = $this->HtmlCleaner->cleanup( $excerpt, $this->excerptTagWhitelist );
+		$excerpt = $this->HtmlCleaner->cleanup( $excerpt, array());
 		$excerpt = str_replace('<br />', ' ', $excerpt);
 		$this->data['Post']['excerpt'] = $excerpt;
 		$fields = $this->Post->fields;

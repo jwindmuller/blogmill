@@ -120,11 +120,10 @@ class BlogmillHelper extends AppHelper {
 	 */
 	public function excerpt($post, $lenght = 140) {
 		$excerpt = $this->field($post, 'excerpt');
-		if (empty($excerpt)) {
-			$excerpt = Sanitize::html($this->field($post, 'content'), array('remove' => true));
-			$excerpt = str_replace('&nbsp;', '', $excerpt);
-		}
-		$excerpt = $this->Text->truncate($excerpt, $lenght, array('html' => true, 'ending' => '...'));
+        $excerpt = $this->Text->truncate(
+            $excerpt, $lenght,
+            array('html' => true, 'exact' => false, 'ending' => '...')
+        );
 		return $excerpt;
 	}
 	
