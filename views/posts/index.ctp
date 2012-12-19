@@ -31,7 +31,11 @@ if ($posts) :
         echo $this->element($type . "/index-item", $options);
     endforeach;
 else:
-    echo '<p>', sprintf(__('No %s here yet', true), $typePlural), '</p>';
+    $typePlural = BlogmillRouteFunctions::specialField($type, 'typePlural');
+    if ($typePlural == '') {
+        $typePlural = Inflector::pluralize($type);
+    }
+    echo '<p class="no-results">', sprintf(__('No %s here yet', true), $typePlural), '</p>';
 endif;
 ?>
 </div>
