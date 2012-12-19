@@ -1,15 +1,9 @@
 <?php
-/* Setting Fixture generated on: 2010-08-14 13:08:56 : 1281814736 */
+/* Setting Fixture generated on: 2012-12-19 01:58:53 : 1355882333 */
 class SettingFixture extends CakeTestFixture {
 	var $name = 'Setting';
+	var $import = array('model' => 'Setting');
 
-	var $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'value' => array('type' => 'text', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
-	);
 
 	var $records = array(
 		array(
@@ -19,4 +13,3 @@ class SettingFixture extends CakeTestFixture {
 		),
 	);
 }
-?>

@@ -41,10 +41,10 @@
 	Router::connect('/', array('controller' => 'posts', 'action' => 'home'));
 	Router::connect(
 		'/post/:id-:slug/*',
-		array('controller' => 'posts', 'action' => 'view', 'type' => null),
+		array('controller' => 'posts', 'action' => 'view'),
 		array(
 			'pass' => array('id', 'slug', 'type'),
-			'id' => '[0-9]+',
+			'id' => '.{36}',
 			'slug' => '.+',
 			'type' => '.*',
 			'routeClass' => 'BlogmillUnmatchedRoute'
