@@ -44,7 +44,7 @@
 		array('controller' => 'posts', 'action' => 'view'),
 		array(
 			'pass' => array('id', 'slug', 'type'),
-			'id' => '.{36}',
+			'id' => '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|\d+', // uuid or old style numeric ids
 			'slug' => '.+',
 			'type' => '.*',
 			'routeClass' => 'BlogmillUnmatchedRoute'
