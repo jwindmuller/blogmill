@@ -158,7 +158,7 @@ class Post extends AppModel {
 	}
 	
 	/**
-	 * Loads $this->data with the display field.
+	 * Loads $this->data with the display and excerpt fields.
 	 *
 	 * @return void
 	 * @author Joaquin Windmuller
@@ -182,7 +182,7 @@ class Post extends AppModel {
 		$display = $class->types[$type]['display'];
 		$this->data['Post']['excerpt'] = @$this->data['Post']['excerpt'] . '';
 		$this->data['Post']['display'] = $this->data['Post'][$display];
-		if (isset($class->types[$type]['excerpt']) && $this->data['Post']['excerpt']=='') {
+		if (isset($class->types[$type]['excerpt']) && empty($this->data['Post']['excerpt'])) {
 			$excerpt = $class->types[$type]['excerpt'];
 			$this->data['Post']['excerpt'] = $this->data['Post'][$excerpt];
 		}

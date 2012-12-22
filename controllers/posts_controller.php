@@ -216,12 +216,6 @@ class PostsController extends AppController {
 	}
 	
 	private function __prepareData() {
-		$this->Post->loadDisplayFields($this->data);
-		$this->data = $this->Post->data;
-		$excerpt = $this->data['Post']['excerpt'];
-		$excerpt = $this->HtmlCleaner->cleanup( $excerpt, array());
-		$excerpt = str_replace('<br />', ' ', $excerpt);
-		$this->data['Post']['excerpt'] = $excerpt;
 		$fields = $this->Post->fields;
 		foreach ($fields as $field => $type) {
             if ( is_array($type) ) {
@@ -241,7 +235,14 @@ class PostsController extends AppController {
                 }
                 $this->data['Post'][$field] = $fieldData;
             }
-		}
+        }
+        $this->Post->loadDisplayFields($this->data);
+        $this->data = $this->Post->data;
+        $excerpt = $this->data['Post']['excerpt'];
+        $excerpt = preg_replace('/<br\/?\s*>/' , ' ', $excerpt);
+        $excerpt = $this->HtmlCleaner->cleanup( $excerpt, array());
+
+        $this->data['Post']['excerpt'] = $excerpt;
 	}
 
 	function dashboard_delete($id = null) {
