@@ -19,7 +19,7 @@
                     }
                     echo $this->Form->input('guide', array('type' => 'hidden', 'value' => $guide));
                     echo $this->Form->input('id', array('type' => 'hidden', 'value' => $guide));
-                    echo $this->element('post.form.attachments')
+                    // echo $this->element('post.form.attachments')
                 ?>
 			</div>
 			<div class="cell form-sidebar">

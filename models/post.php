@@ -145,10 +145,11 @@ class Post extends AppModel {
 				$mime = $this->Behaviors->ImageUploadable->getImageMimeType($value['tmp_name']);
 				$value = $this->Behaviors->ImageUploadable->extension($mime);
 			}
+			$dataForField = compact('name', 'value', 'post_id');
 			if ($isEdit && isset($currentFields[$name])) {
-				$id = $currentFields[$name]['id'];
+				$dataForField += array('id' => $currentFields[$name]['id']);
 			}
-			$this->data['Field'][] = compact('name', 'value', 'post_id');
+			$this->data['Field'][] = $dataForField;
 		}
 		foreach ($defaultFields as $field => $removeHtml) {
 			if ( isset($this->data['Post'][$field]) && is_string($this->data['Post'][$field]) && $removeHtml ) {
