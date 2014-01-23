@@ -111,6 +111,8 @@ class PostsController extends AppController {
                 'slug' => $post['Post']['slug']
             ), 301);
         }
+        $env = $this->Blogmill->pluginsAttached('post_data', compact('post'));
+        extract($env);
         $title_for_layout = $post['Post']['display'];
 		$this->set(compact('post', 'title_for_layout'));
 	}

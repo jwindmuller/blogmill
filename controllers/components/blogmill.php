@@ -392,9 +392,10 @@ class BlogmillComponent extends Object {
                 }
 
                 if (!in_array($to, $plugin->attachTo)) continue;
-                call_user_func_array(array($component, $to), $env);
+                $env = call_user_func_array(array($component, $to), $env);
             }
         }
+        return $env;
     }
 
     public function scriptForBottom($url, $type = 'js') {

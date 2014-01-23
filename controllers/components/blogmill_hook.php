@@ -35,6 +35,26 @@ class BlogmillHookComponent extends Object {
     }
 
     /**
+     * Update all post data related to a field
+     *
+     * @param array $post post data
+     * @param string $fieldName name of the field to update
+     * @param mixed $value value to assign
+     **/
+    final protected function update_post_field($post, $fieldName, $value)
+    {
+        $post['Post'][$fieldName] = $value;
+        foreach ($post['Field'] as $i => $field) {
+            if ($field['name'] == $fieldName) {
+                $field['value'] = $value;
+                $post['Field'][$i] = $field;
+                break;
+            }
+        }
+        return $post;
+    }
+
+    /**
      * before_comment is executed before saving a new comment.
      *
      * @param array $comment_data modifiable comment information, before saving.
@@ -72,5 +92,15 @@ class BlogmillHookComponent extends Object {
      * @return void
      */
     public function actions_for($location, &$urls = array()) {
+    }
+
+    /**
+     * post_data is executed before showing a post (allows plugins to modify posts before diasplay)
+     *
+     * @param array $post post data, including fields
+     * @return array modified post data
+     **/
+    public function post_data($post) {
+        return compact('post');
     }
 }
