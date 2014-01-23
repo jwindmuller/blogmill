@@ -94,7 +94,7 @@ class AppController extends Controller {
     protected function _blogmill404Error() {
         App::import('Core', 'Error');
         include_once (APP . 'app_error.php');
-        $error = new AppError('error404', array(), &$this);
+        $error = new AppError('error404', array(), $this);
         $error->error404(array());
     }
 

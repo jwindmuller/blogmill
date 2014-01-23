@@ -27,7 +27,7 @@ class BlogmillHookComponent extends Object {
                 $obj = new $hookClass;
                 $obj->Controller = $this->Controller;
                 if (method_exists($obj, $hook_name)) {
-                    call_user_func(array($obj, $hook_name), &$params);
+                    call_user_func(array($obj, $hook_name), $params);
                 }
             }
         }
