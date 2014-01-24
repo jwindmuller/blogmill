@@ -19,7 +19,7 @@ class UserFixture extends CakeTestFixture {
 		'question' => array('type' => 'string', 'null' => false),
 		'answer' => array('type' => 'string', 'null' => false),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
 
 	var $records = array(

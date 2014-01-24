@@ -237,7 +237,12 @@ class BlogmillComponent extends Object {
 				}
 				$options['order'] = $definition['order'];
 			}
-			$themeData[$index] = $postModel->find('all', $options);
+            $posts = $postModel->find('all', $options);
+            foreach ($posts as $i => $post) {
+                $env = $this->pluginsAttached('post_data', compact('post'));
+                $posts[$i] = $env['post'];
+            }
+            $themeData[$index] = $posts;
 		}
 		$this->Controller->set(compact('themeData'));
 	}

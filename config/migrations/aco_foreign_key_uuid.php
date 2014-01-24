@@ -1,5 +1,5 @@
 <?php
-class M4d894ed8089c487ea1b51cb7fb8c9e6b extends CakeMigration {
+class M52e1b3ff4ef84409a8882013fb8c9e6b extends CakeMigration {
 
 /**
  * Migration description
@@ -17,22 +17,16 @@ class M4d894ed8089c487ea1b51cb7fb8c9e6b extends CakeMigration {
  */
 	public $migration = array(
 		'up' => array(
-			'create_field' => array(
-				'users' => array(
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+			'alter_field' => array(
+				'acos' => array(
+					'foreign_key' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 				),
-			),
-			'drop_field' => array(
-				'users' => array('alias',),
 			),
 		),
 		'down' => array(
-			'drop_field' => array(
-				'users' => array('name',),
-			),
-			'create_field' => array(
-				'users' => array(
-					'alias' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 140, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+			'alter_field' => array(
+				'acos' => array(
+					'foreign_key' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
 				),
 			),
 		),

@@ -33,12 +33,12 @@ class M4e4547fdaf04408f8808e458fb8c9e6b extends CakeMigration {
 			'create_table' => array(
 				'post_types' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'original' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 160, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 160, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'original' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 160, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 160, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM'),
 				),
 			),
 		),

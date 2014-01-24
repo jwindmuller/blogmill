@@ -56,6 +56,10 @@ class PostsController extends AppController {
             'contain' => array('Field', 'User(id,username)', 'Category', 'Attachment')
         );
         $posts = $this->paginate();
+        foreach ($posts as $i => $post) {
+            $env = $this->Blogmill->pluginsAttached('post_data', compact('post'));
+            $posts[$i] = $env['post'];
+        }
 		$this->set(compact('posts', 'plugin', 'types'));
         $this->__indexRSS($plugin, $types);
 	}
