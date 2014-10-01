@@ -13,7 +13,7 @@ class PostsController extends AppController {
         'img' => array('title', 'alt', 'src'),
         'span' => array('class'),
         'hr' => array('class'),
-        'cite',
+        'cite', 'sup'
     );
 
     public function beforeFilter() {
