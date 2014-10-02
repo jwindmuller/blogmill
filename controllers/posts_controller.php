@@ -241,7 +241,16 @@ class PostsController extends AppController {
 		$this->__prepareData();
 		if ($this->Post->savePost($this->data)) {
 			$this->Session->setFlash(__('The post has been saved', true));
-			$this->redirect(array('action' => 'index'));
+			list($plugin, $type) = pluginSplit($this->data['Post']['type']);
+            $url = array(
+                'dashboard' => true,
+                'controller' => 'posts',
+                'action' => 'edit',
+                $plugin,
+                $type,
+                $this->data['Post']['id']
+            );
+            $this->redirect($url);
 		} else {
 			$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
 		}
