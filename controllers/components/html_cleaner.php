@@ -31,7 +31,18 @@ class HtmlCleanerComponent extends Object {
         }
         $htmlAllowed = trim($htmlAllowed, ',');
         $config->set('HTML.Allowed', $htmlAllowed);
+        $this->__allowFootnotesHTML($config);
         $purifier = new HTMLPurifier($config);
         return $purifier->purify($content);
+    }
+
+    function __allowFootnotesHTML($config) {
+        $config->set('Attr.EnableID', true);
+        $config->set('HTML.DefinitionID', 'enduser-customize.html tutorial');
+        $config->set('HTML.DefinitionRev', 1);
+        if ($def = $config->maybeGetRawHTMLDefinition()) {
+            $def->addAttribute('sup', 'rel', 'Enum#footnote');
+            $def->addAttribute('a', 'rev', 'Enum#footnote');
+        }
     }
 }

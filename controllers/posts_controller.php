@@ -9,11 +9,12 @@ class PostsController extends AppController {
         'blockquote', 'code', 'pre',
         'p' => array('class'),
         'strong', 'em', 'br', 'u',
-        'a' => array('href', 'title'),
+        'a' => array('href', 'title', 'rel', 'rev'),
         'img' => array('title', 'alt', 'src'),
         'span' => array('class'),
         'hr' => array('class'),
-        'cite', 'sup'
+        'cite', 'sup' => array('rel'),
+        '*' => array('id')
     );
 
     public function beforeFilter() {
