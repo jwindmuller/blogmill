@@ -40,8 +40,19 @@
 	);
 	Router::connect('/', array('controller' => 'posts', 'action' => 'home'));
 	Router::connect(
-		'/post/:id-:slug/*',
+		'/post/:slug/on::date/*',
 		array('controller' => 'posts', 'action' => 'view'),
+		array(
+			'pass' => array('date', 'slug', 'type'),
+			'date' => '.+',
+			'slug' => '.+',
+			'type' => '.+',
+			'routeClass' => 'BlogmillUnmatchedRoute'
+		)
+	);
+	Router::connect(
+		'/post/:id-:slug/*',
+		array('controller' => 'posts', 'action' => 'view_redirect'),
 		array(
 			'pass' => array('id', 'slug', 'type'),
 			'id' => '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|\d+', // uuid or old style numeric ids
@@ -50,7 +61,7 @@
 			'routeClass' => 'BlogmillUnmatchedRoute'
 		)
 	);
-    Router::connect(
+	Router::connect(
 		'/post/:id',
 		array('controller' => 'posts', 'action' => 'view', 'type' => null),
 		array(

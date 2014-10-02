@@ -41,8 +41,8 @@ class BlogmillHelper extends AppHelper {
 		return array(
 			'controller' => 'posts',
 			'action' => $action,
-            'id'   => $this->field($post, 'id'),
             'slug' => $this->field($post, 'slug'),
+            'date' => str_replace(' ', '@', $this->field($post, 'created')),
             'type' => $this->field($post, 'type'),
 			'dashboard' => false
 		) + $options;

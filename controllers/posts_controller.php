@@ -94,11 +94,29 @@ class PostsController extends AppController {
         $this->set(compact('channel'));
     }
 	
-	function view($id, $slug = null) {
-		if (!$id) {
+    function view_redirect($id, $slug = null) {
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid post', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        $post = $this->Post->read(null, $id);
+        if ($post) {
+            $this->redirect(array(
+                'controller' => 'posts',
+                'action' => 'view',
+                'date' => $post['Post']['created'],
+                'type' => $post['Post']['type'],
+                'slug' => $slug
+            ));
+        }
+        $this->_blogmill404Error();
+    }
+	function view($date, $slug) {
+		if (!$date || !$slug) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
 		}
+        $id = $this->__getPostID($date, $slug);
 		if (!empty($this->data)) {
 			$this->__saveComment($id, $slug);
 		}
@@ -121,6 +139,13 @@ class PostsController extends AppController {
         $title_for_layout = $post['Post']['display'];
 		$this->set(compact('post', 'title_for_layout'));
 	}
+
+    function __getPostID($created, $slug) {
+        $created = str_replace('@', ' ', $created);
+        $conditions = compact('created', 'slug');
+        $id = $this->Post->field('id', $conditions);
+        return $id;
+    }
 
 	function dashboard_index($type=false) {
         if ($type) {

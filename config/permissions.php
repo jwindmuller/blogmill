@@ -8,6 +8,7 @@ class BlogmillPermissions {
 			'home' => 'visitor',
 			'index' => 'visitor',
 			'view' => 'visitor',
+            'view_redirect' => 'visitor',
 			'dashboard_index' => 'user',
 			'dashboard_add' => 'user',
 			'dashboard_edit' => 'user',
