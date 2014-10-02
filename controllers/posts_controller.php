@@ -104,7 +104,7 @@ class PostsController extends AppController {
             $this->redirect(array(
                 'controller' => 'posts',
                 'action' => 'view',
-                'date' => $post['Post']['created'],
+                'date' => str_replace(' ', '@', $post['Post']['created']),
                 'type' => $post['Post']['type'],
                 'slug' => $slug
             ));
